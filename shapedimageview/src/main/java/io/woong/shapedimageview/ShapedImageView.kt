@@ -15,15 +15,15 @@ abstract class ShapedImageView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : AppCompatImageView(context, attrs, defStyle) {
 
-    private var image: Bitmap? = null
-    private var imageCache: Drawable? = null
-    private var imagePaint: Paint = Paint().apply {
+    protected var image: Bitmap? = null
+    protected var imageCache: Drawable? = null
+    protected var imagePaint: Paint = Paint().apply {
         isAntiAlias = true
         isDither = true
         alpha = 255
     }
 
-    private fun drawableToBitmap(drawable: Drawable): Bitmap {
+    protected fun drawableToBitmap(drawable: Drawable): Bitmap {
         return if (drawable is BitmapDrawable) {
             drawable.bitmap
         } else {
