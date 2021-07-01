@@ -7,4 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <io.woong.shapedimageview.CircularImageView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@drawable/sample"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
