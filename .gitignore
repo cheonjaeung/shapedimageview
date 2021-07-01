@@ -1,0 +1,47 @@
+### Java & Kotlin ###
+# Java bytecode files
+*.class
+
+# Java archive files
+*.jar
+*.war
+*.ear
+
+### Gradle ###
+# General
+.gradle/
+
+# Build output
+build/
+
+# Avoid gradle wrapper ignoring
+!gradle-wrapper.jar
+
+### Android Studio ###
+# Jetbrains
+.idea/
+out/
+*.iml
+*.iws
+*.ipr
+
+# Android package files
+*.apk
+*.aab
+*.aar
+
+# Local configuration file
+local.properties
+
+# Android Studio capture files
+captures/
+
+# Android Studio navigation editor temp files
+.navigation/
+
+### Misc ###
+# macOS
+.DS_Store
+
+# Log files
+*.log
