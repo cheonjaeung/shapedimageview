@@ -31,6 +31,9 @@ class CircularImageView@JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
+        updateImage()
+        updateShader((imageRadius * 2).toInt(), (imageRadius * 2).toInt())
+
         canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, imagePaint)
     }
 }
