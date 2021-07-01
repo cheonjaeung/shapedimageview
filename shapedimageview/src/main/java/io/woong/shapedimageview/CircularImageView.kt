@@ -6,6 +6,14 @@ import android.util.AttributeSet
 import java.lang.IllegalArgumentException
 import kotlin.math.min
 
+/**
+ * A image view that display image in circle shape.
+ *
+ * It's width and height will be resized to same.
+ *
+ * Default scale type is center-crop.
+ * Other scale types are not supported.
+ */
 class CircularImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

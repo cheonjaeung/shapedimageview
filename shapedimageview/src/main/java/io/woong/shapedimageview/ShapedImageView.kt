@@ -84,6 +84,17 @@ abstract class ShapedImageView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Create a bitmap shader matrix for fit-center scale type.
+     *
+     * @param image A bitmap image to display.
+     * @param width Width size to display.
+     * @param height Height size to display.
+     *
+     * @return Scaled and translated matrix.
+     *
+     * @see android.widget.ImageView.ScaleType.FIT_CENTER
+     */
     private fun createFitCenterMatrix(image: Bitmap, width: Int, height: Int): Matrix {
         return Matrix().apply {
             val scale: Float
