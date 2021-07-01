@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
-import java.lang.IllegalArgumentException
 
 abstract class ShapedImageView @JvmOverloads constructor(
     context: Context,
@@ -23,10 +22,6 @@ abstract class ShapedImageView @JvmOverloads constructor(
         isAntiAlias = true
         isDither = true
         alpha = 255
-    }
-
-    init {
-        scaleType = ScaleType.CENTER_CROP
     }
 
     /**
@@ -79,12 +74,34 @@ abstract class ShapedImageView @JvmOverloads constructor(
             val shader = BitmapShader(img, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
                 setLocalMatrix(
                     when (scaleType) {
+                        ScaleType.FIT_CENTER -> createFitCenterMatrix(img, imageWidth, imageHeight)
                         ScaleType.CENTER_CROP -> createCenterCropMatrix(img, imageWidth, imageHeight)
                         else -> Matrix()
                     }
                 )
             }
             imagePaint.shader = shader
+        }
+    }
+
+    private fun createFitCenterMatrix(image: Bitmap, width: Int, height: Int): Matrix {
+        return Matrix().apply {
+            val scale: Float
+            val dx: Float
+            val dy: Float
+
+            if (image.width * width > image.height * height) {
+                scale = width / image.width.toFloat()
+                dx = 0f
+                dy = (height - image.height * scale) * 0.5f
+            } else {
+                scale = height / image.height.toFloat()
+                dx = (width - image.width * scale) * 0.5f
+                dy = 0f
+            }
+
+            setScale(scale, scale)
+            postTranslate(dx, dy)
         }
     }
 
@@ -117,25 +134,6 @@ abstract class ShapedImageView @JvmOverloads constructor(
 
             setScale(scale, scale)
             postTranslate(dx, dy)
-        }
-    }
-
-    /**
-     * Set scale type of this image view.
-     *
-     * Only can accept [CENTER_CROP][android.widget.ImageView.ScaleType.CENTER_CROP],
-     * Other scale types will be denied.
-     *
-     * @param scaleType A scale type mode.
-     *
-     * @throws IllegalArgumentException When given scale type is not supported.
-     */
-    override fun setScaleType(scaleType: ScaleType) {
-        when (scaleType) {
-            ScaleType.CENTER_CROP -> {
-                super.setScaleType(scaleType)
-            }
-            else -> throw IllegalArgumentException("ScaleType $scaleType not supported.")
         }
     }
 }
