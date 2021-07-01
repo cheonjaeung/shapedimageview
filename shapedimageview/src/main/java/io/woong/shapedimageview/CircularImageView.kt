@@ -5,7 +5,7 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import kotlin.math.min
 
-class CircularImageView@JvmOverloads constructor(
+class CircularImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
