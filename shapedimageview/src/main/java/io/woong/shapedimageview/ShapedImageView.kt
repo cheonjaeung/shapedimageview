@@ -25,6 +25,10 @@ abstract class ShapedImageView @JvmOverloads constructor(
         alpha = 255
     }
 
+    init {
+        scaleType = ScaleType.CENTER_CROP
+    }
+
     /**
      * Update image and paint shader.
      *
