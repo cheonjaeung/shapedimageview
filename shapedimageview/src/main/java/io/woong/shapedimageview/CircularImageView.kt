@@ -3,8 +3,6 @@ package io.woong.shapedimageview
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import java.lang.IllegalArgumentException
-import kotlin.math.min
 
 /**
  * A image view that display image in circle shape.
@@ -20,52 +18,23 @@ class CircularImageView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : ShapedImageView(context, attrs, defStyle) {
 
-    private var imageCenterX: Float = 0f
-    private var imageCenterY: Float = 0f
-    private var imageRadius: Float = 0f
-
-    init {
-        scaleType = ScaleType.CENTER_CROP
-    }
-
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val w = MeasureSpec.getSize(widthMeasureSpec)
-        val h = MeasureSpec.getSize(heightMeasureSpec)
-        val s = min(w, h)
-        setMeasuredDimension(s, s)
-
-        val uw = w - paddingLeft - paddingRight
-        val uh = h - paddingTop - paddingBottom
-        val us = min(uw, uh)
-        imageRadius = us / 2f
-
-        imageCenterX = (paddingLeft + uw) / 2f
-        imageCenterY = (paddingTop + uh) / 2f
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        updateImage()
-        updateShader((imageRadius * 2).toInt(), (imageRadius * 2).toInt())
-
-        canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, imagePaint)
-    }
+    /**
+     * This method is invoked after [onMeasure].
+     *
+     * @param widthMeasureSpec Specs of width.
+     * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
+     * @param heightMeasureSpec Specs of height.
+     * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
+     * @param size Size of view. (width and height is same)
+     */
+    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {}
 
     /**
-     * Set scale type of this image view.
+     * This method is invoked after [onDraw].
      *
-     * Only can accept [CENTER_CROP][android.widget.ImageView.ScaleType.CENTER_CROP],
-     * Other scale types will be denied.
-     *
-     * @param scaleType A scale type mode.
-     *
-     * @throws IllegalArgumentException When given scale type is not supported.
+     * @param canvas Canvas to draw image view.
      */
-    override fun setScaleType(scaleType: ScaleType) {
-        when (scaleType) {
-            ScaleType.CENTER_CROP -> {
-                super.setScaleType(scaleType)
-            }
-            else -> throw IllegalArgumentException("ScaleType $scaleType not supported.")
-        }
+    override fun postOnDraw(canvas: Canvas) {
+        canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, imagePaint)
     }
 }

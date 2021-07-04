@@ -6,7 +6,16 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import java.lang.IllegalArgumentException
+import kotlin.math.min
 
+/**
+ * Root image view class of all shaped image views in [ShapedImageView Library](https://github.com/woongdev/ShapedImageView)
+ *
+ * It contains common properties and methods for implementing shaped image view.
+ * But it does not provides features for all shapes.
+ * So, all shaped image views should inheritances this class and implements some methods.
+ */
 abstract class ShapedImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -23,6 +32,81 @@ abstract class ShapedImageView @JvmOverloads constructor(
         isDither = true
         alpha = 255
     }
+    /** X position of image center. */
+    protected var imageCenterX: Float = 0f
+    /** Y position of image center. */
+    protected var imageCenterY: Float = 0f
+    /** Radius size of image. */
+    protected var imageRadius: Float = 0f
+
+    init {
+        scaleType = ScaleType.CENTER_CROP
+    }
+
+    /**
+     * Set scale type of this image view.
+     *
+     * Only can accept [CENTER_CROP][android.widget.ImageView.ScaleType.CENTER_CROP],
+     * Other scale types will be denied.
+     *
+     * @param scaleType A scale type mode.
+     *
+     * @throws IllegalArgumentException When given scale type is not supported.
+     */
+    override fun setScaleType(scaleType: ScaleType) {
+        when (scaleType) {
+            ScaleType.CENTER_CROP -> {
+                super.setScaleType(scaleType)
+            }
+            else -> throw IllegalArgumentException("ScaleType $scaleType not supported.")
+        }
+    }
+
+    /**
+     * Measure and set view size and call [postOnMeasure] method.
+     *
+     * It makes view size to square size.
+     * It means width and height size is same.
+     */
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val width = MeasureSpec.getSize(widthMeasureSpec)
+        val height = MeasureSpec.getSize(heightMeasureSpec)
+        val size = min(width, height)
+        setMeasuredDimension(size, size)
+
+        val usableWidth = width - paddingLeft - paddingRight
+        val usableHeight = height - paddingTop - paddingBottom
+        val usableSize = min(usableWidth, usableHeight)
+        imageRadius = usableSize / 2f
+
+        imageCenterX = (paddingLeft + usableWidth) / 2f
+        imageCenterY = (paddingTop + usableHeight) / 2f
+
+        postOnMeasure(widthMeasureSpec, heightMeasureSpec, size)
+    }
+
+    /**
+     * This method is invoked after [onMeasure].
+     *
+     * @param widthMeasureSpec Specs of width.
+     * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
+     * @param heightMeasureSpec Specs of height.
+     * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
+     * @param size Size of view. (width and height is same)
+     */
+    protected abstract fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int)
+
+    /**
+     * Check image is outdated and update it if it needs. And call [postOnDraw] method.
+     *
+     * For drawing something, use [postOnDraw].
+     */
+    override fun onDraw(canvas: Canvas) {
+        updateImage()
+        updateShader((imageRadius * 2).toInt(), (imageRadius * 2).toInt())
+        postOnDraw(canvas)
+    }
 
     /**
      * Update image and paint shader.
@@ -33,7 +117,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
      *
      * **Note: This method should be called before drawing image.**
      */
-    protected fun updateImage() {
+    private fun updateImage() {
         if (drawable != null || imageCache != drawable) {
             imageCache = drawable
             image = drawableToBitmap(drawable)
@@ -69,50 +153,17 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * @param imageWidth Width size of displaying image for setting scale type matrix.
      * @param imageHeight Height size of displaying image for setting scale type matrix.
      */
-    protected fun updateShader(imageWidth: Int, imageHeight: Int) {
+    private fun updateShader(imageWidth: Int, imageHeight: Int) {
         image?.let { img ->
             val shader = BitmapShader(img, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
                 setLocalMatrix(
                     when (scaleType) {
-                        ScaleType.FIT_CENTER -> createFitCenterMatrix(img, imageWidth, imageHeight)
                         ScaleType.CENTER_CROP -> createCenterCropMatrix(img, imageWidth, imageHeight)
                         else -> Matrix()
                     }
                 )
             }
             imagePaint.shader = shader
-        }
-    }
-
-    /**
-     * Create a bitmap shader matrix for fit-center scale type.
-     *
-     * @param image A bitmap image to display.
-     * @param width Width size to display.
-     * @param height Height size to display.
-     *
-     * @return Scaled and translated matrix.
-     *
-     * @see android.widget.ImageView.ScaleType.FIT_CENTER
-     */
-    private fun createFitCenterMatrix(image: Bitmap, width: Int, height: Int): Matrix {
-        return Matrix().apply {
-            val scale: Float
-            val dx: Float
-            val dy: Float
-
-            if (image.width * width > image.height * height) {
-                scale = width / image.width.toFloat()
-                dx = 0f
-                dy = (height - image.height * scale) * 0.5f
-            } else {
-                scale = height / image.height.toFloat()
-                dx = (width - image.width * scale) * 0.5f
-                dy = 0f
-            }
-
-            setScale(scale, scale)
-            postTranslate(dx, dy)
         }
     }
 
@@ -147,4 +198,11 @@ abstract class ShapedImageView @JvmOverloads constructor(
             postTranslate(dx, dy)
         }
     }
+
+    /**
+     * This method is invoked after [onDraw].
+     *
+     * @param canvas Canvas to draw image view.
+     */
+    protected abstract fun postOnDraw(canvas: Canvas)
 }
