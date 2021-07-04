@@ -15,6 +15,11 @@ import kotlin.math.min
  * It contains common properties and methods for implementing shaped image view.
  * But it does not provides features for all shapes.
  * So, all shaped image views should inheritances this class and implements some methods.
+ *
+ * It's scale type is always [center crop][android.widget.ImageView.ScaleType.CENTER_CROP] and cannot change it.
+ * If try to change scale type, it will be make [IllegalArgumentException].
+ *
+ * It's width and height size is always same.
  */
 abstract class ShapedImageView @JvmOverloads constructor(
     context: Context,
