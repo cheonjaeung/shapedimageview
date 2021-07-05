@@ -15,5 +15,6 @@
 
     <!-- Attributes of squircular image view. -->
     <declare-styleable name="SquircularImageView">
+        <attr name="shaped_imageview_curvature" format="integer" />
     </declare-styleable>
 </resources>

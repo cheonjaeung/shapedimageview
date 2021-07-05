@@ -5,8 +5,10 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
+import io.woong.shapedimageview.R
 import io.woong.shapedimageview.ShapedImageView
 import io.woong.shapedimageview.util.SuperellipseFormula
+import java.lang.IllegalArgumentException
 
 /**
  * An image view that displaying image in [squircle](https://en.wikipedia.org/wiki/Squircle) shape
@@ -27,6 +29,37 @@ class SquircularImageView @JvmOverloads constructor(
     private var imageCenterY: Float = 0f
     /** Radius size of image. */
     private var imageRadius: Float = 0f
+    /** Curvature of squircle shape. */
+    private var imageCurvature: Float = 3f
+
+    init {
+        applyAttributes(attrs, defStyle)
+    }
+
+    /**
+     * Apply custom attributes.
+     */
+    private fun applyAttributes(attributes: AttributeSet?, defStyle: Int) {
+        val attrs = context.obtainStyledAttributes(
+            attributes,
+            R.styleable.SquircularImageView,
+            defStyle,
+            0
+        )
+
+        try {
+            val curvatureAttr = attrs.getInteger(R.styleable.SquircularImageView_shaped_imageview_curvature, 50)
+            imageCurvature = when {
+                curvatureAttr < 0 || curvatureAttr > 100 -> throw IllegalArgumentException("Curvature must be in 0 ~ 100.")
+                curvatureAttr >= 0 -> {
+                    (curvatureAttr.toFloat() / 25) + 1
+                }
+                else -> 3f
+            }
+        } finally {
+            attrs.recycle()
+        }
+    }
 
     /**
      * This method is invoked after [onMeasure].
@@ -56,7 +89,7 @@ class SquircularImageView @JvmOverloads constructor(
      * The squircle will be filled or framed based on the Style in the paint.
      */
     private fun Canvas.drawSquircle(cx: Float, cy: Float, radius: Float, paint: Paint) {
-        val formula = SuperellipseFormula(cx, cy, radius, 3f)
+        val formula = SuperellipseFormula(cx, cy, radius, imageCurvature)
 
         val path = Path()
         path.apply {

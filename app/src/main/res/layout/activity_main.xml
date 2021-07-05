@@ -51,6 +51,7 @@
         android:layout_height="150dp"
         android:src="@drawable/sample"
         android:layout_margin="16dp"
+        app:shaped_imageview_curvature="100"
         app:layout_constraintLeft_toLeftOf="@+id/verticalGuideline"
         app:layout_constraintTop_toTopOf="@+id/horizontalGuideline" />
 </androidx.constraintlayout.widget.ConstraintLayout>
