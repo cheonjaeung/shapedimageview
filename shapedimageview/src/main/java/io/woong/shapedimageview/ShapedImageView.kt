@@ -88,7 +88,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
         imageCenterX = (paddingLeft + usableWidth) / 2f
         imageCenterY = (paddingTop + usableHeight) / 2f
 
-        postOnMeasure(widthMeasureSpec, heightMeasureSpec, size)
+        postOnMeasure(widthMeasureSpec, heightMeasureSpec, size, usableSize)
     }
 
     /**
@@ -99,8 +99,9 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * @param heightMeasureSpec Specs of height.
      * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
      * @param size Size of view. (width and height is same)
+     * @param usableSize Usable size of view. (width and height is same)
      */
-    protected abstract fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int)
+    protected abstract fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int, usableSize: Int)
 
     /**
      * Check image is outdated and update it if it needs. And call [postOnDraw] method.

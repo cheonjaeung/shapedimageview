@@ -2,21 +2,16 @@ package io.woong.shapedimageview
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Rect
 import android.util.AttributeSet
 
-/**
- * A image view that display image in circle shape.
- *
- * It's width and height will be resized to same.
- *
- * Default scale type is center-crop.
- * Other scale types are not supported.
- */
-class CircularImageView @JvmOverloads constructor(
+class SquareImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : ShapedImageView(context, attrs, defStyle) {
+
+    private val imageRect: Rect = Rect()
 
     /**
      * This method is invoked after [onMeasure].
@@ -28,7 +23,9 @@ class CircularImageView @JvmOverloads constructor(
      * @param size Size of view. (width and height is same)
      * @param usableSize Usable size of view. (width and height is same)
      */
-    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int, usableSize: Int) {}
+    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int, usableSize: Int) {
+        imageRect.set(paddingLeft, paddingTop, paddingLeft + usableSize, paddingTop + usableSize)
+    }
 
     /**
      * This method is invoked after [onDraw].
@@ -36,6 +33,6 @@ class CircularImageView @JvmOverloads constructor(
      * @param canvas Canvas to draw image view.
      */
     override fun postOnDraw(canvas: Canvas) {
-        canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, imagePaint)
+        canvas.drawRect(imageRect, imagePaint)
     }
 }
