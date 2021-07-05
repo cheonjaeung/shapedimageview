@@ -1,9 +1,10 @@
-package io.woong.shapedimageview
+package io.woong.shapedimageview.widget
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.util.AttributeSet
+import io.woong.shapedimageview.ShapedImageView
 
 /**
  * An image view that displaying image in square shape.
