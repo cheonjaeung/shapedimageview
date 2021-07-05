@@ -22,6 +22,28 @@ class RoundedSquareImageView @JvmOverloads constructor(
     /** Radius size of image. */
     private var imageRadius: Float = 0f
 
+    init {
+        applyAttributes(attrs, defStyle)
+    }
+
+    /**
+     * Apply custom attributes.
+     */
+    private fun applyAttributes(attributes: AttributeSet?, defStyle: Int) {
+        val attrs = context.obtainStyledAttributes(
+            attributes,
+            R.styleable.RoundedSquareImageView,
+            defStyle,
+            0
+        )
+
+        try {
+            imageRadius = attrs.getDimension(R.styleable.RoundedSquareImageView_shaped_imageview_radius, 0f)
+        } finally {
+            attrs.recycle()
+        }
+    }
+
     /**
      * This method is invoked after [onMeasure].
      *
@@ -38,7 +60,6 @@ class RoundedSquareImageView @JvmOverloads constructor(
             (paddingLeft + imageSize).toFloat(),
             (paddingTop + imageSize).toFloat()
         )
-        imageRadius = 32f
     }
 
     /**

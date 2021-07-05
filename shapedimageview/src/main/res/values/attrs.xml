@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Attributes of all shaped image views. -->
+    <declare-styleable name="ShapedImageView">
+    </declare-styleable>
+
+    <!-- Attributes of circular image view. -->
+    <declare-styleable name="CircularImageView">
+    </declare-styleable>
+
+    <!-- Attributes of rounded square image view. -->
+    <declare-styleable name="RoundedSquareImageView">
+        <attr name="shaped_imageview_radius" format="dimension" />
+    </declare-styleable>
+
+    <!-- Attributes of square image view. -->
+    <declare-styleable name="SquareImageView">
+    </declare-styleable>
+
+    <!-- Attributes of squircular image view. -->
+    <declare-styleable name="SquircularImageView">
+    </declare-styleable>
+</resources>
