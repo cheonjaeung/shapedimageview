@@ -150,7 +150,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * @param imageWidth Width size of displaying image for setting scale type matrix.
      * @param imageHeight Height size of displaying image for setting scale type matrix.
      */
-    protected fun updateShader(imageWidth: Int, imageHeight: Int) {
+    private fun updateShader(imageWidth: Int, imageHeight: Int) {
         image?.let { img ->
             val shader = BitmapShader(img, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
                 setLocalMatrix(
