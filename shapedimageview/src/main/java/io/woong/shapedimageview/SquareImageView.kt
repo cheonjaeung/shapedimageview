@@ -39,7 +39,6 @@ class SquareImageView @JvmOverloads constructor(
      * @param canvas Canvas to draw image view.
      */
     override fun postOnDraw(canvas: Canvas) {
-        updateShader(imageRect.width(), imageRect.height())
         canvas.drawRect(imageRect, imagePaint)
     }
 }
