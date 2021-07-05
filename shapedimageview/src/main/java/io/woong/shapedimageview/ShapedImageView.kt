@@ -85,8 +85,8 @@ abstract class ShapedImageView @JvmOverloads constructor(
         val usableSize = min(usableWidth, usableHeight)
         imageRadius = usableSize / 2f
 
-        imageCenterX = (paddingLeft + usableWidth) / 2f
-        imageCenterY = (paddingTop + usableHeight) / 2f
+        imageCenterX = (paddingLeft + (size - paddingRight)) / 2f
+        imageCenterY = (paddingTop + (size - paddingBottom)) / 2f
 
         postOnMeasure(widthMeasureSpec, heightMeasureSpec, size, usableSize)
     }
