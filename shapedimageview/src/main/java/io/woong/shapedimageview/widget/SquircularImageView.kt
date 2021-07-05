@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
-import android.util.Log
 import io.woong.shapedimageview.ShapedImageView
 import io.woong.shapedimageview.util.SuperellipseFormula
 
