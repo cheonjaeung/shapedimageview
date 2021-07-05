@@ -23,9 +23,8 @@ class SquircularImageView @JvmOverloads constructor(
      * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
      * @param heightMeasureSpec Specs of height.
      * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
-     * @param usableSize Usable size of view. (width and height is same)
      */
-    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int, usableSize: Int) {}
+    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {}
 
     /**
      * This method is invoked after [onDraw].

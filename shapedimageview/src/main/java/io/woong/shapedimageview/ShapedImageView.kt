@@ -37,12 +37,8 @@ abstract class ShapedImageView @JvmOverloads constructor(
         isDither = true
         alpha = 255
     }
-    /** X position of image center. */
-    protected var imageCenterX: Float = 0f
-    /** Y position of image center. */
-    protected var imageCenterY: Float = 0f
-    /** Radius size of image. */
-    protected var imageRadius: Float = 0f
+    /** Width and height size of image. */
+    protected var imageSize: Int = 0
 
     init {
         scaleType = ScaleType.CENTER_CROP
@@ -82,13 +78,9 @@ abstract class ShapedImageView @JvmOverloads constructor(
 
         val usableWidth = width - paddingLeft - paddingRight
         val usableHeight = height - paddingTop - paddingBottom
-        val usableSize = min(usableWidth, usableHeight)
-        imageRadius = usableSize / 2f
+        imageSize = min(usableWidth, usableHeight)
 
-        imageCenterX = (paddingLeft + (size - paddingRight)) / 2f
-        imageCenterY = (paddingTop + (size - paddingBottom)) / 2f
-
-        postOnMeasure(widthMeasureSpec, heightMeasureSpec, size, usableSize)
+        postOnMeasure(widthMeasureSpec, heightMeasureSpec, size)
     }
 
     /**
@@ -99,9 +91,8 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * @param heightMeasureSpec Specs of height.
      * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
      * @param size Size of view. (width and height is same)
-     * @param usableSize Usable size of view. (width and height is same)
      */
-    protected abstract fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int, usableSize: Int)
+    protected abstract fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int)
 
     /**
      * Check image is outdated and update it if it needs. And call [postOnDraw] method.
@@ -110,7 +101,6 @@ abstract class ShapedImageView @JvmOverloads constructor(
      */
     override fun onDraw(canvas: Canvas) {
         updateImage()
-        updateShader((imageRadius * 2).toInt(), (imageRadius * 2).toInt())
         postOnDraw(canvas)
     }
 
@@ -159,7 +149,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * @param imageWidth Width size of displaying image for setting scale type matrix.
      * @param imageHeight Height size of displaying image for setting scale type matrix.
      */
-    private fun updateShader(imageWidth: Int, imageHeight: Int) {
+    protected fun updateShader(imageWidth: Int, imageHeight: Int) {
         image?.let { img ->
             val shader = BitmapShader(img, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
                 setLocalMatrix(

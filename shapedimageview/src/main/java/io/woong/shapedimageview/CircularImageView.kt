@@ -16,6 +16,13 @@ class CircularImageView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : ShapedImageView(context, attrs, defStyle) {
 
+    /** X position of image center. */
+    private var imageCenterX: Float = 0f
+    /** Y position of image center. */
+    private var imageCenterY: Float = 0f
+    /** Radius size of image. */
+    private var imageRadius: Float = 0f
+
     /**
      * This method is invoked after [onMeasure].
      *
@@ -24,9 +31,13 @@ class CircularImageView @JvmOverloads constructor(
      * @param heightMeasureSpec Specs of height.
      * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
      * @param size Size of view. (width and height is same)
-     * @param usableSize Usable size of view. (width and height is same)
      */
-    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int, usableSize: Int) {}
+    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
+        imageRadius = imageSize / 2f
+
+        imageCenterX = (paddingLeft + (size - paddingRight)) / 2f
+        imageCenterY = (paddingTop + (size - paddingBottom)) / 2f
+    }
 
     /**
      * This method is invoked after [onDraw].
@@ -34,6 +45,7 @@ class CircularImageView @JvmOverloads constructor(
      * @param canvas Canvas to draw image view.
      */
     override fun postOnDraw(canvas: Canvas) {
+        updateShader((imageRadius * 2).toInt(), (imageRadius * 2).toInt())
         canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, imagePaint)
     }
 }

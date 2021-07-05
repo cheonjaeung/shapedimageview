@@ -17,6 +17,7 @@ class SquareImageView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : ShapedImageView(context, attrs, defStyle) {
 
+    /** Rect object of image. */
     private val imageRect: Rect = Rect()
 
     /**
@@ -27,10 +28,9 @@ class SquareImageView @JvmOverloads constructor(
      * @param heightMeasureSpec Specs of height.
      * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
      * @param size Size of view. (width and height is same)
-     * @param usableSize Usable size of view. (width and height is same)
      */
-    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int, usableSize: Int) {
-        imageRect.set(paddingLeft, paddingTop, paddingLeft + usableSize, paddingTop + usableSize)
+    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
+        imageRect.set(paddingLeft, paddingTop, paddingLeft + imageSize, paddingTop + imageSize)
     }
 
     /**
@@ -39,6 +39,7 @@ class SquareImageView @JvmOverloads constructor(
      * @param canvas Canvas to draw image view.
      */
     override fun postOnDraw(canvas: Canvas) {
+        updateShader(imageRect.width(), imageRect.height())
         canvas.drawRect(imageRect, imagePaint)
     }
 }
