@@ -7,10 +7,8 @@ import android.util.AttributeSet
 /**
  * A image view that display image in circle shape.
  *
- * It's width and height will be resized to same.
- *
- * Default scale type is center-crop.
- * Other scale types are not supported.
+ * Scale type is always [center crop][android.widget.ImageView.ScaleType.CENTER_CROP].
+ * And also it's width and height size is same.
  */
 class CircularImageView @JvmOverloads constructor(
     context: Context,

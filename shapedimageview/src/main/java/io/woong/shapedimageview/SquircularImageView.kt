@@ -4,6 +4,12 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 
+/**
+ * An image view that displaying image in [squircle](https://en.wikipedia.org/wiki/Squircle) shape.
+ *
+ * Scale type is always [center crop][android.widget.ImageView.ScaleType.CENTER_CROP].
+ * And also it's width and height size is same.
+ */
 class SquircularImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
