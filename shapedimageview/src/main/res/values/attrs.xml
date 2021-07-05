@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Attributes of all shaped image views. -->
-    <declare-styleable name="ShapedImageView">
-    </declare-styleable>
-
     <!-- Attributes of circular image view. -->
     <declare-styleable name="CircularImageView">
     </declare-styleable>

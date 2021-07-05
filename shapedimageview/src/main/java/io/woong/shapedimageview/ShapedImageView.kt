@@ -42,25 +42,6 @@ abstract class ShapedImageView @JvmOverloads constructor(
 
     init {
         scaleType = ScaleType.CENTER_CROP
-        applyAttributes(attrs, defStyle)
-    }
-
-    /**
-     * Apply custom attributes.
-     */
-    private fun applyAttributes(attributes: AttributeSet?, defStyle: Int) {
-        val attrs = context.obtainStyledAttributes(
-            attributes,
-            R.styleable.ShapedImageView,
-            defStyle,
-            0
-        )
-
-        try {
-
-        } finally {
-            attrs.recycle()
-        }
     }
 
     /**
