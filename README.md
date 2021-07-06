@@ -54,6 +54,8 @@ Each shaped image views are implemented in `CircularImageView`, `SquareImageView
     app:shaped_imageview_curvature="50" />
 ```
 
+You can use ShapedImageViews in xml layout like upper codes.
+
 ### Attributes
 
 All attributes have `shaped_imageview` prefix.
@@ -62,6 +64,23 @@ All attributes have `shaped_imageview` prefix.
 | --- | --- | --- | --- | --- |
 | RoundedSquareImageView | shaped_imageview_radius | Dimension | 0dp | |
 | SquircularImageView | shaped_imageview_curvature | Integer | 50 | 0 ~ 100 |
+
+### shaped_imageview_radius
+
+`shaped_imageview_radius` is an attribute of `RoundedSquareImageView`.
+It determines radius of imageview's corner rounding.
+
+### shaped_imageview_curvature 
+`shaped_imageview_curvature` is an attribute of `SquircularImageView`.
+It determines how much curve it is.
+
+It can accept 0 ~ 100. If curvature is 0, it shapes like diamond. If curvature is 100, it almost shpaes like a rounded square.
+
+**Previews by curvature:**
+
+| 0 | 25 | 50 | 75 | 100 |
+| --- | --- | --- | --- | --- |
+| ![c0](./art/squircle_curvature_0.png) | ![c25](./art/squircle_curvature_25.png) | ![c50](./art/squircle_curvature_50.png.png) | ![c75](./art/squircle_curvature_75.png.png) | ![c100](./art/squircle_curvature_100.png) |
 
 ## Limitations
 
