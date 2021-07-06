@@ -9,7 +9,7 @@ import kotlin.math.sin
  * Formula of [superellipse](https://en.wikipedia.org/wiki/Superellipse).
  *
  * **Formula:**
- * |(x / (0.5 * r)) - a|^n + |(y / (0.5 * r)) - b|^n = r^n
+ * |(x / (0.5 * r)) - a|^n + |(y / (0.5 * r)) - b|^n = 1^n
  * - a: center x.
  * - b: center y.
  * - n: degree.
