@@ -24,6 +24,10 @@ class CircularImageView @JvmOverloads constructor(
     /** Radius size of image. */
     private var imageRadius: Float = 0f
 
+    init {
+        applyCommonAttributes(attrs, defStyle)
+    }
+
     /**
      * This method is invoked after [onMeasure].
      *

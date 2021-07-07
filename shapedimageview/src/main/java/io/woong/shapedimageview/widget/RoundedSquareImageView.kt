@@ -25,6 +25,7 @@ class RoundedSquareImageView @JvmOverloads constructor(
     private var imageRadius: Float = 0f
 
     init {
+        applyCommonAttributes(attrs, defStyle)
         applyAttributes(attrs, defStyle)
     }
 

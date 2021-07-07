@@ -32,7 +32,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /** Image drawable for checking is image needs update. */
     private var imageCache: Drawable? = null
     /** Paint object for drawing shaped image. */
-    protected var imagePaint: Paint = Paint().apply {
+    protected val imagePaint: Paint = Paint().apply {
         isAntiAlias = true
         isDither = true
         alpha = 255
@@ -40,8 +40,39 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /** Width and height size of image. */
     protected var imageSize: Int = 0
 
+    /** Shadow enabled flag. */
+    protected var shadowEnabled: Boolean = false
+    /** Paint object for drawing shadow. */
+    protected val shadowPaint: Paint = Paint().apply {
+        isAntiAlias = true
+        isDither = true
+        alpha = 255
+    }
+    /** Size of shadow. */
+    protected var shadowSize: Float = 0f
+
     init {
         scaleType = ScaleType.CENTER_CROP
+    }
+
+    /**
+     * Apply common attributes.
+     */
+    protected fun applyCommonAttributes(attributes: AttributeSet?, defStyle: Int) {
+        val attrs = context.obtainStyledAttributes(
+            attributes,
+            R.styleable.ShapedImageView,
+            defStyle,
+            0
+        )
+
+        try {
+            shadowEnabled = attrs.getBoolean(R.styleable.ShapedImageView_shaped_imageview_shadow_enabled, false)
+
+            shadowSize = attrs.getDimension(R.styleable.ShapedImageView_shaped_imageview_shadow_size, 0f)
+        } finally {
+            attrs.recycle()
+        }
     }
 
     /**

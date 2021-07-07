@@ -33,6 +33,7 @@ class SquircularImageView @JvmOverloads constructor(
     private var imageCurvature: Float = 3f
 
     init {
+        applyCommonAttributes(attrs, defStyle)
         applyAttributes(attrs, defStyle)
     }
 

@@ -21,6 +21,10 @@ class SquareImageView @JvmOverloads constructor(
     /** Rect object of image. */
     private val imageRect: Rect = Rect()
 
+    init {
+        applyCommonAttributes(attrs, defStyle)
+    }
+
     /**
      * This method is invoked after [onMeasure].
      *

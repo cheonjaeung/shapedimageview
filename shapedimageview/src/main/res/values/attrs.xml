@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Attributes of all shaped image view. -->
+    <declare-styleable name="ShapedImageView">
+        <attr name="shaped_imageview_shadow_enabled" format="boolean" />
+        <attr name="shaped_imageview_shadow_size" format="dimension" />
+    </declare-styleable>
+
     <!-- Attributes of circular image view. -->
     <declare-styleable name="CircularImageView">
     </declare-styleable>
