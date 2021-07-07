@@ -63,8 +63,31 @@ All attributes have `shaped_imageview` prefix.
 
 | View | Attribute | Type | Default | Limitation |
 | --- | --- | --- | --- | --- |
-| RoundedSquareImageView | shaped_imageview_radius | Dimension | 0dp | |
-| SquircularImageView | shaped_imageview_curvature | Integer | 50 | 0 ~ 100 |
+| All | [shaped_imageview_shadow_enabled](#shaped_imageview_shadow_enabled) | Boolean | true | |
+| All | [shaped_imageview_shadow_size](#shaped_imageview_shadow_size) | Dimension | 0dp | |
+| All | [shaped_imageview_shadow_adjust_enabled](#shaped_imageview_shadow_adjust_enabled) | Boolean | true | |
+| RoundedSquareImageView | [shaped_imageview_radius](#shaped_imageview_radius) | Dimension | 0dp | |
+| SquircularImageView | [shaped_imageview_curvature](#shaped_imageview_curvature) | Integer | 50 | 0 ~ 100 |
+
+### shaped_imageview_shadow_enabled
+
+`shaped_imageview_shadow_enabled` determines that imageview uses shadow.
+Default is `true`.
+
+### shaped_imageview_shadow_size
+
+`shaped_imageview_shadow_size` determines the shadow size of image view. 
+
+### shaped_imageview_shadow_adjust_enabled
+
+`shaped_imageview_shadow_adjust_enabled` determines that using resize imageview's size according to shadow size.
+Default is `true`.
+
+If it is `false`, shadow could be cutted.
+
+| True | False |
+| --- | --- |
+| ![adjust_true](./art/shadow_adjust_true.png) | ![adjust_false](./art/shadow_adjust_false.png) |
 
 ### shaped_imageview_radius
 
@@ -101,3 +124,4 @@ Detail changes is written in [changelog file](./CHANGELOG.md).
 ## License
 
 ShapedImageView by [Jaewoong Cheon](https://github.com/woongdev) is licensed under the [MIT License](./LICENSE).
+ 
