@@ -22,36 +22,48 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <io.woong.shapedimageview.widget.CircularImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/sample"
         android:layout_margin="16dp"
+        android:padding="16dp"
+        app:shaped_imageview_shadow_size="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@+id/verticalGuideline"
         app:layout_constraintBottom_toBottomOf="@+id/horizontalGuideline" />
 
     <io.woong.shapedimageview.widget.RoundedSquareImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/sample"
         android:layout_margin="16dp"
+        android:padding="16dp"
+        app:shaped_imageview_shadow_size="8dp"
         app:shaped_imageview_radius="16dp"
         app:layout_constraintLeft_toLeftOf="@+id/verticalGuideline"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/horizontalGuideline" />
 
     <io.woong.shapedimageview.widget.SquareImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/sample"
         android:layout_margin="16dp"
+        android:padding="16dp"
+        app:shaped_imageview_shadow_size="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/horizontalGuideline"
         app:layout_constraintRight_toRightOf="@id/verticalGuideline" />
 
     <io.woong.shapedimageview.widget.SquircularImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/sample"
         android:layout_margin="16dp"
+        android:padding="16dp"
+        app:shaped_imageview_shadow_size="8dp"
         app:shaped_imageview_curvature="50"
         app:layout_constraintLeft_toLeftOf="@+id/verticalGuideline"
-        app:layout_constraintTop_toTopOf="@+id/horizontalGuideline" />
+        app:layout_constraintTop_toTopOf="@+id/horizontalGuideline"
+        app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
