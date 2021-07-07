@@ -35,7 +35,14 @@ class SquareImageView @JvmOverloads constructor(
      * @param size Size of view. (width and height is same)
      */
     override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
-        imageRect.set(paddingLeft, paddingTop, paddingLeft + imageSize, paddingTop + imageSize)
+        val shadowAdjustment = if (shadowEnabled) shadowSize * 2 else 0f
+
+        imageRect.set(
+            (paddingLeft + shadowAdjustment).toInt(),
+            (paddingTop + shadowAdjustment).toInt(),
+            (paddingLeft + imageSize - shadowAdjustment).toInt(),
+            (paddingTop + imageSize - shadowAdjustment).toInt()
+        )
     }
 
     /**
