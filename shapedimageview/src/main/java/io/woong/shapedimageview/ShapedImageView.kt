@@ -41,7 +41,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     protected var imageSize: Int = 0
 
     /** Shadow enabled flag. */
-    protected var shadowEnabled: Boolean = false
+    protected var shadowEnabled: Boolean = true
     /** Paint object for drawing shadow. */
     protected val shadowPaint: Paint = Paint().apply {
         isAntiAlias = true
@@ -67,7 +67,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
         )
 
         try {
-            shadowEnabled = attrs.getBoolean(R.styleable.ShapedImageView_shaped_imageview_shadow_enabled, false)
+            shadowEnabled = attrs.getBoolean(R.styleable.ShapedImageView_shaped_imageview_shadow_enabled, true)
 
             shadowSize = attrs.getDimension(R.styleable.ShapedImageView_shaped_imageview_shadow_size, 0f)
         } finally {
@@ -133,6 +133,9 @@ abstract class ShapedImageView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         updateImage()
         updateShader(width, height)
+        if (shadowEnabled) {
+            updateShadowLayer()
+        }
         postOnDraw(canvas)
     }
 
@@ -225,6 +228,14 @@ abstract class ShapedImageView @JvmOverloads constructor(
             setScale(scale, scale)
             postTranslate(dx, dy)
         }
+    }
+
+    /**
+     * Update shadow layer on shadowPaint.
+     * Shadow color is always gray.
+     */
+    private fun updateShadowLayer() {
+        shadowPaint.setShadowLayer(shadowSize, 0f, shadowSize / 2, Color.GRAY)
     }
 
     /**
