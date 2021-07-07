@@ -71,6 +71,10 @@ class RoundedSquareImageView @JvmOverloads constructor(
      * @param canvas Canvas to draw image view.
      */
     override fun postOnDraw(canvas: Canvas) {
+        if (shadowEnabled) {
+            canvas.drawRoundRect(imageRect, imageRadius, imageRadius, shadowPaint)
+        }
+
         canvas.drawRoundRect(imageRect, imageRadius, imageRadius, imagePaint)
     }
 }

@@ -82,6 +82,10 @@ class SquircularImageView @JvmOverloads constructor(
      * @param canvas Canvas to draw image view.
      */
     override fun postOnDraw(canvas: Canvas) {
+        if (shadowEnabled) {
+            canvas.drawSquircle(imageCenterX, imageCenterY, imageRadius, shadowPaint)
+        }
+
         canvas.drawSquircle(imageCenterX, imageCenterY, imageRadius, imagePaint)
     }
 

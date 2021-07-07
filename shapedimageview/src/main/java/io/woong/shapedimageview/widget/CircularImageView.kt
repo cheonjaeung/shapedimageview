@@ -50,6 +50,10 @@ class CircularImageView @JvmOverloads constructor(
      * @param canvas Canvas to draw image view.
      */
     override fun postOnDraw(canvas: Canvas) {
+        if (shadowEnabled) {
+            canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, shadowPaint)
+        }
+
         canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, imagePaint)
     }
 }
