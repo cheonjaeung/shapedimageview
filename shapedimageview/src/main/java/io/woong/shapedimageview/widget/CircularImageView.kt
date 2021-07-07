@@ -38,7 +38,7 @@ class CircularImageView @JvmOverloads constructor(
      * @param size Size of view. (width and height is same)
      */
     override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
-        val shadowAdjustment = if (shadowEnabled) shadowSize * 2 else 0f
+        val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
 
         imageRadius = imageSize / 2f - shadowAdjustment
         imageCenterX = (paddingLeft + (size - paddingRight)) / 2f

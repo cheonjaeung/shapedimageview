@@ -42,6 +42,8 @@ abstract class ShapedImageView @JvmOverloads constructor(
 
     /** Shadow enabled flag. */
     protected var shadowEnabled: Boolean = true
+    /** Adjust size by shadow size enabled. */
+    protected var shadowAdjustEnabled: Boolean = true
     /** Paint object for drawing shadow. */
     protected val shadowPaint: Paint = Paint().apply {
         isAntiAlias = true
@@ -68,7 +70,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
 
         try {
             shadowEnabled = attrs.getBoolean(R.styleable.ShapedImageView_shaped_imageview_shadow_enabled, true)
-
+            shadowAdjustEnabled = attrs.getBoolean(R.styleable.ShapedImageView_shaped_imageview_shadow_adjust_enabled, true)
             shadowSize = attrs.getDimension(R.styleable.ShapedImageView_shaped_imageview_shadow_size, 0f)
         } finally {
             attrs.recycle()

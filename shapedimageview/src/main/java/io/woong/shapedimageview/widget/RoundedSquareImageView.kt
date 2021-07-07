@@ -57,7 +57,7 @@ class RoundedSquareImageView @JvmOverloads constructor(
      * @param size Size of view. (width and height is same)
      */
     override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
-        val shadowAdjustment = if (shadowEnabled) shadowSize * 2 else 0f
+        val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
 
         imageRect.set(
             paddingLeft.toFloat() + shadowAdjustment,

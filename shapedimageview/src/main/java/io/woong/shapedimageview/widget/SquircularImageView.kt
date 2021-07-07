@@ -71,7 +71,7 @@ class SquircularImageView @JvmOverloads constructor(
      * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
      */
     override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
-        val shadowAdjustment = if (shadowEnabled) shadowSize * 2 else 0f
+        val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
 
         imageRadius = imageSize / 2f - shadowAdjustment
         imageCenterX = (paddingLeft + (size - paddingRight)) / 2f
