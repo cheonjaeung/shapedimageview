@@ -1,8 +1,15 @@
 <div align="center">
     <img alt="platform-android" src="https://img.shields.io/badge/Platform-Android-green?logo=android&logoColor=green">
     <img alt="sdk-16-plus" src="https://img.shields.io/badge/SDK-16%2B-green?logo=android&logoColor=green">
-    <a><img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.woong.shapedimageview/shapedimageview?label=Maven%20Central&logo=apache%20maven&logoColor=orange"></a>
-    <a href="./LICENSE"><img alt="license-mit" src="https://img.shields.io/badge/License-MIT-blue?logo=apache&logoColor=blue"></a>
+    <a href="https://github.com/woongdev/ShapedImageView/actions/workflows/build.yml">
+        <img alt="" src="https://github.com/woongdev/ShapedImageView/actions/workflows/build.yml/badge.svg">
+    </a>
+    <a href="https://search.maven.org/artifact/io.woong.shapedimageview/shapedimageview">
+        <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.woong.shapedimageview/shapedimageview?label=Maven%20Central&logo=apache%20maven&logoColor=orange">
+    </a>
+    <a href="./LICENSE">
+        <img alt="license-mit" src="https://img.shields.io/badge/License-MIT-blue?logo=apache&logoColor=blue">
+    </a>
     <h1>ShapedImageView</h1>
     <p>ShapedImageView is an open source Android library for using various shape image views easily.</p>
     <p><img alt="preview" src="./art/preview.png"></p>
