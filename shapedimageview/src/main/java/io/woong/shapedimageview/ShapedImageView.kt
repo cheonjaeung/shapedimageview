@@ -9,6 +9,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
 import java.lang.IllegalArgumentException
 import kotlin.math.min
+import kotlin.math.sqrt
 
 /**
  * Root image view class of all shaped image views in [ShapedImageView Library](https://github.com/woongdev/ShapedImageView)
@@ -56,6 +57,8 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /** Color of shadow. */
     @ColorInt
     protected var shadowColor: Int = Color.GRAY
+    /** Gravity of shadow. */
+    protected var shadowGravity: ShadowGravity = ShadowGravity.CENTER
 
     init {
         scaleType = ScaleType.CENTER_CROP
@@ -73,10 +76,42 @@ abstract class ShapedImageView @JvmOverloads constructor(
         )
 
         try {
-            shadowEnabled = attrs.getBoolean(R.styleable.ShapedImageView_shaped_imageview_shadow_enabled, true)
-            shadowAdjustEnabled = attrs.getBoolean(R.styleable.ShapedImageView_shaped_imageview_shadow_adjust_enabled, true)
-            shadowSize = attrs.getDimension(R.styleable.ShapedImageView_shaped_imageview_shadow_size, 0f)
-            shadowColor = attrs.getColor(R.styleable.ShapedImageView_shaped_imageview_shadow_color, Color.GRAY)
+            shadowEnabled = attrs.getBoolean(
+                R.styleable.ShapedImageView_shaped_imageview_shadow_enabled,
+                true
+            )
+
+            shadowAdjustEnabled = attrs.getBoolean(
+                R.styleable.ShapedImageView_shaped_imageview_shadow_adjust_enabled,
+                true
+            )
+
+            shadowSize = attrs.getDimension(
+                R.styleable.ShapedImageView_shaped_imageview_shadow_size,
+                0f
+            )
+
+            shadowColor = attrs.getColor(
+                R.styleable.ShapedImageView_shaped_imageview_shadow_color,
+                Color.GRAY
+            )
+
+            val gravityAttr = attrs.getInt(
+                R.styleable.ShapedImageView_shaped_imageview_shadow_gravity,
+                ShadowGravity.CENTER.value
+            )
+            shadowGravity = when (gravityAttr) {
+                ShadowGravity.CENTER.value -> ShadowGravity.CENTER
+                ShadowGravity.LEFT.value -> ShadowGravity.LEFT
+                ShadowGravity.TOP.value -> ShadowGravity.TOP
+                ShadowGravity.RIGHT.value -> ShadowGravity.RIGHT
+                ShadowGravity.BOTTOM.value -> ShadowGravity.BOTTOM
+                ShadowGravity.TOP_LEFT.value -> ShadowGravity.TOP_LEFT
+                ShadowGravity.TOP_RIGHT.value -> ShadowGravity.TOP_RIGHT
+                ShadowGravity.BOTTOM_RIGHT.value -> ShadowGravity.BOTTOM_RIGHT
+                ShadowGravity.BOTTOM_LEFT.value -> ShadowGravity.BOTTOM_LEFT
+                else -> throw IllegalArgumentException("Shadow gravity $gravityAttr not supported.")
+            }
         } finally {
             attrs.recycle()
         }
@@ -242,7 +277,48 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * Shadow color is always gray.
      */
     private fun updateShadowLayer() {
-        shadowPaint.setShadowLayer(shadowSize, 0f, shadowSize / 2, shadowColor)
+        val dx: Float
+        val dy: Float
+
+        when (shadowGravity) {
+            ShadowGravity.CENTER -> {
+                dx = 0f
+                dy = 0f
+            }
+            ShadowGravity.LEFT -> {
+                dx = shadowSize / 2
+                dy = 0f
+            }
+            ShadowGravity.TOP -> {
+                dx = 0f
+                dy = -shadowSize / 2
+            }
+            ShadowGravity.RIGHT -> {
+                dx = -shadowSize / 2
+                dy = 0f
+            }
+            ShadowGravity.BOTTOM -> {
+                dx = 0f
+                dy = shadowSize / 2
+            }
+            ShadowGravity.TOP_LEFT -> {
+                dx = -sqrt(2f) * (shadowSize / 2)
+                dy = -sqrt(2f) * (shadowSize / 2)
+            }
+            ShadowGravity.TOP_RIGHT -> {
+                dx = sqrt(2f) * (shadowSize / 2)
+                dy = -sqrt(2f) * (shadowSize / 2)
+            }
+            ShadowGravity.BOTTOM_RIGHT -> {
+                dx = sqrt(2f) * (shadowSize / 2)
+                dy = sqrt(2f) * (shadowSize / 2)
+            }
+            ShadowGravity.BOTTOM_LEFT -> {
+                dx = -sqrt(2f) * (shadowSize / 2)
+                dy = sqrt(2f) * (shadowSize / 2)
+            }
+        }
+        shadowPaint.setShadowLayer(shadowSize, dx, dy, shadowColor)
     }
 
     /**
@@ -251,4 +327,19 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * @param canvas Canvas to draw image view.
      */
     protected abstract fun postOnDraw(canvas: Canvas)
+
+    /**
+     * Shadow gravity constants of [ShapedImageView].
+     */
+    enum class ShadowGravity(val value: Int) {
+        CENTER(0),
+        LEFT(1),
+        TOP(2),
+        RIGHT(3),
+        BOTTOM(4),
+        TOP_LEFT(5),
+        TOP_RIGHT(6),
+        BOTTOM_RIGHT(7),
+        BOTTOM_LEFT(8)
+    }
 }
