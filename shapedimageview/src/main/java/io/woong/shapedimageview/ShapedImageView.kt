@@ -58,7 +58,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     @ColorInt
     protected var shadowColor: Int = Color.GRAY
     /** Gravity of shadow. */
-    protected var shadowGravity: ShadowGravity = ShadowGravity.CENTER
+    private var shadowGravity: ShadowGravity = ShadowGravity.CENTER
 
     init {
         scaleType = ScaleType.CENTER_CROP
