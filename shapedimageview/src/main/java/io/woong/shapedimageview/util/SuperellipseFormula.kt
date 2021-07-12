@@ -46,8 +46,8 @@ internal class SuperellipseFormula(
         get() = radian(angle)
 
     val x: Float
-        get() = (abs(cos(radian)).pow(2.0 / n) * r * sgn(cos(radian))).toFloat() + cx
+        get() = (abs(cos(radian)).pow(2.0 / n) * r * sign(cos(radian))).toFloat() + cx
 
     val y: Float
-        get() = (abs(sin(radian)).pow(2.0 / n) * r * sgn(sin(radian))).toFloat() + cy
+        get() = (abs(sin(radian)).pow(2.0 / n) * r * sign(sin(radian))).toFloat() + cy
 }
