@@ -134,7 +134,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
      */
     override fun onDraw(canvas: Canvas) {
         updateImage()
-        updateShader(width, height)
+        updateShader(imageSize, imageSize)
         if (shadowEnabled) {
             updateShadowLayer()
         }
