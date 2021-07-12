@@ -5,6 +5,7 @@
         <attr name="shaped_imageview_shadow_enabled" format="boolean" />
         <attr name="shaped_imageview_shadow_size" format="dimension" />
         <attr name="shaped_imageview_shadow_adjust_enabled" format="boolean" />
+        <attr name="shaped_imageview_shadow_color" format="color" />
     </declare-styleable>
 
     <!-- Attributes of circular image view. -->

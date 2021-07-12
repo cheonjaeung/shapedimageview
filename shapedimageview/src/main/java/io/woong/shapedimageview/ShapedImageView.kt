@@ -5,6 +5,7 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
 import java.lang.IllegalArgumentException
 import kotlin.math.min
@@ -52,6 +53,9 @@ abstract class ShapedImageView @JvmOverloads constructor(
     }
     /** Size of shadow. */
     protected var shadowSize: Float = 0f
+    /** Color of shadow. */
+    @ColorInt
+    protected var shadowColor: Int = Color.GRAY
 
     init {
         scaleType = ScaleType.CENTER_CROP
@@ -72,6 +76,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
             shadowEnabled = attrs.getBoolean(R.styleable.ShapedImageView_shaped_imageview_shadow_enabled, true)
             shadowAdjustEnabled = attrs.getBoolean(R.styleable.ShapedImageView_shaped_imageview_shadow_adjust_enabled, true)
             shadowSize = attrs.getDimension(R.styleable.ShapedImageView_shaped_imageview_shadow_size, 0f)
+            shadowColor = attrs.getColor(R.styleable.ShapedImageView_shaped_imageview_shadow_color, Color.GRAY)
         } finally {
             attrs.recycle()
         }
@@ -237,7 +242,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * Shadow color is always gray.
      */
     private fun updateShadowLayer() {
-        shadowPaint.setShadowLayer(shadowSize, 0f, shadowSize / 2, Color.GRAY)
+        shadowPaint.setShadowLayer(shadowSize, 0f, shadowSize / 2, shadowColor)
     }
 
     /**
