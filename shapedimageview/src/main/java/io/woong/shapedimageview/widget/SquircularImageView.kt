@@ -32,6 +32,9 @@ class SquircularImageView @JvmOverloads constructor(
     /** Curvature of squircle shape. */
     private var imageCurvature: Float = 3f
 
+    /** Radius size of border. */
+    private var borderRadius: Float = 0f
+
     init {
         applyCommonAttributes(attrs, defStyle)
         applyAttributes(attrs, defStyle)
@@ -72,10 +75,13 @@ class SquircularImageView @JvmOverloads constructor(
      */
     override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
         val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
+        val borderAdjustment = if (borderEnabled) borderSize else 0f
 
-        imageRadius = imageSize / 2f - shadowAdjustment
         imageCenterX = (paddingLeft + (size - paddingRight)) / 2f
         imageCenterY = (paddingTop + (size - paddingBottom)) / 2f
+
+        imageRadius = imageSize / 2f - shadowAdjustment - borderAdjustment
+        borderRadius = imageRadius + borderAdjustment
     }
 
     /**
@@ -85,11 +91,11 @@ class SquircularImageView @JvmOverloads constructor(
      */
     override fun postOnDraw(canvas: Canvas) {
         if (shadowEnabled) {
-            canvas.drawSquircle(imageCenterX, imageCenterY, imageRadius, shadowPaint)
+            canvas.drawSquircle(imageCenterX, imageCenterY, borderRadius, shadowPaint)
         }
 
         if (borderEnabled) {
-            canvas.drawSquircle(imageCenterX, imageCenterY, imageRadius + borderSize, borderPaint)
+            canvas.drawSquircle(imageCenterX, imageCenterY, borderRadius, borderPaint)
         }
 
         canvas.drawSquircle(imageCenterX, imageCenterY, imageRadius, imagePaint)

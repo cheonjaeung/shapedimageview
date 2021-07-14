@@ -61,19 +61,20 @@ class RoundedSquareImageView @JvmOverloads constructor(
      */
     override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
         val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
+        val borderAdjustment = if (borderEnabled) borderSize else 0f
 
-        val left = paddingLeft.toFloat() + shadowAdjustment
-        val top = paddingTop.toFloat() + shadowAdjustment
-        val right = (paddingLeft + imageSize).toFloat() - shadowAdjustment
-        val bottom = (paddingTop + imageSize).toFloat() - shadowAdjustment
+        val left = paddingLeft.toFloat() + shadowAdjustment + borderAdjustment
+        val top = paddingTop.toFloat() + shadowAdjustment + borderAdjustment
+        val right = (paddingLeft + imageSize).toFloat() - shadowAdjustment - borderAdjustment
+        val bottom = (paddingTop + imageSize).toFloat() - shadowAdjustment - borderAdjustment
 
         imageRect.set(left, top, right, bottom)
 
         borderRect.set(
-            left - borderSize,
-            top - borderSize,
-            right + borderSize,
-            bottom + borderSize
+            left - borderAdjustment,
+            top - borderAdjustment,
+            right + borderAdjustment,
+            bottom + borderAdjustment
         )
     }
 
@@ -84,7 +85,7 @@ class RoundedSquareImageView @JvmOverloads constructor(
      */
     override fun postOnDraw(canvas: Canvas) {
         if (shadowEnabled) {
-            canvas.drawRoundRect(imageRect, imageRadius, imageRadius, shadowPaint)
+            canvas.drawRoundRect(borderRect, imageRadius, imageRadius, shadowPaint)
         }
 
         if (borderEnabled) {

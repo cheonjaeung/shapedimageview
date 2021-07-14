@@ -24,6 +24,9 @@ class CircularImageView @JvmOverloads constructor(
     /** Radius size of image. */
     private var imageRadius: Float = 0f
 
+    /** Radius size of border. */
+    private var borderRadius: Float = 0f
+
     init {
         applyCommonAttributes(attrs, defStyle)
     }
@@ -39,10 +42,13 @@ class CircularImageView @JvmOverloads constructor(
      */
     override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
         val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
+        val borderAdjustment = if (borderEnabled) borderSize else 0f
 
-        imageRadius = imageSize / 2f - shadowAdjustment
         imageCenterX = (paddingLeft + (size - paddingRight)) / 2f
         imageCenterY = (paddingTop + (size - paddingBottom)) / 2f
+
+        imageRadius = imageSize / 2f - shadowAdjustment - borderAdjustment
+        borderRadius = imageRadius + borderAdjustment
     }
 
     /**
@@ -52,11 +58,11 @@ class CircularImageView @JvmOverloads constructor(
      */
     override fun postOnDraw(canvas: Canvas) {
         if (shadowEnabled) {
-            canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, shadowPaint)
+            canvas.drawCircle(imageCenterX, imageCenterY, borderRadius, shadowPaint)
         }
 
         if (borderEnabled) {
-            canvas.drawCircle(imageCenterX, imageCenterY, imageRadius + borderSize, borderPaint)
+            canvas.drawCircle(imageCenterX, imageCenterY, borderRadius, borderPaint)
         }
 
         canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, imagePaint)

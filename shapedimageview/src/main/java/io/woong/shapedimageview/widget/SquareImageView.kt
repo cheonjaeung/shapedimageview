@@ -39,19 +39,20 @@ class SquareImageView @JvmOverloads constructor(
      */
     override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
         val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
+        val borderAdjustment = if (borderEnabled) borderSize else 0f
 
-        val left = (paddingLeft + shadowAdjustment).toInt()
-        val top = (paddingTop + shadowAdjustment).toInt()
-        val right = (paddingLeft + imageSize - shadowAdjustment).toInt()
-        val bottom = (paddingTop + imageSize - shadowAdjustment).toInt()
+        val left = (paddingLeft + shadowAdjustment + borderAdjustment).toInt()
+        val top = (paddingTop + shadowAdjustment + borderAdjustment).toInt()
+        val right = (paddingLeft + imageSize - shadowAdjustment - borderAdjustment).toInt()
+        val bottom = (paddingTop + imageSize - shadowAdjustment - borderAdjustment).toInt()
 
         imageRect.set(left, top, right, bottom)
 
         borderRect.set(
-            (left - borderSize).toInt(),
-            (top - borderSize).toInt(),
-            (right + borderSize).toInt(),
-            (bottom + borderSize).toInt()
+            (left - borderAdjustment).toInt(),
+            (top - borderAdjustment).toInt(),
+            (right + borderAdjustment).toInt(),
+            (bottom + borderAdjustment).toInt()
         )
     }
 
@@ -62,7 +63,7 @@ class SquareImageView @JvmOverloads constructor(
      */
     override fun postOnDraw(canvas: Canvas) {
         if (shadowEnabled) {
-            canvas.drawRect(imageRect, shadowPaint)
+            canvas.drawRect(borderRect, shadowPaint)
         }
 
         if (borderEnabled) {
