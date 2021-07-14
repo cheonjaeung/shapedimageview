@@ -55,6 +55,10 @@ class CircularImageView @JvmOverloads constructor(
             canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, shadowPaint)
         }
 
+        if (borderEnabled) {
+            canvas.drawCircle(imageCenterX, imageCenterY, imageRadius + borderSize, borderPaint)
+        }
+
         canvas.drawCircle(imageCenterX, imageCenterY, imageRadius, imagePaint)
     }
 }

@@ -18,6 +18,10 @@
             <enum name="bottom_right" value="7" />
             <enum name="bottom_left" value="8" />
         </attr>
+        <!-- Border options -->
+        <attr name="shaped_imageview_border_enabled" format="boolean" />
+        <attr name="shaped_imageview_border_size" format="dimension" />
+        <attr name="shaped_imageview_border_color" format="color" />
     </declare-styleable>
 
     <!-- Attributes of circular image view. -->

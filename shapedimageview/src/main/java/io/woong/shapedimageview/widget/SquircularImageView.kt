@@ -88,6 +88,10 @@ class SquircularImageView @JvmOverloads constructor(
             canvas.drawSquircle(imageCenterX, imageCenterY, imageRadius, shadowPaint)
         }
 
+        if (borderEnabled) {
+            canvas.drawSquircle(imageCenterX, imageCenterY, imageRadius + borderSize, borderPaint)
+        }
+
         canvas.drawSquircle(imageCenterX, imageCenterY, imageRadius, imagePaint)
     }
 

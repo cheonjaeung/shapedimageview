@@ -21,6 +21,9 @@ class SquareImageView @JvmOverloads constructor(
     /** Rect object of image. */
     private val imageRect: Rect = Rect()
 
+    /** Rect object of border. */
+    private val borderRect: Rect = Rect()
+
     init {
         applyCommonAttributes(attrs, defStyle)
     }
@@ -37,11 +40,18 @@ class SquareImageView @JvmOverloads constructor(
     override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
         val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
 
-        imageRect.set(
-            (paddingLeft + shadowAdjustment).toInt(),
-            (paddingTop + shadowAdjustment).toInt(),
-            (paddingLeft + imageSize - shadowAdjustment).toInt(),
-            (paddingTop + imageSize - shadowAdjustment).toInt()
+        val left = (paddingLeft + shadowAdjustment).toInt()
+        val top = (paddingTop + shadowAdjustment).toInt()
+        val right = (paddingLeft + imageSize - shadowAdjustment).toInt()
+        val bottom = (paddingTop + imageSize - shadowAdjustment).toInt()
+
+        imageRect.set(left, top, right, bottom)
+
+        borderRect.set(
+            (left - borderSize).toInt(),
+            (top - borderSize).toInt(),
+            (right + borderSize).toInt(),
+            (bottom + borderSize).toInt()
         )
     }
 
@@ -53,6 +63,10 @@ class SquareImageView @JvmOverloads constructor(
     override fun postOnDraw(canvas: Canvas) {
         if (shadowEnabled) {
             canvas.drawRect(imageRect, shadowPaint)
+        }
+
+        if (borderEnabled) {
+            canvas.drawRect(borderRect, borderPaint)
         }
 
         canvas.drawRect(imageRect, imagePaint)

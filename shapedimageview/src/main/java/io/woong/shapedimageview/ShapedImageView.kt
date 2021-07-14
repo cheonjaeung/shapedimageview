@@ -64,6 +64,20 @@ abstract class ShapedImageView @JvmOverloads constructor(
         scaleType = ScaleType.CENTER_CROP
     }
 
+    /** Paint object for drawing border. */
+    protected val borderPaint: Paint = Paint().apply {
+        isAntiAlias = true
+        isDither = true
+        alpha = 255
+    }
+    /** Border enabled flag. */
+    protected var borderEnabled: Boolean = true
+    /** Size of border. */
+    protected var borderSize: Float = 0f
+    /** Color of border. */
+    @ColorInt
+    protected var borderColor: Int = Color.DKGRAY
+
     /**
      * Apply common attributes.
      */
@@ -112,6 +126,21 @@ abstract class ShapedImageView @JvmOverloads constructor(
                 ShadowGravity.BOTTOM_LEFT.value -> ShadowGravity.BOTTOM_LEFT
                 else -> throw IllegalArgumentException("Shadow gravity $gravityAttr not supported.")
             }
+
+            borderEnabled = attrs.getBoolean(
+                R.styleable.ShapedImageView_shaped_imageview_border_enabled,
+                true
+            )
+
+            borderSize = attrs.getDimension(
+                R.styleable.ShapedImageView_shaped_imageview_border_size,
+                0f
+            )
+
+            borderColor = attrs.getColor(
+                R.styleable.ShapedImageView_shaped_imageview_border_color,
+                Color.DKGRAY
+            )
         } finally {
             attrs.recycle()
         }
@@ -177,6 +206,9 @@ abstract class ShapedImageView @JvmOverloads constructor(
         updateShader(imageSize, imageSize)
         if (shadowEnabled) {
             updateShadowLayer()
+        }
+        if (borderEnabled) {
+            updateBorderPaint()
         }
         postOnDraw(canvas)
     }
@@ -319,6 +351,13 @@ abstract class ShapedImageView @JvmOverloads constructor(
             }
         }
         shadowPaint.setShadowLayer(shadowSize, dx, dy, shadowColor)
+    }
+
+    /**
+     * Update border paint color.
+     */
+    private fun updateBorderPaint() {
+        borderPaint.color = borderColor
     }
 
     /**
