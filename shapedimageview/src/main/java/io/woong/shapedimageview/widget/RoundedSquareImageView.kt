@@ -26,6 +26,8 @@ class RoundedSquareImageView @JvmOverloads constructor(
 
     /** Rect object of border. */
     private val borderRect: RectF = RectF()
+    /** Radius size of border. */
+    private var borderRadius: Float = 0f
 
     init {
         applyCommonAttributes(attrs, defStyle)
@@ -76,6 +78,8 @@ class RoundedSquareImageView @JvmOverloads constructor(
             right + borderAdjustment,
             bottom + borderAdjustment
         )
+
+        borderRadius = if (borderEnabled) imageRadius + borderSize else 0f
     }
 
     /**
@@ -85,11 +89,11 @@ class RoundedSquareImageView @JvmOverloads constructor(
      */
     override fun postOnDraw(canvas: Canvas) {
         if (shadowEnabled) {
-            canvas.drawRoundRect(borderRect, imageRadius, imageRadius, shadowPaint)
+            canvas.drawRoundRect(borderRect, borderRadius, borderRadius, shadowPaint)
         }
 
         if (borderEnabled) {
-            canvas.drawRoundRect(borderRect, imageRadius, imageRadius, borderPaint)
+            canvas.drawRoundRect(borderRect, borderRadius, borderRadius, borderPaint)
         }
 
         canvas.drawRoundRect(imageRect, imageRadius, imageRadius, imagePaint)
