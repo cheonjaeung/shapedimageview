@@ -58,7 +58,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     @ColorInt
     protected var shadowColor: Int = Color.GRAY
     /** Gravity of shadow. */
-    private var shadowGravity: ShadowGravity = ShadowGravity.CENTER
+    private var shadowGravity: ShadowGravity = ShadowGravity.BOTTOM
 
     init {
         scaleType = ScaleType.CENTER_CROP
@@ -98,7 +98,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
 
             val gravityAttr = attrs.getInt(
                 R.styleable.ShapedImageView_shaped_imageview_shadow_gravity,
-                ShadowGravity.CENTER.value
+                ShadowGravity.BOTTOM.value
             )
             shadowGravity = when (gravityAttr) {
                 ShadowGravity.CENTER.value -> ShadowGravity.CENTER
