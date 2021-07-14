@@ -64,26 +64,22 @@ Each shaped image views are implemented in `CircularImageView`, `SquareImageView
 
 You can use ShapedImageViews in xml layout like upper codes.
 
-### Attributes
+## Attributes
 
 All attributes have `shaped_imageview` prefix.
 
-| View | Attribute | Type | Default | Limitation |
-| --- | --- | --- | --- | --- |
-| All | [shaped_imageview_shadow_enabled](#shaped_imageview_shadow_enabled) | Boolean | true | |
-| All | [shaped_imageview_shadow_size](#shaped_imageview_shadow_size) | Dimension | 0dp | |
-| All | [shaped_imageview_shadow_adjust_enabled](#shaped_imageview_shadow_adjust_enabled) | Boolean | true | |
-| RoundedSquareImageView | [shaped_imageview_radius](#shaped_imageview_radius) | Dimension | 0dp | |
-| SquircularImageView | [shaped_imageview_curvature](#shaped_imageview_curvature) | Integer | 50 | 0 ~ 100 |
-
-### shaped_imageview_shadow_enabled
-
-`shaped_imageview_shadow_enabled` determines that imageview uses shadow.
-Default is `true`.
-
-### shaped_imageview_shadow_size
-
-`shaped_imageview_shadow_size` determines the shadow size of image view. 
+| View | Attribute Name | Type | Default |
+| --- | --- | --- | --- |
+| All | shaped_imageview_shadow_enabled | Boolean | true |
+| All | shaped_imageview_shadow_size | Dimension | 0dp |
+| All | shaped_imageview_shadow_adjust_enabled | Boolean | true |
+| All | shaped_imageview_shadow_color | Color | #888888 |
+| All | shaped_imageview_shadow_gravity | center,<br> left, top, right, bottom,<br>top_left, top_right,<br>bottom_right, bottom_left | center |
+| All | shaped_imageview_border_enabled | Boolean | true |
+| All | shaped_imageview_border_size | Dimension | 0dp |
+| All | shaped_imageview_border_color | Color | #444444 |
+| RoundedSquareImageView | shaped_imageview_radius | Dimension | 0dp |
+| SquircularImageView | shaped_imageview_curvature | Integer | 50 (0 ~ 100) | 
 
 ### shaped_imageview_shadow_adjust_enabled
 
@@ -96,18 +92,11 @@ If it is `false`, shadow could be cutted.
 | --- | --- |
 | ![adjust_true](./art/shadow_adjust_true.png) | ![adjust_false](./art/shadow_adjust_false.png) |
 
-### shaped_imageview_radius
-
-`shaped_imageview_radius` is an attribute of `RoundedSquareImageView`.
-It determines radius of imageview's corner rounding.
-
 ### shaped_imageview_curvature 
 `shaped_imageview_curvature` is an attribute of `SquircularImageView`.
 It determines how much curve it is.
 
 It can accept 0 ~ 100. If curvature is 0, it shapes like diamond. If curvature is 100, it almost shpaes like a rounded square.
-
-**Previews by curvature:**
 
 | 0 | 25 | 50 | 75 | 100 |
 | --- | --- | --- | --- | --- |
@@ -131,4 +120,3 @@ Detail changes is written in [changelog file](./CHANGELOG.md).
 ## License
 
 ShapedImageView by [Jaewoong Cheon](https://github.com/woongdev) is licensed under the [MIT License](./LICENSE).
- 
