@@ -43,40 +43,72 @@ abstract class ShapedImageView @JvmOverloads constructor(
     protected var imageSize: Int = 0
 
     /** Shadow enabled flag. */
-    protected var shadowEnabled: Boolean = true
+    var shadowEnabled: Boolean = true
+        set(value) {
+            field = value
+            invalidate()
+        }
+    /** Size of shadow. */
+    var shadowSize: Float = 0f
+        set(value) {
+            field = value
+            invalidate()
+        }
     /** Adjust size by shadow size enabled. */
-    protected var shadowAdjustEnabled: Boolean = true
+    var shadowAdjustEnabled: Boolean = true
+        set(value) {
+            field = value
+            invalidate()
+        }
+    /** Color of shadow. */
+    @ColorInt
+    var shadowColor: Int = Color.GRAY
+        set(value) {
+            field = value
+            invalidate()
+        }
+    /** Gravity of shadow. */
+    var shadowGravity: ShadowGravity = ShadowGravity.BOTTOM
+        set(value) {
+            field = value
+            invalidate()
+        }
     /** Paint object for drawing shadow. */
     protected val shadowPaint: Paint = Paint().apply {
         isAntiAlias = true
         isDither = true
         alpha = 255
     }
-    /** Size of shadow. */
-    protected var shadowSize: Float = 0f
-    /** Color of shadow. */
+
+    /** Border enabled flag. */
+    var borderEnabled: Boolean = true
+        set(value) {
+            field = value
+            invalidate()
+        }
+    /** Size of border. */
+    var borderSize: Float = 0f
+        set(value) {
+            field = value
+            invalidate()
+        }
+    /** Color of border. */
     @ColorInt
-    protected var shadowColor: Int = Color.GRAY
-    /** Gravity of shadow. */
-    private var shadowGravity: ShadowGravity = ShadowGravity.BOTTOM
-
-    init {
-        scaleType = ScaleType.CENTER_CROP
-    }
-
+    var borderColor: Int = Color.DKGRAY
+        set(value) {
+            field = value
+            invalidate()
+        }
     /** Paint object for drawing border. */
     protected val borderPaint: Paint = Paint().apply {
         isAntiAlias = true
         isDither = true
         alpha = 255
     }
-    /** Border enabled flag. */
-    protected var borderEnabled: Boolean = true
-    /** Size of border. */
-    protected var borderSize: Float = 0f
-    /** Color of border. */
-    @ColorInt
-    protected var borderColor: Int = Color.DKGRAY
+
+    init {
+        scaleType = ScaleType.CENTER_CROP
+    }
 
     /**
      * Apply common attributes.

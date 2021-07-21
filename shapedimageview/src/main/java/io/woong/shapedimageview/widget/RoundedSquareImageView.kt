@@ -22,7 +22,11 @@ class RoundedSquareImageView @JvmOverloads constructor(
     /** Rect object of image. */
     private val imageRect: RectF = RectF()
     /** Radius size of image. */
-    private var imageRadius: Float = 0f
+    var imageRadius: Float = 0f
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     /** Rect object of border. */
     private val borderRect: RectF = RectF()

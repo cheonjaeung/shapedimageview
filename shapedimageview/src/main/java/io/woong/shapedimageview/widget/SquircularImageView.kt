@@ -30,7 +30,11 @@ class SquircularImageView @JvmOverloads constructor(
     /** Radius size of image. */
     private var imageRadius: Float = 0f
     /** Curvature of squircle shape. */
-    private var imageCurvature: Float = 3f
+    var imageCurvature: Float = 3f
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     /** Radius size of border. */
     private var borderRadius: Float = 0f
