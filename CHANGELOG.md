@@ -1,5 +1,24 @@
 # Changelog
 
+# 0.3.1 - August 2nd, 2021
+
+### Added
+
+- So far, there's only way to access imageview's attributes is XML.
+Now can get/set them in programmatic way.
+    - `shadowEnabled`, `shadowSize`, `shadowAdjustEnabled`, `shadowColor` and `shadowGravity` to control shadow.
+    - `borderEnabled`, `borderSize` and `borderColor` to control border.
+    - `imageRadius` to control radius value of `RoundedSquareImageView`.
+    - `imageCurvature` to control curvature of `SquircularImageView`.
+
+### Fixed
+
+- Imageview values wasn't applied after initialized.
+Now it is fixed.
+    - Image size wasn't applied when change shadow size after initialized.
+    - Border size wasn't applied when change it's size after initialized.
+    - Shadow and border shape wasn't applied when change radius or curvature after initialized in RoundedImageView and SquircularImageView.
+
 ## 0.3.0 - July 14th, 2021
 
 ### Added
