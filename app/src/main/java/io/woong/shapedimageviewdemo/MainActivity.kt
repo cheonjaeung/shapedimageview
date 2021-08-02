@@ -27,27 +27,40 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         squareView = findViewById(R.id.square)
         squircleView = findViewById(R.id.squircle)
 
-        findViewById<AppCompatSeekBar>(R.id.padding_seekbar).setOnSeekBarChangeListener(this)
-        findViewById<AppCompatSeekBar>(R.id.shadow_seekbar).setOnSeekBarChangeListener(this)
-        findViewById<AppCompatSeekBar>(R.id.border_seekbar).setOnSeekBarChangeListener(this)
-        findViewById<AppCompatSeekBar>(R.id.values_seekbar).setOnSeekBarChangeListener(this)
+        findViewById<AppCompatSeekBar>(R.id.padding_seekbar).apply {
+            setOnSeekBarChangeListener(this@MainActivity)
+            progress = 0
+        }
+
+        findViewById<AppCompatSeekBar>(R.id.shadow_seekbar).apply {
+            setOnSeekBarChangeListener(this@MainActivity)
+            progress = 4
+        }
+
+        findViewById<AppCompatSeekBar>(R.id.border_seekbar).apply {
+            setOnSeekBarChangeListener(this@MainActivity)
+            progress = 8
+        }
+
+        findViewById<AppCompatSeekBar>(R.id.values_seekbar).apply {
+            setOnSeekBarChangeListener(this@MainActivity)
+            progress = 75
+        }
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        if (fromUser) {
-            when (seekBar?.id) {
-                R.id.padding_seekbar -> {
-                    changePaddings(progress)
-                }
-                R.id.shadow_seekbar -> {
-                    changeShadows(progress.toFloat())
-                }
-                R.id.border_seekbar -> {
-                    changeBorders(progress.toFloat())
-                }
-                R.id.values_seekbar -> {
-                    changeValues(progress.toFloat())
-                }
+        when (seekBar?.id) {
+            R.id.padding_seekbar -> {
+                changePaddings(progress)
+            }
+            R.id.shadow_seekbar -> {
+                changeShadows(progress.toFloat())
+            }
+            R.id.border_seekbar -> {
+                changeBorders(progress.toFloat())
+            }
+            R.id.values_seekbar -> {
+                changeValues(progress.toFloat())
             }
         }
     }
@@ -57,24 +70,42 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     override fun onStopTrackingTouch(seekBar: SeekBar?) { /* Not needed. */ }
 
     private fun changePaddings(padding: Int) {
-        circleView.setPadding(padding)
-        roundedSquareView.setPadding(padding)
-        squareView.setPadding(padding)
-        squircleView.setPadding(padding)
+        val p = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            padding.toFloat(),
+            resources.displayMetrics
+        ).toInt()
+
+        circleView.setPadding(p)
+        roundedSquareView.setPadding(p)
+        squareView.setPadding(p)
+        squircleView.setPadding(p)
     }
 
     private fun changeShadows(shadowSize: Float) {
-        circleView.shadowSize = shadowSize
-        roundedSquareView.shadowSize = shadowSize
-        squareView.shadowSize = shadowSize
-        squircleView.shadowSize = shadowSize
+        val s = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            shadowSize,
+            resources.displayMetrics
+        )
+
+        circleView.shadowSize = s
+        roundedSquareView.shadowSize = s
+        squareView.shadowSize = s
+        squircleView.shadowSize = s
     }
 
     private fun changeBorders(borderSize: Float) {
-        circleView.borderSize = borderSize
-        roundedSquareView.borderSize = borderSize
-        squareView.borderSize = borderSize
-        squircleView.borderSize = borderSize
+        val b = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            borderSize,
+            resources.displayMetrics
+        )
+
+        circleView.borderSize = b
+        roundedSquareView.borderSize = b
+        squareView.borderSize = b
+        squircleView.borderSize = b
     }
 
     private fun changeValues(value: Float) {
