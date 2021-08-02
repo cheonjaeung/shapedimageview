@@ -57,6 +57,30 @@ class SquareImageView @JvmOverloads constructor(
     }
 
     /**
+     * Update sizes and values like image size, shadow and border.
+     */
+    override fun remeasure() {
+        val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
+        val borderAdjustment = if (borderEnabled) borderSize else 0f
+
+        val left = (paddingLeft + shadowAdjustment + borderAdjustment).toInt()
+        val top = (paddingTop + shadowAdjustment + borderAdjustment).toInt()
+        val right = (paddingLeft + imageSize - shadowAdjustment - borderAdjustment).toInt()
+        val bottom = (paddingTop + imageSize - shadowAdjustment - borderAdjustment).toInt()
+
+        imageRect.set(left, top, right, bottom)
+
+        borderRect.set(
+            (left - borderAdjustment).toInt(),
+            (top - borderAdjustment).toInt(),
+            (right + borderAdjustment).toInt(),
+            (bottom + borderAdjustment).toInt()
+        )
+
+        invalidate()
+    }
+
+    /**
      * This method is invoked after [onDraw].
      *
      * @param canvas Canvas to draw image view.

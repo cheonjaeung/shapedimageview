@@ -46,32 +46,32 @@ abstract class ShapedImageView @JvmOverloads constructor(
     var shadowEnabled: Boolean = true
         set(value) {
             field = value
-            invalidate()
+            remeasure()
         }
     /** Size of shadow. */
     var shadowSize: Float = 0f
         set(value) {
             field = value
-            invalidate()
+            remeasure()
         }
     /** Adjust size by shadow size enabled. */
     var shadowAdjustEnabled: Boolean = true
         set(value) {
             field = value
-            invalidate()
+            remeasure()
         }
     /** Color of shadow. */
     @ColorInt
     var shadowColor: Int = Color.GRAY
         set(value) {
             field = value
-            invalidate()
+            remeasure()
         }
     /** Gravity of shadow. */
     var shadowGravity: ShadowGravity = ShadowGravity.BOTTOM
         set(value) {
             field = value
-            invalidate()
+            remeasure()
         }
     /** Paint object for drawing shadow. */
     protected val shadowPaint: Paint = Paint().apply {
@@ -84,20 +84,20 @@ abstract class ShapedImageView @JvmOverloads constructor(
     var borderEnabled: Boolean = true
         set(value) {
             field = value
-            invalidate()
+            remeasure()
         }
     /** Size of border. */
     var borderSize: Float = 0f
         set(value) {
             field = value
-            invalidate()
+            remeasure()
         }
     /** Color of border. */
     @ColorInt
     var borderColor: Int = Color.DKGRAY
         set(value) {
             field = value
-            invalidate()
+            remeasure()
         }
     /** Paint object for drawing border. */
     protected val borderPaint: Paint = Paint().apply {
@@ -227,6 +227,11 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * @param size Size of view. (width and height is same)
      */
     protected abstract fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int)
+
+    /**
+     * Update sizes and values like image size, shadow and border.
+     */
+    protected abstract fun remeasure()
 
     /**
      * Check image is outdated and update it if it needs. And call [postOnDraw] method.

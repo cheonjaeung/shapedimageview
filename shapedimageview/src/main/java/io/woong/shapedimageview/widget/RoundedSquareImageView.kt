@@ -25,7 +25,7 @@ class RoundedSquareImageView @JvmOverloads constructor(
     var imageRadius: Float = 0f
         set(value) {
             field = value
-            invalidate()
+            remeasure()
         }
 
     /** Rect object of border. */
@@ -84,6 +84,32 @@ class RoundedSquareImageView @JvmOverloads constructor(
         )
 
         borderRadius = if (borderEnabled) imageRadius + borderSize else 0f
+    }
+
+    /**
+     * Update sizes and values like image size, shadow and border.
+     */
+    override fun remeasure() {
+        val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
+        val borderAdjustment = if (borderEnabled) borderSize else 0f
+
+        val left = paddingLeft.toFloat() + shadowAdjustment + borderAdjustment
+        val top = paddingTop.toFloat() + shadowAdjustment + borderAdjustment
+        val right = (paddingLeft + imageSize).toFloat() - shadowAdjustment - borderAdjustment
+        val bottom = (paddingTop + imageSize).toFloat() - shadowAdjustment - borderAdjustment
+
+        imageRect.set(left, top, right, bottom)
+
+        borderRect.set(
+            left - borderAdjustment,
+            top - borderAdjustment,
+            right + borderAdjustment,
+            bottom + borderAdjustment
+        )
+
+        borderRadius = if (borderEnabled) imageRadius + borderSize else 0f
+
+        invalidate()
     }
 
     /**
