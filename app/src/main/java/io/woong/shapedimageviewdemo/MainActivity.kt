@@ -2,6 +2,7 @@ package io.woong.shapedimageviewdemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.TypedValue
 import android.widget.SeekBar
 import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.core.view.setPadding
@@ -77,7 +78,12 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     }
 
     private fun changeValues(value: Float) {
-        roundedSquareView.imageRadius = value
-        squircleView.imageCurvature = value
+        roundedSquareView.imageRadius = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            0.48f * value,
+            resources.displayMetrics
+        )
+
+        squircleView.imageCurvature = value / 25 + 1
     }
 }
