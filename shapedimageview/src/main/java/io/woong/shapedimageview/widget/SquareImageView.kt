@@ -29,34 +29,6 @@ class SquareImageView @JvmOverloads constructor(
     }
 
     /**
-     * This method is invoked after [onMeasure].
-     *
-     * @param widthMeasureSpec Specs of width.
-     * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
-     * @param heightMeasureSpec Specs of height.
-     * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
-     * @param size Size of view. (width and height is same)
-     */
-    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
-        val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
-        val borderAdjustment = if (borderEnabled) borderSize else 0f
-
-        val left = (paddingLeft + shadowAdjustment + borderAdjustment).toInt()
-        val top = (paddingTop + shadowAdjustment + borderAdjustment).toInt()
-        val right = (paddingLeft + imageSize - shadowAdjustment - borderAdjustment).toInt()
-        val bottom = (paddingTop + imageSize - shadowAdjustment - borderAdjustment).toInt()
-
-        imageRect.set(left, top, right, bottom)
-
-        borderRect.set(
-            (left - borderAdjustment).toInt(),
-            (top - borderAdjustment).toInt(),
-            (right + borderAdjustment).toInt(),
-            (bottom + borderAdjustment).toInt()
-        )
-    }
-
-    /**
      * Update sizes and values like image size, shadow and border.
      */
     override fun remeasure() {
@@ -76,8 +48,6 @@ class SquareImageView @JvmOverloads constructor(
             (right + borderAdjustment).toInt(),
             (bottom + borderAdjustment).toInt()
         )
-
-        invalidate()
     }
 
     /**

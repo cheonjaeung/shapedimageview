@@ -29,6 +29,9 @@ abstract class ShapedImageView @JvmOverloads constructor(
     defStyle: Int = 0
 ) : AppCompatImageView(context, attrs, defStyle) {
 
+    /** Width and height size of view. */
+    protected var viewSize: Int = 0
+
     /** Bitmap image for drawing shaped image. */
     private var image: Bitmap? = null
     /** Image drawable for checking is image needs update. */
@@ -47,18 +50,21 @@ abstract class ShapedImageView @JvmOverloads constructor(
         set(value) {
             field = value
             remeasure()
+            invalidate()
         }
     /** Size of shadow. */
     var shadowSize: Float = 0f
         set(value) {
             field = value
             remeasure()
+            invalidate()
         }
     /** Adjust size by shadow size enabled. */
     var shadowAdjustEnabled: Boolean = true
         set(value) {
             field = value
             remeasure()
+            invalidate()
         }
     /** Color of shadow. */
     @ColorInt
@@ -66,12 +72,14 @@ abstract class ShapedImageView @JvmOverloads constructor(
         set(value) {
             field = value
             remeasure()
+            invalidate()
         }
     /** Gravity of shadow. */
     var shadowGravity: ShadowGravity = ShadowGravity.BOTTOM
         set(value) {
             field = value
             remeasure()
+            invalidate()
         }
     /** Paint object for drawing shadow. */
     protected val shadowPaint: Paint = Paint().apply {
@@ -85,12 +93,14 @@ abstract class ShapedImageView @JvmOverloads constructor(
         set(value) {
             field = value
             remeasure()
+            invalidate()
         }
     /** Size of border. */
     var borderSize: Float = 0f
         set(value) {
             field = value
             remeasure()
+            invalidate()
         }
     /** Color of border. */
     @ColorInt
@@ -98,6 +108,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
         set(value) {
             field = value
             remeasure()
+            invalidate()
         }
     /** Paint object for drawing border. */
     protected val borderPaint: Paint = Paint().apply {
@@ -198,7 +209,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     }
 
     /**
-     * Measure and set view size and call [postOnMeasure] method.
+     * Measure and set view size and call [remeasure] method.
      *
      * It makes view size to square size.
      * It means width and height size is same.
@@ -207,26 +218,15 @@ abstract class ShapedImageView @JvmOverloads constructor(
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         val width = MeasureSpec.getSize(widthMeasureSpec)
         val height = MeasureSpec.getSize(heightMeasureSpec)
-        val size = min(width, height)
-        setMeasuredDimension(size, size)
+        viewSize = min(width, height)
+        setMeasuredDimension(viewSize, viewSize)
 
         val usableWidth = width - paddingLeft - paddingRight
         val usableHeight = height - paddingTop - paddingBottom
         imageSize = min(usableWidth, usableHeight)
 
-        postOnMeasure(widthMeasureSpec, heightMeasureSpec, size)
+        remeasure()
     }
-
-    /**
-     * This method is invoked after [onMeasure].
-     *
-     * @param widthMeasureSpec Specs of width.
-     * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
-     * @param heightMeasureSpec Specs of height.
-     * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
-     * @param size Size of view. (width and height is same)
-     */
-    protected abstract fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int)
 
     /**
      * Update sizes and values like image size, shadow and border.

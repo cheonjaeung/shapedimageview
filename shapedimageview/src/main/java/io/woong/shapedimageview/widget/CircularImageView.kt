@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import io.woong.shapedimageview.ShapedImageView
-import kotlin.math.min
 
 /**
  * An image view that display image in circle shape.
@@ -33,41 +32,17 @@ class CircularImageView @JvmOverloads constructor(
     }
 
     /**
-     * This method is invoked after [onMeasure].
-     *
-     * @param widthMeasureSpec Specs of width.
-     * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
-     * @param heightMeasureSpec Specs of height.
-     * You can access mode and size as [MeasureSpec][android.view.View.MeasureSpec].
-     * @param size Size of view. (width and height is same)
-     */
-    override fun postOnMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int, size: Int) {
-        val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
-        val borderAdjustment = if (borderEnabled) borderSize else 0f
-
-        imageCenterX = (paddingLeft + (size - paddingRight)) / 2f
-        imageCenterY = (paddingTop + (size - paddingBottom)) / 2f
-
-        imageRadius = imageSize / 2f - shadowAdjustment - borderAdjustment
-        borderRadius = imageRadius + borderAdjustment
-    }
-
-    /**
      * Update sizes and values like image size, shadow, border and other values.
      */
     override fun remeasure() {
         val shadowAdjustment = if (shadowEnabled && shadowAdjustEnabled) shadowSize * 2 else 0f
         val borderAdjustment = if (borderEnabled) borderSize else 0f
 
-        val viewSize = width
-
         imageCenterX = (paddingLeft + (viewSize - paddingRight)) / 2f
         imageCenterY = (paddingTop + (viewSize - paddingBottom)) / 2f
 
         imageRadius = imageSize / 2f - shadowAdjustment - borderAdjustment
         borderRadius = imageRadius + borderAdjustment
-
-        invalidate()
     }
 
     /**
