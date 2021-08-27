@@ -39,6 +39,11 @@ captures/
 # Android Studio navigation editor temp files
 .navigation/
 
+## Eclipse
+.settings/
+.project
+.classpath
+
 ### Misc ###
 # macOS
 .DS_Store
