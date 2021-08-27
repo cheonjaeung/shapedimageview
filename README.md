@@ -7,6 +7,9 @@
     <a href="https://search.maven.org/artifact/io.woong.shapedimageview/shapedimageview">
         <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.woong.shapedimageview/shapedimageview?label=Maven%20Central&logo=apache%20maven&logoColor=orange">
     </a>
+    <a href="https://devlibrary.withgoogle.com/products/android/repos/woongdev-ShapedImageView">
+        <img alt="Google Dev Library" src="https://img.shields.io/badge/Google%20Dev%20Library-4285F4?logo=google&logoColor=white">
+    </a>
     <a href="./LICENSE">
         <img alt="license-mit" src="https://img.shields.io/badge/License-MIT-blue?logo=apache&logoColor=blue">
     </a>
