@@ -6,7 +6,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.RectF
 import android.util.AttributeSet
-import io.woong.shapedimageview.R.*
+import android.util.TypedValue
+import io.woong.shapedimageview.R
 import io.woong.shapedimageview.ShapedImageView
 
 /**
@@ -20,11 +21,15 @@ class RoundImageView @JvmOverloads constructor(
 
     companion object {
         /** The default value of [RoundImageView]'s radius. */
-        const val DEFAULT_RADIUS: Float = 0f
-
-        /** The default value of [RoundImageView]'s border radius. */
-        const val DEFAULT_BORDER_RADIUS: Float = 0f
+        const val DEFAULT_RADIUS: Float = -1f
     }
+
+    /** The value for using when radius is [DEFAULT_RADIUS]. */
+    private val defaultRadius: Float = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        16f,
+        this.resources.displayMetrics
+    )
 
     /**
      * The radius of this imageview.
@@ -73,27 +78,27 @@ class RoundImageView @JvmOverloads constructor(
     }
 
     override fun applyAttributes(attrs: AttributeSet?, defStyle: Int) {
-        val a = context.obtainStyledAttributes(attrs, styleable.RoundImageView, defStyle, 0)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView, defStyle, 0)
 
         try {
-            this.borderSize = a.getDimension(styleable.RoundImageView_border_size, DEFAULT_BORDER_SIZE)
-            this.borderColor = a.getColor(styleable.RoundImageView_border_color, DEFAULT_BORDER_COLOR)
-            this.borderEnabled = a.getBoolean(styleable.RoundImageView_border_enabled, DEFAULT_BORDER_ENABLED)
-            this.shadowSize = a.getDimension(styleable.RoundImageView_shadow_size, DEFAULT_SHADOW_SIZE)
-            this.shadowColor = a.getColor(styleable.RoundImageView_shadow_color, DEFAULT_SHADOW_COLOR)
-            this.shadowEnabled = a.getBoolean(styleable.RoundImageView_shadow_enabled, DEFAULT_SHADOW_ENABLED)
+            this.borderSize = a.getDimension(R.styleable.RoundImageView_border_size, DEFAULT_BORDER_SIZE)
+            this.borderColor = a.getColor(R.styleable.RoundImageView_border_color, DEFAULT_BORDER_COLOR)
+            this.borderEnabled = a.getBoolean(R.styleable.RoundImageView_border_enabled, DEFAULT_BORDER_ENABLED)
+            this.shadowSize = a.getDimension(R.styleable.RoundImageView_shadow_size, DEFAULT_SHADOW_SIZE)
+            this.shadowColor = a.getColor(R.styleable.RoundImageView_shadow_color, DEFAULT_SHADOW_COLOR)
+            this.shadowEnabled = a.getBoolean(R.styleable.RoundImageView_shadow_enabled, DEFAULT_SHADOW_ENABLED)
 
-            this.radius = a.getDimension(styleable.RoundImageView_radius, DEFAULT_RADIUS)
-
-            val br = a.getDimension(styleable.RoundImageView_border_radius, DEFAULT_BORDER_RADIUS)
-            this.borderRadius = if (br == DEFAULT_BORDER_RADIUS) {
-                if (borderEnabled) {
-                    this.radius + this.borderSize
-                } else {
-                    this.radius
-                }
+            val r = a.getDimension(R.styleable.RoundImageView_radius, DEFAULT_RADIUS)
+            this.radius = if (r == DEFAULT_RADIUS) {
+                defaultRadius
             } else {
-                br
+                r
+            }
+
+            this.borderRadius = if (borderEnabled) {
+                this.radius + this.borderSize
+            } else {
+                0f
             }
 
             this.shadowRadius = if (shadowEnabled) {
