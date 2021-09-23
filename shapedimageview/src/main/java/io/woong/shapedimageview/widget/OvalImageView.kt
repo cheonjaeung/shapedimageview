@@ -3,7 +3,6 @@ package io.woong.shapedimageview.widget
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import androidx.annotation.ColorInt
 import io.woong.shapedimageview.R
 import io.woong.shapedimageview.ShapedImageView
 
@@ -16,18 +15,6 @@ class OvalImageView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : ShapedImageView(context, attrs, defStyle) {
-
-    companion object {
-        const val DEFAULT_BORDER_SIZE: Float = 0f
-        @ColorInt
-        const val DEFAULT_BORDER_COLOR: Int = 0xFF444444.toInt()
-        const val DEFAULT_BORDER_ENABLED: Boolean = true
-
-        const val DEFAULT_SHADOW_SIZE: Float = 0f
-        @ColorInt
-        const val DEFAULT_SHADOW_COLOR: Int = 0xFF888888.toInt()
-        const val DEFAULT_SHADOW_ENABLED: Boolean = true
-    }
 
     /** Rectangle bounds of image to be drawn. */
     private val imageRect: RectF = RectF()
