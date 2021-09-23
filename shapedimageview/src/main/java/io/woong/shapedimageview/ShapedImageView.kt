@@ -108,6 +108,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     var borderColor: Int = DEFAULT_BORDER_COLOR
         set(value) {
             field = value
+            this.borderPaint.color = field
             measureBounds(this.width.toFloat(), this.height.toFloat())
             invalidate()
         }
