@@ -242,10 +242,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
          */
         fun needToUpdateBitmap(): Boolean = this.drawable != null && this.drawable != this.imageCache
 
-        /**
-         * A local function to create [Bounds] object containing sizes of this imageview.
-         */
-        fun createBounds(): Bounds = Bounds(
+        val bounds = Bounds(
             usableWidth = this.usableWidth,
             usableHeight = this.usableHeight,
             paddingLeft = this.paddingLeft,
@@ -265,7 +262,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
             val shader = BitmapShader(it, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
             shader.setLocalMatrix(
                 when (this.scaleType) {
-                    ScaleType.CENTER_CROP -> createCenterCropMatrix(it, createBounds())
+                    ScaleType.CENTER_CROP -> createCenterCropMatrix(it, bounds)
                     else -> Matrix()
                 }
             )
