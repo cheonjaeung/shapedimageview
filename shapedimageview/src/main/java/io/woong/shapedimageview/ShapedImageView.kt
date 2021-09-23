@@ -192,12 +192,8 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * A lifecycle method for measuring this view's size.
      *
      * In this method, it measures the views width and height and call [measureBounds].
-     * To override this method, you should call super.
      */
-    @CallSuper
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-
         val w = MeasureSpec.getSize(widthMeasureSpec)
         val h = MeasureSpec.getSize(heightMeasureSpec)
         setMeasuredDimension(w, h)
