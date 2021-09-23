@@ -1,3 +1,5 @@
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+
 package io.woong.shapedimageview
 
 import android.content.Context
@@ -15,7 +17,6 @@ import io.woong.shapedimageview.util.toBitmap
 /**
  * The parent class of all shaped image view.
  */
-@Suppress("unused", "MemberVisibilityCanBePrivate")
 abstract class ShapedImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

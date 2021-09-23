@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package io.woong.shapedimageview.widget
 
 import android.content.Context
@@ -9,7 +11,6 @@ import io.woong.shapedimageview.ShapedImageView
 /**
  * The shaped image view that draw image in oval shape.
  */
-@Suppress("unused", "MemberVisibilityCanBePrivate")
 class OvalImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
