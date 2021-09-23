@@ -9,7 +9,7 @@ import io.woong.shapedimageview.R
 import io.woong.shapedimageview.ShapedImageView
 
 /**
- * The shaped image view that draw image in oval shape.
+ * The shaped image view that draw image in oval (ellipse) shape.
  */
 class OvalImageView @JvmOverloads constructor(
     context: Context,
