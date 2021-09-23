@@ -53,7 +53,6 @@
     <attr name="shadow_color" format="color" />
     <attr name="shadow_enabled" format="boolean" />
 
-    <!-- OvalImageView -->
     <declare-styleable name="OvalImageView">
         <attr name="border_size" />
         <attr name="border_color" />
@@ -61,5 +60,16 @@
         <attr name="shadow_size" />
         <attr name="shadow_color" />
         <attr name="shadow_enabled" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundImageView">
+        <attr name="border_size" />
+        <attr name="border_color" />
+        <attr name="border_enabled" />
+        <attr name="shadow_size" />
+        <attr name="shadow_color" />
+        <attr name="shadow_enabled" />
+        <attr name="radius" format="dimension" />
+        <attr name="border_radius" format="dimension" />
     </declare-styleable>
 </resources>
