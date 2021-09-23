@@ -8,6 +8,7 @@ import android.util.TypedValue
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
 import io.woong.shapedimageview.R
+import io.woong.shapedimageview.util.Bounds
 import io.woong.shapedimageview.util.createCenterCropMatrix
 import io.woong.shapedimageview.util.toBitmap
 
@@ -263,14 +264,7 @@ class OvalImageView @JvmOverloads constructor(
             val shader = BitmapShader(it, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
             shader.setLocalMatrix(
                 when (this.scaleType) {
-                    ScaleType.CENTER_CROP -> createCenterCropMatrix(
-                        it,
-                        this.imageRect.width(),
-                        this.imageRect.height(),
-                        this.paddingLeft,
-                        this.paddingTop
-                    )
-
+                    ScaleType.CENTER_CROP -> createCenterCropMatrix(it, createBounds())
                     else -> Matrix()
                 }
             )
@@ -282,6 +276,20 @@ class OvalImageView @JvmOverloads constructor(
      * Check the necessity to update bitmap cache.
      */
     private fun needToUpdateBitmap(): Boolean = this.drawable != null && this.drawable != this.imageCache
+
+    /**
+     * Create a [Bounds] object of this imageview.
+     */
+    private fun createBounds(): Bounds = Bounds(
+        usableWidth = imageRect.width(),
+        usableHeight = imageRect.height(),
+        paddingLeft = this.paddingLeft,
+        paddingTop = this.paddingTop,
+        paddingRight = this.paddingRight,
+        paddingBottom = this.paddingBottom,
+        borderAdjustment = if (borderEnabled) borderSize else 0f,
+        shadowAdjustment = if (shadowEnabled) shadowSize else 0f
+    )
 
     /**
      * Update [shadowPaint]'s shadow layer.

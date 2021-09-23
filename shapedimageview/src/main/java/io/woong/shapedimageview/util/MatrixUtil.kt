@@ -4,21 +4,43 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 
 /**
+ * A data class for containing position related values of imageview.
+ * The values are used for calculating scale and delta of bitmap shader matrix.
+ *
+ * @param usableWidth The width size that image should be drawn.
+ * @param usableHeight The height size that image should be drawn.
+ * @param paddingLeft Left padding size of imageview.
+ * @param paddingTop Top padding size of imageview.
+ * @param paddingRight Right padding size of imageview.
+ * @param paddingBottom Bottom padding size of imageview.
+ * @param borderAdjustment Adjustment size for border of imageview.
+ * @param shadowAdjustment Adjustment size for shadow of imageview.
+ */
+internal data class Bounds(
+    val usableWidth: Float,
+    val usableHeight: Float,
+    val paddingLeft: Int = 0,
+    val paddingTop: Int = 0,
+    val paddingRight: Int = 0,
+    val paddingBottom: Int = 0,
+    val borderAdjustment: Float = 0f,
+    val shadowAdjustment: Float = 0f
+)
+
+/**
  * Create a bitmap shader matrix for center crop scale type.
  *
  * @param bitmap The bitmap object to be drawn.
- * @param width Width size of image shape in pixel.
- * @param height Height size of image shape in pixel.
+ * @param bounds The [Bounds] object that containing bounds of imageview.
  *
  * @return A matrix object for center crop.
  */
 internal fun createCenterCropMatrix(
     bitmap: Bitmap,
-    width: Float,
-    height: Float,
-    paddingLeft: Int = 0,
-    paddingTop: Int = 0
+    bounds: Bounds
 ): Matrix = Matrix().apply {
+    val width = bounds.usableWidth
+    val height = bounds.usableHeight
     val ratio = width / height
 
     val bitmapWidth = bitmap.width.toFloat()
@@ -72,5 +94,8 @@ internal fun createCenterCropMatrix(
     }
 
     setScale(scale, scale)
-    postTranslate(dx + paddingLeft, dy + paddingTop)
+
+    val dxAdjustment = bounds.paddingLeft + bounds.borderAdjustment + bounds.shadowAdjustment
+    val dyAdjustment = bounds.paddingTop + bounds.borderAdjustment + bounds.shadowAdjustment
+    postTranslate(dx + dxAdjustment, dy + dyAdjustment)
 }
