@@ -41,4 +41,25 @@
     <declare-styleable name="SquircularImageView">
         <attr name="shaped_imageview_curvature" format="integer" />
     </declare-styleable>
+
+    <!-- 1.0 -->
+    <!-- Border attributes -->
+    <attr name="border_size" format="dimension" />
+    <attr name="border_color" format="color" />
+    <attr name="border_enabled" format="boolean" />
+
+    <!-- Shadow attributes -->
+    <attr name="shadow_size" format="dimension" />
+    <attr name="shadow_color" format="color" />
+    <attr name="shadow_enabled" format="boolean" />
+
+    <!-- OvalImageView -->
+    <declare-styleable name="OvalImageView">
+        <attr name="border_size" />
+        <attr name="border_color" />
+        <attr name="border_enabled" />
+        <attr name="shadow_size" />
+        <attr name="shadow_color" />
+        <attr name="shadow_enabled" />
+    </declare-styleable>
 </resources>
