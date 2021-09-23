@@ -2,420 +2,297 @@ package io.woong.shapedimageview
 
 import android.content.Context
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.TypedValue
+import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
-import java.lang.IllegalArgumentException
-import kotlin.math.min
-import kotlin.math.sqrt
+import io.woong.shapedimageview.util.Bounds
+import io.woong.shapedimageview.util.createCenterCropMatrix
+import io.woong.shapedimageview.util.toBitmap
 
 /**
- * Root image view class of all shaped image views in [ShapedImageView Library](https://github.com/woongdev/ShapedImageView)
- *
- * It contains common properties and methods for implementing shaped image view.
- * But it does not provides features for all shapes.
- * So, all shaped image views should inheritances this class and implements some methods.
- *
- * It's scale type is always [center crop][android.widget.ImageView.ScaleType.CENTER_CROP] and cannot change it.
- * If try to change scale type, it will be make [IllegalArgumentException].
- *
- * It's width and height size is always same.
+ * The parent class of all shaped image view.
  */
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 abstract class ShapedImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : AppCompatImageView(context, attrs, defStyle) {
 
-    /** Width and height size of view. */
-    protected var viewSize: Int = 0
+    companion object {
+        /** The default value of [ShapedImageView]'s border size. */
+        const val DEFAULT_BORDER_SIZE: Float = 0f
 
-    /** Bitmap image for drawing shaped image. */
-    private var image: Bitmap? = null
-    /** Image drawable for checking is image needs update. */
-    private var imageCache: Drawable? = null
-    /** Paint object for drawing shaped image. */
-    protected val imagePaint: Paint = Paint().apply {
-        isAntiAlias = true
-        isDither = true
-        alpha = 255
+        /** The default value of [ShapedImageView]'s border color. */
+        @ColorInt
+        const val DEFAULT_BORDER_COLOR: Int = 0xFF444444.toInt()
+
+        /** The default value of [ShapedImageView]'s border enabled status. */
+        const val DEFAULT_BORDER_ENABLED: Boolean = true
+
+        /** The default value of [ShapedImageView]'s shadow size. */
+        const val DEFAULT_SHADOW_SIZE: Float = 0f
+
+        /** The default value of [ShapedImageView]'s shadow color. */
+        @ColorInt
+        const val DEFAULT_SHADOW_COLOR: Int = 0xFF888888.toInt()
+
+        /** The default value of [ShapedImageView]'s shadow enabled status. */
+        const val DEFAULT_SHADOW_ENABLED: Boolean = true
     }
-    /** Width and height size of image. */
-    protected var imageSize: Int = 0
 
-    /** Shadow enabled flag. */
-    var shadowEnabled: Boolean = true
+    /**
+     * The maximum drawable width pixel size of this imageview.
+     * This value is calculated according to the width of view, paddings, border and shadow.
+     * And also, it equals to width of image to drawn.
+     */
+    protected var usableWidth: Float = 0f
+
+    /**
+     * The maximum drawable height pixel size of this imageview.
+     * This value is calculated according to the width of view, paddings, border and shadow.
+     * And also, it equals to height of image to drawn.
+     */
+    protected var usableHeight: Float = 0f
+
+    /** The bitmap image to draw in this imageview. */
+    protected var image: Bitmap? = null
+
+    /** The drawable image to check this imageview needs to update [image] property. */
+    protected var imageCache: Drawable? = null
+
+    /** The paint object to draw [image]. */
+    protected val imagePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    /**
+     * The border size of this imageview.
+     * Its unit is pixel.
+     */
+    var borderSize: Float = DEFAULT_BORDER_SIZE
         set(value) {
             field = value
-            remeasure()
+            measureBounds(this.width.toFloat(), this.height.toFloat())
             invalidate()
         }
-    /** Size of shadow. */
-    var shadowSize: Float = 0f
-        set(value) {
-            field = value
-            remeasure()
-            invalidate()
-        }
-    /** Adjust size by shadow size enabled. */
-    var shadowAdjustEnabled: Boolean = true
-        set(value) {
-            field = value
-            remeasure()
-            invalidate()
-        }
-    /** Color of shadow. */
+
+    /**
+     * Set [borderSize] of this imageview in dp unit.
+     *
+     * @param size The size value in dp unit.
+     */
+    fun setBorderSizeInDp(size: Int) {
+        this.setBorderSizeInDp(size.toFloat())
+    }
+
+    /**
+     * Set [borderSize] of this imageview in dp unit.
+     *
+     * @param size The size value in dp unit.
+     */
+    fun setBorderSizeInDp(size: Float) {
+        this.borderSize = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            size,
+            this.resources.displayMetrics
+        )
+        measureBounds(this.width.toFloat(), this.height.toFloat())
+        invalidate()
+    }
+
+    /** The border color of this imageview. */
     @ColorInt
-    var shadowColor: Int = Color.GRAY
+    var borderColor: Int = DEFAULT_BORDER_COLOR
         set(value) {
             field = value
-            remeasure()
+            measureBounds(this.width.toFloat(), this.height.toFloat())
             invalidate()
         }
-    /** Gravity of shadow. */
-    var shadowGravity: ShadowGravity = ShadowGravity.BOTTOM
+
+    /** The enabled status of border. */
+    var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
         set(value) {
             field = value
-            remeasure()
+            measureBounds(this.width.toFloat(), this.height.toFloat())
             invalidate()
         }
-    /** Paint object for drawing shadow. */
-    protected val shadowPaint: Paint = Paint().apply {
-        isAntiAlias = true
-        isDither = true
-        alpha = 255
+
+    /** The paint object to draw border. */
+    protected val borderPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    /**
+     * The shadow size of this imageview.
+     * Its unit is pixel.
+     */
+    var shadowSize: Float = DEFAULT_SHADOW_SIZE
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /**
+     * Set shadow size of this imageview in dp unit.
+     *
+     * @param size The size value in dp unit.
+     */
+    fun setShadowSizeInDp(size: Int) {
+        this.setShadowSizeInDp(size.toFloat())
     }
 
-    /** Border enabled flag. */
-    var borderEnabled: Boolean = true
-        set(value) {
-            field = value
-            remeasure()
-            invalidate()
-        }
-    /** Size of border. */
-    var borderSize: Float = 0f
-        set(value) {
-            field = value
-            remeasure()
-            invalidate()
-        }
-    /** Color of border. */
-    @ColorInt
-    var borderColor: Int = Color.DKGRAY
-        set(value) {
-            field = value
-            remeasure()
-            invalidate()
-        }
-    /** Paint object for drawing border. */
-    protected val borderPaint: Paint = Paint().apply {
-        isAntiAlias = true
-        isDither = true
-        alpha = 255
+    /**
+     * Set shadow size of this imageview in dp unit.
+     *
+     * @param size The size value in dp unit.
+     */
+    fun setShadowSizeInDp(size: Float) {
+        this.shadowSize = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            size,
+            this.resources.displayMetrics
+        )
+        measureBounds(this.width.toFloat(), this.height.toFloat())
+        invalidate()
     }
+
+    /** The shadow color of this imageview. */
+    @ColorInt
+    var shadowColor: Int = DEFAULT_SHADOW_COLOR
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /** The enalbed status of shadow. */
+    var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /** The paint object to draw shadow. */
+    protected val shadowPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     init {
-        scaleType = ScaleType.CENTER_CROP
+        this.scaleType = ScaleType.CENTER_CROP
     }
 
     /**
-     * Apply common attributes.
+     * Obtain XML attributes from context and apply them to this imageview.
+     * This method should be called when initialization.
      */
-    protected fun applyCommonAttributes(attributes: AttributeSet?, defStyle: Int) {
-        val attrs = context.obtainStyledAttributes(
-            attributes,
-            R.styleable.ShapedImageView,
-            defStyle,
-            0
-        )
-
-        try {
-            shadowEnabled = attrs.getBoolean(
-                R.styleable.ShapedImageView_shaped_imageview_shadow_enabled,
-                true
-            )
-
-            shadowAdjustEnabled = attrs.getBoolean(
-                R.styleable.ShapedImageView_shaped_imageview_shadow_adjust_enabled,
-                true
-            )
-
-            shadowSize = attrs.getDimension(
-                R.styleable.ShapedImageView_shaped_imageview_shadow_size,
-                0f
-            )
-
-            shadowColor = attrs.getColor(
-                R.styleable.ShapedImageView_shaped_imageview_shadow_color,
-                Color.GRAY
-            )
-
-            val gravityAttr = attrs.getInt(
-                R.styleable.ShapedImageView_shaped_imageview_shadow_gravity,
-                ShadowGravity.BOTTOM.value
-            )
-            shadowGravity = when (gravityAttr) {
-                ShadowGravity.CENTER.value -> ShadowGravity.CENTER
-                ShadowGravity.LEFT.value -> ShadowGravity.LEFT
-                ShadowGravity.TOP.value -> ShadowGravity.TOP
-                ShadowGravity.RIGHT.value -> ShadowGravity.RIGHT
-                ShadowGravity.BOTTOM.value -> ShadowGravity.BOTTOM
-                ShadowGravity.TOP_LEFT.value -> ShadowGravity.TOP_LEFT
-                ShadowGravity.TOP_RIGHT.value -> ShadowGravity.TOP_RIGHT
-                ShadowGravity.BOTTOM_RIGHT.value -> ShadowGravity.BOTTOM_RIGHT
-                ShadowGravity.BOTTOM_LEFT.value -> ShadowGravity.BOTTOM_LEFT
-                else -> throw IllegalArgumentException("Shadow gravity $gravityAttr not supported.")
-            }
-
-            borderEnabled = attrs.getBoolean(
-                R.styleable.ShapedImageView_shaped_imageview_border_enabled,
-                true
-            )
-
-            borderSize = attrs.getDimension(
-                R.styleable.ShapedImageView_shaped_imageview_border_size,
-                0f
-            )
-
-            borderColor = attrs.getColor(
-                R.styleable.ShapedImageView_shaped_imageview_border_color,
-                Color.DKGRAY
-            )
-        } finally {
-            attrs.recycle()
-        }
-    }
+    protected abstract fun applyAttributes(attrs: AttributeSet?, defStyle: Int)
 
     /**
-     * Set scale type of this image view.
+     * A lifecycle method for measuring this view's size.
      *
-     * Only can accept [CENTER_CROP][android.widget.ImageView.ScaleType.CENTER_CROP],
-     * Other scale types will be denied.
-     *
-     * @param scaleType A scale type mode.
-     *
-     * @throws IllegalArgumentException When given scale type is not supported.
+     * In this method, it measures the views width and height and call [measureBounds].
+     * To override this method, you should call super.
      */
-    override fun setScaleType(scaleType: ScaleType) {
-        when (scaleType) {
-            ScaleType.CENTER_CROP -> {
-                super.setScaleType(scaleType)
-            }
-            else -> throw IllegalArgumentException("ScaleType $scaleType not supported.")
-        }
-    }
-
-    /**
-     * Measure and set view size and call [remeasure] method.
-     *
-     * It makes view size to square size.
-     * It means width and height size is same.
-     */
+    @CallSuper
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val width = MeasureSpec.getSize(widthMeasureSpec)
-        val height = MeasureSpec.getSize(heightMeasureSpec)
-        viewSize = min(width, height)
-        setMeasuredDimension(viewSize, viewSize)
 
-        val usableWidth = width - paddingLeft - paddingRight
-        val usableHeight = height - paddingTop - paddingBottom
-        imageSize = min(usableWidth, usableHeight)
+        val w = MeasureSpec.getSize(widthMeasureSpec)
+        val h = MeasureSpec.getSize(heightMeasureSpec)
+        setMeasuredDimension(w, h)
 
-        remeasure()
+        val borderAdjustment = if (borderEnabled) borderSize else 0f
+        val shadowAdjustment = if (shadowEnabled) shadowSize else 0f
+        val adjustmentSum = borderAdjustment + shadowAdjustment
+
+        this.usableWidth = w - this.paddingLeft - this.paddingRight - adjustmentSum
+        this.usableHeight = h - this.paddingTop - this.paddingBottom - adjustmentSum
+
+        measureBounds(w.toFloat(), h.toFloat())
     }
 
     /**
-     * Update sizes and values like image size, shadow and border.
+     * Measure drawing bounds of this imageview's image, border and shadow.
+     *
+     * @param viewWidth Width size of this imageview.
+     * @param viewHeight Height size of this imageview.
      */
-    protected abstract fun remeasure()
+    protected abstract fun measureBounds(viewWidth: Float, viewHeight: Float)
 
     /**
-     * Check image is outdated and update it if it needs. And call [postOnDraw] method.
+     * A lifecycle method for drawing image to this imageview.
      *
-     * For drawing something, use [postOnDraw].
+     * To override this method,
+     * you should call super before drawing for update [imagePaint]'s bitmap shader
+     * and shadow layer of [shadowPaint].
      */
+    @CallSuper
     override fun onDraw(canvas: Canvas) {
-        updateImage()
-        updateShader(imageSize, imageSize)
-        if (shadowEnabled) {
-            updateShadowLayer()
-        }
-        if (borderEnabled) {
-            updateBorderPaint()
-        }
-        postOnDraw(canvas)
+        updateShader()
+        updateShadowLayer()
     }
 
     /**
-     * Update image and paint shader.
-     *
-     * It loads drawable from original drawable of AppCompatImageView
-     * and convert it to bitmap and save it.
-     * And also apply shader on paint object.
-     *
-     * **Note: This method should be called before drawing image.**
+     * Update shader and apply it to [imagePaint].
+     * If image bitmap need to update, update it before applying shader.
      */
-    private fun updateImage() {
-        if (drawable != null || imageCache != drawable) {
-            imageCache = drawable
-            image = drawableToBitmap(drawable)
-        }
-    }
+    private fun updateShader() {
+        /**
+         * A local function for checking the necessity to update bitmap cache.
+         */
+        fun needToUpdateBitmap(): Boolean = this.drawable != null && this.drawable != this.imageCache
 
-    /**
-     * Convert drawable to bitmap object.
-     *
-     * @param drawable Source drawable.
-     *
-     * @return A bitmap image from given drawable.
-     */
-    private fun drawableToBitmap(drawable: Drawable): Bitmap {
-        return if (drawable is BitmapDrawable) {
-            drawable.bitmap
-        } else {
-            val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-            drawable.apply {
-                setBounds(0, 0, canvas.width, canvas.height)
-                draw(canvas)
-            }
-            bitmap
-        }
-    }
+        /**
+         * A local function to create [Bounds] object containing sizes of this imageview.
+         */
+        fun createBounds(): Bounds = Bounds(
+            usableWidth = this.usableWidth,
+            usableHeight = this.usableHeight,
+            paddingLeft = this.paddingLeft,
+            paddingTop = this.paddingTop,
+            paddingRight = this.paddingRight,
+            paddingBottom = this.paddingBottom,
+            borderAdjustment = if (borderEnabled) borderSize else 0f,
+            shadowAdjustment = if (shadowEnabled) shadowSize else 0f
+        )
 
-    /**
-     * Update paint shader.
-     *
-     * It sets shader of [imagePaint] and set matrix depending on scale type.
-     *
-     * @param imageWidth Width size of displaying image for setting scale type matrix.
-     * @param imageHeight Height size of displaying image for setting scale type matrix.
-     */
-    private fun updateShader(imageWidth: Int, imageHeight: Int) {
-        image?.let { img ->
-            val shader = BitmapShader(img, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP).apply {
-                setLocalMatrix(
-                    when (scaleType) {
-                        ScaleType.CENTER_CROP -> createCenterCropMatrix(img, imageWidth, imageHeight)
-                        else -> Matrix()
-                    }
-                )
-            }
+        if (needToUpdateBitmap()) {
+            this.imageCache = this.drawable
+            this.image = this.drawable.toBitmap()
+        }
+
+        this.image?.let {
+            val shader = BitmapShader(it, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+            shader.setLocalMatrix(
+                when (this.scaleType) {
+                    ScaleType.CENTER_CROP -> createCenterCropMatrix(it, createBounds())
+                    else -> Matrix()
+                }
+            )
             imagePaint.shader = shader
         }
     }
 
     /**
-     * Create a bitmap shader matrix for center-crop scale type.
-     *
-     * @param image A bitmap image to display.
-     * @param width Width size to display.
-     * @param height Height size to display.
-     *
-     * @return Scaled and translated matrix.
-     *
-     * @see android.widget.ImageView.ScaleType.CENTER_CROP
-     */
-    private fun createCenterCropMatrix(image: Bitmap, width: Int, height: Int): Matrix {
-        return Matrix().apply {
-            val scale: Float
-            val dx: Float
-            val dy: Float
-
-            if (image.width * width > image.height * height) {
-                scale = height / image.height.toFloat()
-                dx = (width - image.width * scale) * 0.5f
-                dy = 0f
-            } else {
-                scale = width / image.width.toFloat()
-                dx = 0f
-                dy = (height - image.height * scale) * 0.5f
-            }
-
-            setScale(scale, scale)
-            postTranslate(dx, dy)
-        }
-    }
-
-    /**
-     * Update shadow layer on shadowPaint.
-     * Shadow color is always gray.
+     * Update [shadowPaint]'s shadow layer.
      */
     private fun updateShadowLayer() {
-        val dx: Float
-        val dy: Float
-
-        when (shadowGravity) {
-            ShadowGravity.CENTER -> {
-                dx = 0f
-                dy = 0f
-            }
-            ShadowGravity.LEFT -> {
-                dx = shadowSize / 2
-                dy = 0f
-            }
-            ShadowGravity.TOP -> {
-                dx = 0f
-                dy = -shadowSize / 2
-            }
-            ShadowGravity.RIGHT -> {
-                dx = -shadowSize / 2
-                dy = 0f
-            }
-            ShadowGravity.BOTTOM -> {
-                dx = 0f
-                dy = shadowSize / 2
-            }
-            ShadowGravity.TOP_LEFT -> {
-                dx = -sqrt(2f) * (shadowSize / 2)
-                dy = -sqrt(2f) * (shadowSize / 2)
-            }
-            ShadowGravity.TOP_RIGHT -> {
-                dx = sqrt(2f) * (shadowSize / 2)
-                dy = -sqrt(2f) * (shadowSize / 2)
-            }
-            ShadowGravity.BOTTOM_RIGHT -> {
-                dx = sqrt(2f) * (shadowSize / 2)
-                dy = sqrt(2f) * (shadowSize / 2)
-            }
-            ShadowGravity.BOTTOM_LEFT -> {
-                dx = -sqrt(2f) * (shadowSize / 2)
-                dy = sqrt(2f) * (shadowSize / 2)
-            }
-        }
-        shadowPaint.setShadowLayer(shadowSize, dx, dy, shadowColor)
+        this.shadowPaint.setShadowLayer(shadowSize, 0f, shadowSize / 2, shadowColor)
     }
 
     /**
-     * Update border paint color.
-     */
-    private fun updateBorderPaint() {
-        borderPaint.color = borderColor
-    }
-
-    /**
-     * This method is invoked after [onDraw].
+     * [scaleType] should be [center crop][android.widget.ImageView.ScaleType.CENTER_CROP].
+     * If otherwise, it will be throw [IllegalArgumentException].
      *
-     * @param canvas Canvas to draw image view.
+     * @param scaleType [android.widget.ImageView.ScaleType.CENTER_CROP]
+     *
+     * @throws IllegalArgumentException When given scale type is not center crop.
      */
-    protected abstract fun postOnDraw(canvas: Canvas)
-
-    /**
-     * Shadow gravity constants of [ShapedImageView].
-     */
-    enum class ShadowGravity(val value: Int) {
-        CENTER(0),
-        LEFT(1),
-        TOP(2),
-        RIGHT(3),
-        BOTTOM(4),
-        TOP_LEFT(5),
-        TOP_RIGHT(6),
-        BOTTOM_RIGHT(7),
-        BOTTOM_LEFT(8)
+    override fun setScaleType(scaleType: ScaleType) {
+        if (scaleType == ScaleType.CENTER_CROP) {
+            super.setScaleType(scaleType)
+        } else {
+            throw IllegalArgumentException("Scale type have to be center crop.")
+        }
     }
 }
