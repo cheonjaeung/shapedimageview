@@ -10,6 +10,20 @@
     <attr name="shadow_color" format="color" />
     <attr name="shadow_enabled" format="boolean" />
 
+    <declare-styleable name="CutCornerImageView">
+        <attr name="border_size" />
+        <attr name="border_color" />
+        <attr name="border_enabled" />
+        <attr name="shadow_size" />
+        <attr name="shadow_color" />
+        <attr name="shadow_enabled" />
+        <attr name="cut_size" format="dimension" />
+        <attr name="top_left_cut_size" format="dimension" />
+        <attr name="top_right_cut_size" format="dimension" />
+        <attr name="bottom_right_cut_size" format="dimension" />
+        <attr name="bottom_left_cut_size" format="dimension" />
+    </declare-styleable>
+
     <declare-styleable name="OvalImageView">
         <attr name="border_size" />
         <attr name="border_color" />
