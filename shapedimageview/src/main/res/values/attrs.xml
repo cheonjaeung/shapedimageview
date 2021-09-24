@@ -27,5 +27,9 @@
         <attr name="shadow_color" />
         <attr name="shadow_enabled" />
         <attr name="radius" format="dimension" />
+        <attr name="top_left_radius" format="dimension" />
+        <attr name="top_right_radius" format="dimension" />
+        <attr name="bottom_right_radius" format="dimension" />
+        <attr name="bottom_left_radius" format="dimension" />
     </declare-styleable>
 </resources>
