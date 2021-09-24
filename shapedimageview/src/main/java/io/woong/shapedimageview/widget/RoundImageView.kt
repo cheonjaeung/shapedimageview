@@ -84,45 +84,25 @@ class RoundImageView @JvmOverloads constructor(
      * The radius of the border's top-left.
      * Its unit is pixel.
      */
-    var borderTopLeftRadius: Float = defaultRadius
-        set(value) {
-            field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
-            invalidate()
-        }
+    private var borderTopLeftRadius: Float = defaultRadius
 
     /**
      * The radius of the border's top-right.
      * Its unit is pixel.
      */
-    var borderTopRightRadius: Float = defaultRadius
-        set(value) {
-            field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
-            invalidate()
-        }
+    private var borderTopRightRadius: Float = defaultRadius
 
     /**
      * The radius of the border's bottom-right.
      * Its unit is pixel.
      */
-    var borderBottomRightRadius: Float = defaultRadius
-        set(value) {
-            field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
-            invalidate()
-        }
+    private var borderBottomRightRadius: Float = defaultRadius
 
     /**
      * The radius of the border's bottom-left.
      * Its unit is pixel.
      */
-    var borderBottomLeftRadius: Float = defaultRadius
-        set(value) {
-            field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
-            invalidate()
-        }
+    private var borderBottomLeftRadius: Float = defaultRadius
 
     /** Rectangle bounds of border to be drawn. */
     private val borderRect: RectF = RectF()
@@ -131,45 +111,25 @@ class RoundImageView @JvmOverloads constructor(
      * The radius of the shadow's top-left.
      * Its unit is pixel.
      */
-    var shadowTopLeftRadius: Float = defaultRadius
-        set(value) {
-            field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
-            invalidate()
-        }
+    private var shadowTopLeftRadius: Float = defaultRadius
 
     /**
      * The radius of the shadow's top-right.
      * Its unit is pixel.
      */
-    var shadowTopRightRadius: Float = defaultRadius
-        set(value) {
-            field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
-            invalidate()
-        }
+    private var shadowTopRightRadius: Float = defaultRadius
 
     /**
      * The radius of the shadow's bottom-right.
      * Its unit is pixel.
      */
-    var shadowBottomRightRadius: Float = defaultRadius
-        set(value) {
-            field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
-            invalidate()
-        }
+    private var shadowBottomRightRadius: Float = defaultRadius
 
     /**
      * The radius of the shadow's bottom-left.
      * Its unit is pixel.
      */
-    var shadowBottomLeftRadius: Float = defaultRadius
-        set(value) {
-            field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
-            invalidate()
-        }
+    private var shadowBottomLeftRadius: Float = defaultRadius
 
     /** Rectangle bounds of shadow to be drawn. */
     private val shadowRect: RectF = RectF()
