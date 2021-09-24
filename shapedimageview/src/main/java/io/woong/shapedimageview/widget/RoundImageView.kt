@@ -4,6 +4,8 @@ package io.woong.shapedimageview.widget
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -32,10 +34,43 @@ class RoundImageView @JvmOverloads constructor(
     )
 
     /**
-     * The radius of this imageview.
+     * The radius of the imageview's top-left.
      * Its unit is pixel.
      */
-    var radius: Float = 0f
+    var topLeftRadius: Float = defaultRadius
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /**
+     * The radius of the imageview's top-right.
+     * Its unit is pixel.
+     */
+    var topRightRadius: Float = defaultRadius
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /**
+     * The radius of the imageview's bottom-right.
+     * Its unit is pixel.
+     */
+    var bottomRightRadius: Float = defaultRadius
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /**
+     * The radius of the imageview's bottom-left.
+     * Its unit is pixel.
+     */
+    var bottomLeftRadius: Float = defaultRadius
         set(value) {
             field = value
             measureBounds(this.width.toFloat(), this.height.toFloat())
@@ -46,10 +81,43 @@ class RoundImageView @JvmOverloads constructor(
     private val imageRect: RectF = RectF()
 
     /**
-     * The radius of this imageview's border.
+     * The radius of the border's top-left.
      * Its unit is pixel.
      */
-    var borderRadius: Float = 0f
+    var borderTopLeftRadius: Float = defaultRadius
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /**
+     * The radius of the border's top-right.
+     * Its unit is pixel.
+     */
+    var borderTopRightRadius: Float = defaultRadius
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /**
+     * The radius of the border's bottom-right.
+     * Its unit is pixel.
+     */
+    var borderBottomRightRadius: Float = defaultRadius
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /**
+     * The radius of the border's bottom-left.
+     * Its unit is pixel.
+     */
+    var borderBottomLeftRadius: Float = defaultRadius
         set(value) {
             field = value
             measureBounds(this.width.toFloat(), this.height.toFloat())
@@ -60,10 +128,43 @@ class RoundImageView @JvmOverloads constructor(
     private val borderRect: RectF = RectF()
 
     /**
-     * The radius of this imageview's shadow.
+     * The radius of the shadow's top-left.
      * Its unit is pixel.
      */
-    var shadowRadius: Float = 0f
+    var shadowTopLeftRadius: Float = defaultRadius
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /**
+     * The radius of the shadow's top-right.
+     * Its unit is pixel.
+     */
+    var shadowTopRightRadius: Float = defaultRadius
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /**
+     * The radius of the shadow's bottom-right.
+     * Its unit is pixel.
+     */
+    var shadowBottomRightRadius: Float = defaultRadius
+        set(value) {
+            field = value
+            measureBounds(this.width.toFloat(), this.height.toFloat())
+            invalidate()
+        }
+
+    /**
+     * The radius of the shadow's bottom-left.
+     * Its unit is pixel.
+     */
+    var shadowBottomLeftRadius: Float = defaultRadius
         set(value) {
             field = value
             measureBounds(this.width.toFloat(), this.height.toFloat())
@@ -89,22 +190,93 @@ class RoundImageView @JvmOverloads constructor(
             this.shadowEnabled = a.getBoolean(R.styleable.RoundImageView_shadow_enabled, DEFAULT_SHADOW_ENABLED)
 
             val r = a.getDimension(R.styleable.RoundImageView_radius, DEFAULT_RADIUS)
-            this.radius = if (r == DEFAULT_RADIUS) {
-                defaultRadius
-            } else {
-                r
+            if (r != DEFAULT_RADIUS) {
+                this.topLeftRadius = r
+                this.topRightRadius = r
+                this.bottomRightRadius = r
+                this.bottomLeftRadius = r
             }
 
-            this.borderRadius = if (borderEnabled) {
-                this.radius + this.borderSize
+            val bs = if (borderEnabled) {
+                this.borderSize
             } else {
                 0f
             }
+            this.borderTopLeftRadius = this.topLeftRadius + bs
+            this.borderTopRightRadius = this.topRightRadius + bs
+            this.borderBottomRightRadius = this.bottomRightRadius + bs
+            this.borderBottomLeftRadius = this.bottomLeftRadius + bs
 
-            this.shadowRadius = if (shadowEnabled) {
-                this.borderRadius + this.shadowSize
+            if (shadowEnabled) {
+                this.shadowTopLeftRadius = this.borderTopLeftRadius
+                this.shadowTopRightRadius = this.borderTopRightRadius
+                this.shadowBottomRightRadius = this.borderBottomRightRadius
+                this.shadowBottomLeftRadius = this.borderBottomLeftRadius
             } else {
-                this.radius
+                this.shadowTopLeftRadius = this.topLeftRadius
+                this.shadowTopRightRadius = this.topRightRadius
+                this.shadowBottomRightRadius = this.bottomRightRadius
+                this.shadowBottomLeftRadius = this.bottomLeftRadius
+            }
+
+            val rtl = a.getDimension(R.styleable.RoundImageView_top_left_radius, DEFAULT_RADIUS)
+            if (rtl != DEFAULT_RADIUS) {
+                this.topLeftRadius = rtl
+                this.borderTopLeftRadius = if (borderEnabled) {
+                    rtl + this.borderSize
+                } else {
+                    rtl
+                }
+                this.shadowTopLeftRadius = if (shadowEnabled) {
+                    this.borderTopLeftRadius
+                } else {
+                    rtl
+                }
+            }
+
+            val rtr = a.getDimension(R.styleable.RoundImageView_top_right_radius, DEFAULT_RADIUS)
+            if (rtr != DEFAULT_RADIUS) {
+                this.topRightRadius = rtr
+                this.borderTopRightRadius = if (borderEnabled) {
+                    rtr + this.borderSize
+                } else {
+                    rtr
+                }
+                this.shadowTopRightRadius = if (shadowEnabled) {
+                    this.borderTopRightRadius
+                } else {
+                    rtr
+                }
+            }
+
+            val rbr = a.getDimension(R.styleable.RoundImageView_bottom_right_radius, DEFAULT_RADIUS)
+            if (rbr != DEFAULT_RADIUS) {
+                this.bottomRightRadius = rbr
+                this.borderBottomRightRadius = if (borderEnabled) {
+                    rbr + this.borderSize
+                } else {
+                    rbr
+                }
+                this.shadowBottomRightRadius = if (shadowEnabled) {
+                    this.borderBottomRightRadius
+                } else {
+                    rbr
+                }
+            }
+
+            val rbl = a.getDimension(R.styleable.RoundImageView_bottom_left_radius, DEFAULT_RADIUS)
+            if (rbl != DEFAULT_RADIUS) {
+                this.bottomLeftRadius = rbl
+                this.borderBottomLeftRadius = if (borderEnabled) {
+                    rbl + this.borderSize
+                } else {
+                    rbl
+                }
+                this.shadowBottomLeftRadius = if (shadowEnabled) {
+                    this.borderBottomLeftRadius
+                } else {
+                    rbl
+                }
             }
         } finally {
             a.recycle()
@@ -146,13 +318,62 @@ class RoundImageView @JvmOverloads constructor(
         super.onDraw(canvas)
 
         if (shadowEnabled) {
-            canvas.drawRoundRect(shadowRect, shadowRadius, shadowRadius, shadowPaint)
+            canvas.drawRoundRect(
+                shadowRect,
+                shadowTopLeftRadius,
+                shadowTopRightRadius,
+                shadowBottomRightRadius,
+                shadowBottomLeftRadius,
+                shadowPaint
+            )
         }
 
         if (borderEnabled) {
-            canvas.drawRoundRect(borderRect, borderRadius, borderRadius, borderPaint)
+            canvas.drawRoundRect(
+                borderRect,
+                borderTopLeftRadius,
+                borderTopRightRadius,
+                borderBottomRightRadius,
+                borderBottomLeftRadius,
+                borderPaint
+            )
         }
 
-        canvas.drawRoundRect(imageRect, radius, radius, imagePaint)
+        canvas.drawRoundRect(
+            imageRect,
+            topLeftRadius,
+            topRightRadius,
+            bottomRightRadius,
+            bottomLeftRadius,
+            imagePaint
+        )
+    }
+
+    /**
+     * Draw the specified round-rect using the specified paint.
+     *
+     * @param rect The rectangular bounds of the round-rect to be drawn.
+     * @param rtl The radius of top-left of the round-rect.
+     * @param rtr The radius of top-right of the round-rect.
+     * @param rbr The radius of bottom-right of the round-rect.
+     * @param rbl The radius of bottom-left of the round-rect.
+     * @param paint The paint used to draw the round-rect.
+     */
+    private fun Canvas.drawRoundRect(rect: RectF, rtl: Float, rtr: Float, rbr: Float, rbl: Float, paint: Paint) {
+        val path = Path()
+
+        path.apply {
+            moveTo(rect.left, rect.top + rtl)
+            quadTo(rect.left, rect.top, rect.left + rtl, rect.top)
+            lineTo(rect.right - rtr, rect.top)
+            quadTo(rect.right, rect.top, rect.right, rect.top + rtr)
+            lineTo(rect.right, rect.bottom - rbr)
+            quadTo(rect.right, rect.bottom, rect.right - rbr, rect.bottom)
+            lineTo(rect.left + rbl, rect.bottom)
+            quadTo(rect.left, rect.bottom, rect.left, rect.bottom - rbl)
+            lineTo(rect.left, rect.top + rtl)
+        }.close()
+
+        this.drawPath(path, paint)
     }
 }
