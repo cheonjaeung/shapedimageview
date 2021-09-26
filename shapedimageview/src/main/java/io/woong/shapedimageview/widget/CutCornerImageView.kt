@@ -4,13 +4,11 @@ package io.woong.shapedimageview.widget
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Path
-import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.TypedValue
 import io.woong.shapedimageview.R
 import io.woong.shapedimageview.ShapedImageView
+import io.woong.shapedimageview.util.drawCutCornerRect
 
 /**
  * The shaped image view that draw image in corner-cut rectangle shape.
@@ -262,33 +260,5 @@ class CutCornerImageView @JvmOverloads constructor(
             bottomLeftCutSize,
             imagePaint
         )
-    }
-
-    /**
-     * Draw the specified cut-corner rectangle using the specified paint.
-     *
-     * @param rect The rectangular bounds of the cut-corner-rect to be drawn.
-     * @param ctl The cut size of top-left of the rect.
-     * @param ctr The cut size of top-right of the rect.
-     * @param cbr The cut size of bottom-right of the rect.
-     * @param cbl The cut size of bottom-left of the rect.
-     * @param paint The paint used to draw the cur-corner rectangle.
-     */
-    private fun Canvas.drawCutCornerRect(rect: RectF, ctl: Float, ctr: Float, cbr: Float, cbl: Float, paint: Paint) {
-        val path = Path()
-
-        path.apply {
-            moveTo(rect.left, rect.top + ctl)
-            lineTo(rect.left + ctl, rect.top)
-            lineTo(rect.right - ctr, rect.top)
-            lineTo(rect.right, rect.top + ctr)
-            lineTo(rect.right, rect.bottom - cbr)
-            lineTo(rect.right - cbr, rect.bottom)
-            lineTo(rect.left + cbl, rect.bottom)
-            lineTo(rect.left, rect.bottom - cbl)
-            lineTo(rect.left, rect.top + ctl)
-        }.close()
-
-        this.drawPath(path, paint)
     }
 }

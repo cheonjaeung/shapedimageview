@@ -4,11 +4,10 @@ package io.woong.shapedimageview.widget
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Path
 import android.util.AttributeSet
 import io.woong.shapedimageview.ShapedImageView
 import io.woong.shapedimageview.Formula
+import io.woong.shapedimageview.util.drawFormula
 
 /**
  * The shaped image view that draw image in specified formula shape.
@@ -51,27 +50,5 @@ class FormulableImageView @JvmOverloads constructor(
             it.rect = imageRect
             canvas.drawFormula(it, imagePaint)
         }
-    }
-
-    /**
-     * Draw a specified shape of given formula using the specified paint.
-     *
-     * @param formula The shape formula used to draw the shape.
-     * @param paint The paint used to draw the shape.
-     */
-    private fun Canvas.drawFormula(formula: Formula, paint: Paint) {
-        val path = Path()
-
-        path.apply {
-            formula.degree = 0f
-            moveTo(formula.getX(), formula.getY())
-
-            for (d in 1..360) {
-                formula.degree = d.toFloat()
-                lineTo(formula.getX(), formula.getY())
-            }
-        }.close()
-
-        this.drawPath(path, paint)
     }
 }

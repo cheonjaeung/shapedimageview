@@ -4,13 +4,11 @@ package io.woong.shapedimageview.widget
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Path
-import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.TypedValue
 import io.woong.shapedimageview.R
 import io.woong.shapedimageview.ShapedImageView
+import io.woong.shapedimageview.util.drawRoundRect
 
 /**
  * The shaped image view that draw image in round rectangle shape.
@@ -262,33 +260,5 @@ class RoundImageView @JvmOverloads constructor(
             bottomLeftRadius,
             imagePaint
         )
-    }
-
-    /**
-     * Draw the specified round-rect using the specified paint.
-     *
-     * @param rect The rectangular bounds of the round-rect to be drawn.
-     * @param rtl The radius of top-left of the round-rect.
-     * @param rtr The radius of top-right of the round-rect.
-     * @param rbr The radius of bottom-right of the round-rect.
-     * @param rbl The radius of bottom-left of the round-rect.
-     * @param paint The paint used to draw the round-rect.
-     */
-    private fun Canvas.drawRoundRect(rect: RectF, rtl: Float, rtr: Float, rbr: Float, rbl: Float, paint: Paint) {
-        val path = Path()
-
-        path.apply {
-            moveTo(rect.left, rect.top + rtl)
-            quadTo(rect.left, rect.top, rect.left + rtl, rect.top)
-            lineTo(rect.right - rtr, rect.top)
-            quadTo(rect.right, rect.top, rect.right, rect.top + rtr)
-            lineTo(rect.right, rect.bottom - rbr)
-            quadTo(rect.right, rect.bottom, rect.right - rbr, rect.bottom)
-            lineTo(rect.left + rbl, rect.bottom)
-            quadTo(rect.left, rect.bottom, rect.left, rect.bottom - rbl)
-            lineTo(rect.left, rect.top + rtl)
-        }.close()
-
-        this.drawPath(path, paint)
     }
 }
