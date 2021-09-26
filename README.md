@@ -29,12 +29,129 @@ implementation "io.woong.shapedimageview:shapedimageview:$version"
 
 ## Getting Started
 
-WIP
+<img alt="preview1" src="./image/preview/getting_started.jpeg" width="300">
+
+Let's create a imageview like sample image.
+You can get this shape in simple way using below code.
+
+```xml
+<io.woong.shapedimageview.widget.OvalImageView
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    android:src="@drawable/sample" />
+```
 
 ## Documentation
 
-WIP
+- [Shapes](#shapes)
+- [Common attributes](#common-attributes)
+- [Attributes for specific view](#attributes-of-specific-view)
+- [Custom shape](#custom-shape)
+- [Predefined formula](#predefined-formula)
+
+### Shapes
+
+In this library, there are various predefined shaped imageviews.
+They are `OvalImageView`, `RoundImageView` and `CutCornerImageView`.
+
+- **OvalImageView:** oval (ellipse) shape.
+- **RoundImageView:** rounded rectangle shape.
+- **CutCornerImageView:** corner cut rectangle shape.
+
+All imageview's scale type is always `center-crop`.
+If you try to change it, the view will make exception.
+
+### Common attributes
+
+All shaped imageviews have common attributes.
+
+| Attribute | Type | Default |
+| --- | --- | --- |
+| border_size | Dimension | 0 |
+| border_color | Color | #444444 |
+| border_enabled | Boolean | true |
+| shadow_size | Dimension | 0 |
+| shadow_color | Color | #888888 |
+| shadow_enabled | Boolean | true |
+
+By using attributes, you can set border or shadow of imageview.
+
+### Attributes of specific view
+
+Some imageviews have other attributes.
+
+#### RoundImageView
+
+| Attribute | Type | Default |
+| --- | --- | --- |
+| radius | Dimension | 16dp |
+| top_left_radius | Dimension | 16dp |
+| top_right_radius | Dimension | 16dp |
+| bottom_right_radius| Dimension | 16dp |
+| bottom_left_radius | Dimension | 16dp |
+
+`radius` has the lowest priority.
+It means you can override radius value using specific corner radius attribute.
+
+#### CutCornerImageView
+
+| Attribute | Type | Default |
+| --- | --- | --- |
+| cut_size | Dimension | 16dp |
+| top_left_cut_size | Dimension | 16dp |
+| top_right_cut_size | Dimension | 16dp |
+| bottom_right_cut_size| Dimension | 16dp |
+| bottom_left_cut_size | Dimension | 16dp |
+
+`cut_size` has the lowest priority.
+It means you can override cut size value using specific corner cut size attribute.
+
+### Custom Shape
+
+ShapedImageView support custom shape imageview.
+There is `FormulableImageView` and `Formula` to draw custom shape.
+
+The Formula interface is a kind of mathematical function.
+It can accept angle and it has a method that returns the x and y coordinate position for current angle.
+
+FormulableImageView draw a shape while changing the angle from 0 to 360 degrees in the given Formula.
+
+To use Formula, create a class that inherit from Formula interface and set it to FormulableImageView.
+
+```kotlin
+class CustomFormula : Formula {
+    override var degree: Float = 0f
+        set(value) {
+            field = if (value > 360) {
+                value % 360
+            } else {
+                value
+            }
+        }
+
+    override var rect: RectF = RectF()
+
+    override fun getX(): Float {
+        ...
+    }
+
+    override fun getY(): Float {
+        ...
+    }
+}
+```
+
+```kotlin
+val iv = findViewById<FormulableImageView>(R.id.iv)
+iv.formula = CustomFormula()
+```
+
+### Predefined formula
+
+This library provide `SuperEllipseFormula`.
+It is a formula for drawing [super ellipse](https://en.wikipedia.org/wiki/Superellipse) shape.
+You can apply it to `FormulableImageView`.
 
 ## License
 
-ShapedImageView by [Jaewoong Cheon](https://github.com/woongdev) is licensed under the [MIT License](./LICENSE).
+ShapedImageView is licensed under the [MIT License](./LICENSE).
