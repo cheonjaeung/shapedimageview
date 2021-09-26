@@ -73,6 +73,9 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /** The drawable image to check this imageview needs to update [image] property. */
     protected var imageCache: Drawable? = null
 
+    /** Rectangle bounds of image to be drawn. */
+    protected val imageRect: RectF = RectF()
+
     /** The paint object to draw [image]. */
     protected val imagePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -83,7 +86,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     var borderSize: Float = DEFAULT_BORDER_SIZE
         set(value) {
             field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
+            measureBounds()
             invalidate()
         }
 
@@ -107,7 +110,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
             size,
             this.resources.displayMetrics
         )
-        measureBounds(this.width.toFloat(), this.height.toFloat())
+        measureBounds()
         invalidate()
     }
 
@@ -117,7 +120,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
         set(value) {
             field = value
             this.borderPaint.color = field
-            measureBounds(this.width.toFloat(), this.height.toFloat())
+            measureBounds()
             invalidate()
         }
 
@@ -125,9 +128,12 @@ abstract class ShapedImageView @JvmOverloads constructor(
     var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
         set(value) {
             field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
+            measureBounds()
             invalidate()
         }
+
+    /** Rectangle bounds of border to be drawn. */
+    protected val borderRect: RectF = RectF()
 
     /** The paint object to draw border. */
     protected val borderPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -139,7 +145,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     var shadowSize: Float = DEFAULT_SHADOW_SIZE
         set(value) {
             field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
+            measureBounds()
             invalidate()
         }
 
@@ -163,7 +169,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
             size,
             this.resources.displayMetrics
         )
-        measureBounds(this.width.toFloat(), this.height.toFloat())
+        measureBounds()
         invalidate()
     }
 
@@ -172,7 +178,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     var shadowColor: Int = DEFAULT_SHADOW_COLOR
         set(value) {
             field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
+            measureBounds()
             invalidate()
         }
 
@@ -180,9 +186,12 @@ abstract class ShapedImageView @JvmOverloads constructor(
     var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
         set(value) {
             field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
+            measureBounds()
             invalidate()
         }
+
+    /** Rectangle bounds of shadow to be drawn. */
+    protected val shadowRect: RectF = RectF()
 
     /** The paint object to draw shadow. */
     protected val shadowPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -193,9 +202,23 @@ abstract class ShapedImageView @JvmOverloads constructor(
 
     /**
      * Obtain XML attributes from context and apply them to this imageview.
-     * This method should be called when initialization.
+     * This method have to be called at initializing.
      */
-    protected abstract fun applyAttributes(attrs: AttributeSet?, defStyle: Int)
+    @CallSuper
+    protected open fun applyAttributes(attrs: AttributeSet?, defStyle: Int) {
+        val a = context.obtainStyledAttributes(attrs, R.styleable.ShapedImageView, defStyle, 0)
+
+        try {
+            this.borderSize = a.getDimension(R.styleable.ShapedImageView_border_size, DEFAULT_BORDER_SIZE)
+            this.borderColor = a.getColor(R.styleable.ShapedImageView_border_color, DEFAULT_BORDER_COLOR)
+            this.borderEnabled = a.getBoolean(R.styleable.ShapedImageView_border_enabled, DEFAULT_BORDER_ENABLED)
+            this.shadowSize = a.getDimension(R.styleable.ShapedImageView_shadow_size, DEFAULT_SHADOW_SIZE)
+            this.shadowColor = a.getColor(R.styleable.ShapedImageView_shadow_color, DEFAULT_SHADOW_COLOR)
+            this.shadowEnabled = a.getBoolean(R.styleable.ShapedImageView_shadow_enabled, DEFAULT_SHADOW_ENABLED)
+        } finally {
+            a.recycle()
+        }
+    }
 
     /**
      * A lifecycle method for measuring this view's size.
@@ -220,10 +243,39 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /**
      * Measure drawing bounds of this imageview's image, border and shadow.
      *
-     * @param viewWidth Width size of this imageview.
-     * @param viewHeight Height size of this imageview.
+     * @param w The width size of this imageview. Default value is current width size.
+     * @param h The height size of this imageview. Default value is current height size.
      */
-    protected abstract fun measureBounds(viewWidth: Float, viewHeight: Float)
+    protected fun measureBounds(w: Float = this.width.toFloat(), h: Float = this.height.toFloat()) {
+        val shadowAdjust = if (shadowEnabled) shadowSize else 0f
+        val borderAdjust = if (borderEnabled) borderSize else 0f
+        val adjustSum = shadowAdjust + borderAdjust
+
+        if (shadowEnabled) {
+            this.shadowRect.set(
+                this.paddingLeft.toFloat() + shadowAdjust,
+                this.paddingTop.toFloat() + shadowAdjust,
+                w - this.paddingRight - shadowAdjust,
+                h - this.paddingBottom - shadowAdjust
+            )
+        }
+
+        if (borderEnabled) {
+            this.borderRect.set(
+                this.paddingLeft.toFloat() + shadowAdjust,
+                this.paddingTop.toFloat() + shadowAdjust,
+                w - this.paddingRight - shadowAdjust,
+                h - this.paddingBottom - shadowAdjust
+            )
+        }
+
+        this.imageRect.set(
+            this.paddingLeft.toFloat() + adjustSum,
+            this.paddingTop.toFloat() + adjustSum,
+            w - this.paddingRight - adjustSum,
+            h - this.paddingBottom - adjustSum
+        )
+    }
 
     /**
      * A lifecycle method for drawing image to this imageview.

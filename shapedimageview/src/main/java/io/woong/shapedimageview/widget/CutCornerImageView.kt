@@ -1,4 +1,4 @@
-@file:Suppress("unused", "MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate")
 
 package io.woong.shapedimageview.widget
 
@@ -40,7 +40,7 @@ class CutCornerImageView @JvmOverloads constructor(
     var topLeftCutSize: Float = defaultCutSize
         set(value) {
             field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
+            measureBounds()
             invalidate()
         }
 
@@ -51,7 +51,7 @@ class CutCornerImageView @JvmOverloads constructor(
     var topRightCutSize: Float = defaultCutSize
         set(value) {
             field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
+            measureBounds()
             invalidate()
         }
 
@@ -62,7 +62,7 @@ class CutCornerImageView @JvmOverloads constructor(
     var bottomRightCutSize: Float = defaultCutSize
         set(value) {
             field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
+            measureBounds()
             invalidate()
         }
 
@@ -73,12 +73,9 @@ class CutCornerImageView @JvmOverloads constructor(
     var bottomLeftCutSize: Float = defaultCutSize
         set(value) {
             field = value
-            measureBounds(this.width.toFloat(), this.height.toFloat())
+            measureBounds()
             invalidate()
         }
-
-    /** Rectangular bounds of image to be drawn. */
-    private val imageRect: RectF = RectF()
 
     /**
      * The cut size of the border's top-left.
@@ -104,9 +101,6 @@ class CutCornerImageView @JvmOverloads constructor(
      */
     private var borderBottomLeftCutSize: Float = defaultCutSize
 
-    /** Rectangular bounds of border to be drawn. */
-    private val borderRect: RectF = RectF()
-
     /**
      * The cut size of the shadow's top-left.
      * Its unit is pixel.
@@ -131,24 +125,16 @@ class CutCornerImageView @JvmOverloads constructor(
      */
     private var shadowBottomLeftCutSize: Float = defaultCutSize
 
-    /** Rectangular bounds of shadow to be drawn. */
-    private val shadowRect: RectF = RectF()
-
     init {
         applyAttributes(attrs, defStyle)
     }
 
     override fun applyAttributes(attrs: AttributeSet?, defStyle: Int) {
+        super.applyAttributes(attrs, defStyle)
+
         val a = context.obtainStyledAttributes(attrs, R.styleable.CutCornerImageView, defStyle, 0)
 
         try {
-            this.borderSize = a.getDimension(R.styleable.CutCornerImageView_border_size, DEFAULT_BORDER_SIZE)
-            this.borderColor = a.getColor(R.styleable.CutCornerImageView_border_color, DEFAULT_BORDER_COLOR)
-            this.borderEnabled = a.getBoolean(R.styleable.CutCornerImageView_border_enabled, DEFAULT_BORDER_ENABLED)
-            this.shadowSize = a.getDimension(R.styleable.CutCornerImageView_shadow_size, DEFAULT_SHADOW_SIZE)
-            this.shadowColor = a.getColor(R.styleable.CutCornerImageView_shadow_color, DEFAULT_SHADOW_COLOR)
-            this.shadowEnabled = a.getBoolean(R.styleable.CutCornerImageView_shadow_enabled, DEFAULT_SHADOW_ENABLED)
-
             val c = a.getDimension(R.styleable.CutCornerImageView_cut_size, DEFAULT_CUT_SIZE)
             if (c != DEFAULT_CUT_SIZE) {
                 this.topLeftCutSize = c
@@ -241,37 +227,6 @@ class CutCornerImageView @JvmOverloads constructor(
         } finally {
             a.recycle()
         }
-    }
-
-    override fun measureBounds(viewWidth: Float, viewHeight: Float) {
-        val shadowAdjust = if (shadowEnabled) shadowSize else 0f
-        val borderAdjust = if (borderEnabled) borderSize else 0f
-        val adjustSum = shadowAdjust + borderAdjust
-
-        if (shadowEnabled) {
-            this.shadowRect.set(
-                this.paddingLeft.toFloat() + shadowAdjust,
-                this.paddingTop.toFloat() + shadowAdjust,
-                viewWidth - this.paddingRight - shadowAdjust,
-                viewHeight - this.paddingBottom - shadowAdjust
-            )
-        }
-
-        if (borderEnabled) {
-            this.borderRect.set(
-                this.paddingLeft.toFloat() + shadowAdjust,
-                this.paddingTop.toFloat() + shadowAdjust,
-                viewWidth - this.paddingRight - shadowAdjust,
-                viewHeight - this.paddingBottom - shadowAdjust
-            )
-        }
-
-        this.imageRect.set(
-            this.paddingLeft.toFloat() + adjustSum,
-            this.paddingTop.toFloat() + adjustSum,
-            viewWidth - this.paddingRight - adjustSum,
-            viewHeight - this.paddingBottom - adjustSum
-        )
     }
 
     override fun onDraw(canvas: Canvas) {
