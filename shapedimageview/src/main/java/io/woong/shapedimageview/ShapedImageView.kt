@@ -16,6 +16,14 @@ import io.woong.shapedimageview.util.toBitmap
 
 /**
  * The parent class of all shaped image view.
+ *
+ * This class cannot be used alone cause it is abstract class.
+ * To use shaped imageview, use classes that inherit from this class.
+ *
+ * @see io.woong.shapedimageview.widget.CutCornerImageView
+ * @see io.woong.shapedimageview.widget.FormulableImageView
+ * @see io.woong.shapedimageview.widget.OvalImageView
+ * @see io.woong.shapedimageview.widget.RoundImageView
  */
 abstract class ShapedImageView @JvmOverloads constructor(
     context: Context,
