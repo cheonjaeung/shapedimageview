@@ -1,24 +1,24 @@
-package io.woong.shapedimageview.widget
+package io.woong.shapedimageview
 
 import android.content.Context
-import android.graphics.Canvas
 import android.util.AttributeSet
-import io.woong.shapedimageview.ShapedImageView
 import kotlin.math.min
 
 /**
- * The shaped image view that draw image in square shape.
- * It is just an rectangular shape imageview but it has same width and height size.
+ * The parent imageview of all child imageview that has same width and height size.
+ *
+ * This class cannot be used alone cause it is abstract class.
+ * To use shaped imageview, use classes that inherit from this class.
+ *
+ * The usage of this abstract class is same to [ShapedImageView].
+ *
+ * @see ShapedImageView
  */
-class SquareImageView @JvmOverloads constructor(
+abstract class SquareShapedImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : ShapedImageView(context, attrs, defStyle) {
-
-    init {
-        applyAttributes(attrs, defStyle)
-    }
 
     /**
      * A lifecycle method for measuring this view's size
@@ -40,19 +40,5 @@ class SquareImageView @JvmOverloads constructor(
         this.usableHeight = s - this.paddingTop - this.paddingBottom - adjustmentSum
 
         measureBounds(s.toFloat(), s.toFloat())
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-
-        if (shadowEnabled) {
-            canvas.drawRect(shadowRect, shadowPaint)
-        }
-
-        if (borderEnabled) {
-            canvas.drawRect(borderRect, borderPaint)
-        }
-
-        canvas.drawRect(imageRect, imagePaint)
     }
 }
