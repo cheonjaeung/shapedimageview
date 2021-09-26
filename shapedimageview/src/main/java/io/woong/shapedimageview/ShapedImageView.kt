@@ -20,10 +20,70 @@ import io.woong.shapedimageview.util.toBitmap
  * This class cannot be used alone cause it is abstract class.
  * To use shaped imageview, use classes that inherit from this class.
  *
+ * To inherit from this class, you should call [applyAttributes] on init
+ * for obtaining common attributes from context.
+ *
+ * ```
+ *      class CustomImageView @JvmOverloads constructor(
+ *      context: Context,
+ *      attrs: AttributeSet? = null,
+ *      defStyle: Int = 0
+ *      ) : ShapedImageView(context, attrs, defStyle) {
+ *
+ *          init {
+ *              applyAttributes(attrs, defStyle)
+ *          }
+ *
+ *      ...
+ *      }
+ * ```
+ *
+ * If your imageview has custom attributes, you can override [applyAttributes] method.
+ * In this case, you should call super method.
+ *
+ * ```
+ *      init {
+ *          applyAttributes(attrs, defStyle)
+ *      }
+ *
+ *      override fun applyAttributes(attrs: AttributeSet?, defStyle: Int) {
+ *          super.applyAttributes(attrs, defStyle)
+ *          val a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView, defStyle, 0)
+ *          try {
+ *              // Obtaining custom attributes.
+ *          } finally {
+ *              a.recycle()
+ *          }
+ *      }
+ * ```
+ *
+ * To draw shape, override [onDraw] method.
+ * When override [onDraw], you should call super method for updating bitmap shader to image paint
+ * and adding shadow layer to shadow paint.
+ *
+ * It is recommended that draw shadow first, border next and image at last.
+ *
+ * ```
+ *      override fun onDraw(canvas: Canvas) {
+ *          super.onDraw(canvas)
+ *
+ *          if (shadowEnabled) {
+ *              canvas.drawOval(shadowRect, shadowPaint)
+ *          }
+ *
+ *          if (borderEnabled) {
+ *              canvas.drawOval(borderRect, borderPaint)
+ *          }
+ *
+ *          canvas.drawOval(imageRect, imagePaint)
+ *      }
+ * ```
+ *
  * @see io.woong.shapedimageview.widget.CutCornerImageView
  * @see io.woong.shapedimageview.widget.FormulableImageView
  * @see io.woong.shapedimageview.widget.OvalImageView
  * @see io.woong.shapedimageview.widget.RoundImageView
+ * @see io.woong.shapedimageview.widget.SquareImageView
  */
 abstract class ShapedImageView @JvmOverloads constructor(
     context: Context,
