@@ -83,7 +83,6 @@ import io.woong.shapedimageview.util.toBitmap
  * @see io.woong.shapedimageview.widget.FormulableImageView
  * @see io.woong.shapedimageview.widget.OvalImageView
  * @see io.woong.shapedimageview.widget.RoundImageView
- * @see io.woong.shapedimageview.widget.SquareImageView
  */
 abstract class ShapedImageView @JvmOverloads constructor(
     context: Context,

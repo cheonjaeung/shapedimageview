@@ -31,7 +31,4 @@
         <attr name="bottom_right_radius" format="dimension" />
         <attr name="bottom_left_radius" format="dimension" />
     </declare-styleable>
-
-    <declare-styleable name="SquareImageView">
-    </declare-styleable>
 </resources>
