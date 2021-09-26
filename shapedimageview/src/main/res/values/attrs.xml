@@ -55,4 +55,13 @@
         <attr name="bottom_right_radius" format="dimension" />
         <attr name="bottom_left_radius" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="SquareImageView">
+        <attr name="border_size" />
+        <attr name="border_color" />
+        <attr name="border_enabled" />
+        <attr name="shadow_size" />
+        <attr name="shadow_color" />
+        <attr name="shadow_enabled" />
+    </declare-styleable>
 </resources>
