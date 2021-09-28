@@ -34,7 +34,8 @@
                 android:layout_height="200dp"
                 android:src="@drawable/sample"
                 android:layout_gravity="center"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:radius="32dp" />
 
             <io.woong.shapedimageview.widget.CutCornerImageView
                 android:id="@+id/cut_corner"
@@ -42,7 +43,8 @@
                 android:layout_height="200dp"
                 android:src="@drawable/sample"
                 android:layout_gravity="center"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:cut_size="32dp" />
 
             <io.woong.shapedimageview.widget.FormulableImageView
                 android:id="@+id/formulable"
