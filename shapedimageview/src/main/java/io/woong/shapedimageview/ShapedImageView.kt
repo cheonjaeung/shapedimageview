@@ -151,15 +151,6 @@ abstract class ShapedImageView @JvmOverloads constructor(
      *
      * @param size The dp size of the border.
      */
-    fun setBorderSizeInDp(size: Int) {
-        this.setBorderSizeInDp(size.toFloat())
-    }
-
-    /**
-     * Set [borderSize] of this imageview in dp unit.
-     *
-     * @param size The dp size of the border.
-     */
     fun setBorderSizeInDp(size: Float) {
         this.borderSize = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -201,15 +192,6 @@ abstract class ShapedImageView @JvmOverloads constructor(
             measureBounds()
             invalidate()
         }
-
-    /**
-     * Set shadow size of this imageview in dp unit.
-     *
-     * @param size The dp size of the shadow.
-     */
-    fun setShadowSizeInDp(size: Int) {
-        this.setShadowSizeInDp(size.toFloat())
-    }
 
     /**
      * Set shadow size of this imageview in dp unit.
