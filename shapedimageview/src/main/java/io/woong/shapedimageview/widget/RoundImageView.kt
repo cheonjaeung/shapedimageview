@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
 package io.woong.shapedimageview.widget
 
@@ -39,6 +39,19 @@ class RoundImageView @JvmOverloads constructor(
             invalidate()
         }
 
+    /**
+     * Set the radius size of the imageview's top-left in dp unit.
+     *
+     * @param radius The dp radius of the imageview's top-left corner.
+     */
+    fun setTopLeftRadiusInDp(radius: Float) {
+        this.topLeftRadius = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            radius,
+            resources.displayMetrics
+        )
+    }
+
     /** The radius of the imageview's top-right in pixel unit. */
     var topRightRadius: Float = defaultRadius
         set(value) {
@@ -46,6 +59,19 @@ class RoundImageView @JvmOverloads constructor(
             measureBounds()
             invalidate()
         }
+
+    /**
+     * Set the radius size of the imageview's top-right in dp unit.
+     *
+     * @param radius The dp radius of the imageview's top-right corner.
+     */
+    fun setTopRightRadiusInDp(radius: Float) {
+        this.topRightRadius = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            radius,
+            resources.displayMetrics
+        )
+    }
 
     /** The radius of the imageview's bottom-right in pixel unit. */
     var bottomRightRadius: Float = defaultRadius
@@ -55,6 +81,19 @@ class RoundImageView @JvmOverloads constructor(
             invalidate()
         }
 
+    /**
+     * Set the radius size of the imageview's bottom-right in dp unit.
+     *
+     * @param radius The dp radius of the imageview's bottom-right corner.
+     */
+    fun setBottomRightRadiusInDp(radius: Float) {
+        this.bottomRightRadius = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            radius,
+            resources.displayMetrics
+        )
+    }
+
     /** The radius of the imageview's bottom-left in pixel unit. */
     var bottomLeftRadius: Float = defaultRadius
         set(value) {
@@ -62,6 +101,78 @@ class RoundImageView @JvmOverloads constructor(
             measureBounds()
             invalidate()
         }
+
+    /**
+     * Set the radius size of the imageview's bottom-left in dp unit.
+     *
+     * @param radius The dp radius of the imageview's bottom-left corner.
+     */
+    fun setBottomLeftRadiusInDp(radius: Float) {
+        this.bottomLeftRadius = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            radius,
+            resources.displayMetrics
+        )
+    }
+
+    /**
+     * Set the radius size of the imageview in pixel unit.
+     *
+     * @param radius The pixel radius of the imageview's corners.
+     */
+    fun setRadius(radius: Float) {
+        this.topLeftRadius = radius
+        this.topRightRadius = radius
+        this.bottomRightRadius = radius
+        this.bottomLeftRadius = radius
+    }
+
+    /**
+     * Set the radius size of the imageview in dp unit.
+     *
+     * @param radius The dp radius of the imageview's corners.
+     */
+    fun setRadiusInDp(radius: Float) {
+        val dpRadius = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            radius,
+            resources.displayMetrics
+        )
+        this.topLeftRadius = dpRadius
+        this.topRightRadius = dpRadius
+        this.bottomRightRadius = dpRadius
+        this.bottomLeftRadius = dpRadius
+    }
+
+    /**
+     * Set the radius size of the imageview in pixel unit.
+     *
+     * @param topLeft The top-left corner radius size in pixel.
+     * @param topRight The top-right corner radius size in pixel.
+     * @param bottomRight The bottom-right corner radius size in pixel.
+     * @param bottomLeft The bottom-left corner radius size in pixel.
+     */
+    fun setRadius(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
+        this.topLeftRadius = topLeft
+        this.topRightRadius = topRight
+        this.bottomRightRadius = bottomRight
+        this.bottomLeftRadius = bottomLeft
+    }
+
+    /**
+     * Set the radius size of the imageview in dp unit.
+     *
+     * @param topLeft The top-left corner radius size in dp.
+     * @param topRight The top-right corner radius size in dp.
+     * @param bottomRight The bottom-right corner radius size in dp.
+     * @param bottomLeft The bottom-left corner radius size in dp.
+     */
+    fun setRadiusInDp(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
+        setTopLeftRadiusInDp(topLeft)
+        setTopRightRadiusInDp(topRight)
+        setBottomRightRadiusInDp(bottomRight)
+        setBottomLeftRadiusInDp(bottomLeft)
+    }
 
     /** The radius of the border's top-left in pixel unit. */
     private var borderTopLeftRadius: Float = defaultRadius
