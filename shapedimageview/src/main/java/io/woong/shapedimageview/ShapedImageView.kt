@@ -138,10 +138,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /** The paint object to draw [image]. */
     protected val imagePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-    /**
-     * The border size of this imageview.
-     * Its unit is pixel.
-     */
+    /** The border size of this imageview in pixel unit. */
     var borderSize: Float = DEFAULT_BORDER_SIZE
         set(value) {
             field = value
@@ -152,7 +149,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /**
      * Set [borderSize] of this imageview in dp unit.
      *
-     * @param size The size value in dp unit.
+     * @param size The dp size of the border.
      */
     fun setBorderSizeInDp(size: Int) {
         this.setBorderSizeInDp(size.toFloat())
@@ -161,7 +158,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /**
      * Set [borderSize] of this imageview in dp unit.
      *
-     * @param size The size value in dp unit.
+     * @param size The dp size of the border.
      */
     fun setBorderSizeInDp(size: Float) {
         this.borderSize = TypedValue.applyDimension(
@@ -197,10 +194,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /** The paint object to draw border. */
     protected val borderPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-    /**
-     * The shadow size of this imageview.
-     * Its unit is pixel.
-     */
+    /** The shadow size of this imageview in pixel unit. */
     var shadowSize: Float = DEFAULT_SHADOW_SIZE
         set(value) {
             field = value
@@ -211,7 +205,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /**
      * Set shadow size of this imageview in dp unit.
      *
-     * @param size The size value in dp unit.
+     * @param size The dp size of the shadow.
      */
     fun setShadowSizeInDp(size: Int) {
         this.setShadowSizeInDp(size.toFloat())
@@ -220,7 +214,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /**
      * Set shadow size of this imageview in dp unit.
      *
-     * @param size The size value in dp unit.
+     * @param size The dp size of the shadow.
      */
     fun setShadowSizeInDp(size: Float) {
         this.shadowSize = TypedValue.applyDimension(

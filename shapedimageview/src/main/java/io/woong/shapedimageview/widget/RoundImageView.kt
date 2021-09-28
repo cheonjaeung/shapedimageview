@@ -31,10 +31,7 @@ class RoundImageView @JvmOverloads constructor(
         this.resources.displayMetrics
     )
 
-    /**
-     * The radius of the imageview's top-left.
-     * Its unit is pixel.
-     */
+    /** The radius of the imageview's top-left in pixel unit. */
     var topLeftRadius: Float = defaultRadius
         set(value) {
             field = value
@@ -42,10 +39,7 @@ class RoundImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * The radius of the imageview's top-right.
-     * Its unit is pixel.
-     */
+    /** The radius of the imageview's top-right in pixel unit. */
     var topRightRadius: Float = defaultRadius
         set(value) {
             field = value
@@ -53,10 +47,7 @@ class RoundImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * The radius of the imageview's bottom-right.
-     * Its unit is pixel.
-     */
+    /** The radius of the imageview's bottom-right in pixel unit. */
     var bottomRightRadius: Float = defaultRadius
         set(value) {
             field = value
@@ -64,10 +55,7 @@ class RoundImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * The radius of the imageview's bottom-left.
-     * Its unit is pixel.
-     */
+    /** The radius of the imageview's bottom-left in pixel unit. */
     var bottomLeftRadius: Float = defaultRadius
         set(value) {
             field = value
@@ -75,52 +63,28 @@ class RoundImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * The radius of the border's top-left.
-     * Its unit is pixel.
-     */
+    /** The radius of the border's top-left in pixel unit. */
     private var borderTopLeftRadius: Float = defaultRadius
 
-    /**
-     * The radius of the border's top-right.
-     * Its unit is pixel.
-     */
+    /** The radius of the border's top-right in pixel unit. */
     private var borderTopRightRadius: Float = defaultRadius
 
-    /**
-     * The radius of the border's bottom-right.
-     * Its unit is pixel.
-     */
+    /** The radius of the border's bottom-right in pixel unit. */
     private var borderBottomRightRadius: Float = defaultRadius
 
-    /**
-     * The radius of the border's bottom-left.
-     * Its unit is pixel.
-     */
+    /** The radius of the border's bottom-left in pixel unit. */
     private var borderBottomLeftRadius: Float = defaultRadius
 
-    /**
-     * The radius of the shadow's top-left.
-     * Its unit is pixel.
-     */
+    /** The radius of the shadow's top-left in pixel unit. */
     private var shadowTopLeftRadius: Float = defaultRadius
 
-    /**
-     * The radius of the shadow's top-right.
-     * Its unit is pixel.
-     */
+    /** The radius of the shadow's top-right in pixel unit. */
     private var shadowTopRightRadius: Float = defaultRadius
 
-    /**
-     * The radius of the shadow's bottom-right.
-     * Its unit is pixel.
-     */
+    /** The radius of the shadow's bottom-right in pixel unit. */
     private var shadowBottomRightRadius: Float = defaultRadius
 
-    /**
-     * The radius of the shadow's bottom-left.
-     * Its unit is pixel.
-     */
+    /** The radius of the shadow's bottom-left in pixel unit. */
     private var shadowBottomLeftRadius: Float = defaultRadius
 
     init {

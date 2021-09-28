@@ -31,10 +31,7 @@ class CutCornerImageView @JvmOverloads constructor(
         this.resources.displayMetrics
     )
 
-    /**
-     * The cut size of the imageview's top-left.
-     * Its unit is pixel.
-     */
+    /** The cut size of the imageview's top-left in pixel unit. */
     var topLeftCutSize: Float = defaultCutSize
         set(value) {
             field = value
@@ -42,10 +39,7 @@ class CutCornerImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * The cut size of the imageview's top-right.
-     * Its unit is pixel.
-     */
+    /** The cut size of the imageview's top-right in pixel unit. */
     var topRightCutSize: Float = defaultCutSize
         set(value) {
             field = value
@@ -53,10 +47,7 @@ class CutCornerImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * The cut size of the imageview's bottom-right.
-     * Its unit is pixel.
-     */
+    /** The cut size of the imageview's bottom-right in pixel unit. */
     var bottomRightCutSize: Float = defaultCutSize
         set(value) {
             field = value
@@ -64,10 +55,7 @@ class CutCornerImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * The cut size of the imageview's bottom-left.
-     * Its unit is pixel.
-     */
+    /** The cut size of the imageview's bottom-left in pixel unit. */
     var bottomLeftCutSize: Float = defaultCutSize
         set(value) {
             field = value
@@ -75,52 +63,28 @@ class CutCornerImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * The cut size of the border's top-left.
-     * Its unit is pixel.
-     */
+    /** The cut size of the border's top-left in pixel unit. */
     private var borderTopLeftCutSize: Float = defaultCutSize
 
-    /**
-     * The cut size of the border's top-right.
-     * Its unit is pixel.
-     */
+    /** The cut size of the border's top-right in pixel unit. */
     private var borderTopRightCutSize: Float = defaultCutSize
 
-    /**
-     * The cut size of the border's bottom-right.
-     * Its unit is pixel.
-     */
+    /** The cut size of the border's bottom-right in pixel unit. */
     private var borderBottomRightCutSize: Float = defaultCutSize
 
-    /**
-     * The cut size of the border's bottom-left.
-     * Its unit is pixel.
-     */
+    /** The cut size of the border's bottom-left in pixel unit. */
     private var borderBottomLeftCutSize: Float = defaultCutSize
 
-    /**
-     * The cut size of the shadow's top-left.
-     * Its unit is pixel.
-     */
+    /** The cut size of the shadow's top-left in pixel unit. */
     private var shadowTopLeftCutSize: Float = defaultCutSize
 
-    /**
-     * The cut size of the shadow's top-right.
-     * Its unit is pixel.
-     */
+    /** The cut size of the shadow's top-right in pixel unit. */
     private var shadowTopRightCutSize: Float = defaultCutSize
 
-    /**
-     * The cut size of the shadow's bottom-right.
-     * Its unit is pixel.
-     */
+    /** The cut size of the shadow's bottom-right in pixel unit. */
     private var shadowBottomRightCutSize: Float = defaultCutSize
 
-    /**
-     * The cut size of the shadow's bottom-left.
-     * Its unit is pixel.
-     */
+    /** The cut size of the shadow's bottom-left in pixel unit. */
     private var shadowBottomLeftCutSize: Float = defaultCutSize
 
     init {
