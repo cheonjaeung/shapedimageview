@@ -116,11 +116,11 @@ class RoundImageView @JvmOverloads constructor(
     }
 
     /**
-     * Set the radius size of the imageview in pixel unit.
+     * Set the all corner's radius size of the imageview in pixel unit.
      *
      * @param radius The pixel radius of the imageview's corners.
      */
-    fun setRadius(radius: Float) {
+    fun setRadii(radius: Float) {
         this.topLeftRadius = radius
         this.topRightRadius = radius
         this.bottomRightRadius = radius
@@ -128,11 +128,11 @@ class RoundImageView @JvmOverloads constructor(
     }
 
     /**
-     * Set the radius size of the imageview in dp unit.
+     * Set the all corner's radius size of the imageview in dp unit.
      *
      * @param radius The dp radius of the imageview's corners.
      */
-    fun setRadiusInDp(radius: Float) {
+    fun setRadiiInDp(radius: Float) {
         val dpRadius = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             radius,
@@ -145,14 +145,14 @@ class RoundImageView @JvmOverloads constructor(
     }
 
     /**
-     * Set the radius size of the imageview in pixel unit.
+     * Set the all corner's radius size of the imageview in pixel unit.
      *
      * @param topLeft The top-left corner radius size in pixel.
      * @param topRight The top-right corner radius size in pixel.
      * @param bottomRight The bottom-right corner radius size in pixel.
      * @param bottomLeft The bottom-left corner radius size in pixel.
      */
-    fun setRadius(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
+    fun setRadii(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
         this.topLeftRadius = topLeft
         this.topRightRadius = topRight
         this.bottomRightRadius = bottomRight
@@ -160,14 +160,14 @@ class RoundImageView @JvmOverloads constructor(
     }
 
     /**
-     * Set the radius size of the imageview in dp unit.
+     * Set the all corner's radius size of the imageview in dp unit.
      *
      * @param topLeft The top-left corner radius size in dp.
      * @param topRight The top-right corner radius size in dp.
      * @param bottomRight The bottom-right corner radius size in dp.
      * @param bottomLeft The bottom-left corner radius size in dp.
      */
-    fun setRadiusInDp(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
+    fun setRadiiInDp(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
         setTopLeftRadiusInDp(topLeft)
         setTopRightRadiusInDp(topRight)
         setBottomRightRadiusInDp(bottomRight)

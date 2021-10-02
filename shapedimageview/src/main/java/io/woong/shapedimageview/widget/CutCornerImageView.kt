@@ -116,11 +116,11 @@ class CutCornerImageView @JvmOverloads constructor(
     }
 
     /**
-     * Set the cut size of the imageview in pixel unit.
+     * Set the all corner's cut size of the imageview in pixel unit.
      *
      * @param size The pixel size of the imageview's corners.
      */
-    fun setCutSize(size: Float) {
+    fun setCutSizes(size: Float) {
         this.topLeftCutSize = size
         this.topRightCutSize = size
         this.bottomRightCutSize = size
@@ -128,11 +128,11 @@ class CutCornerImageView @JvmOverloads constructor(
     }
 
     /**
-     * Set the cut size of the imageview in dp unit.
+     * Set the all corner's cut size of the imageview in dp unit.
      *
      * @param size The dp size of the imageview's corners.
      */
-    fun setCutSizeInDp(size: Float) {
+    fun setCutSizesInDp(size: Float) {
         val dpSize = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             size,
@@ -145,14 +145,14 @@ class CutCornerImageView @JvmOverloads constructor(
     }
 
     /**
-     * Set the cut size of the imageview in pixel unit.
+     * Set the all corner's cut size of the imageview in pixel unit.
      *
      * @param topLeft The top-left corner cut size in pixel.
      * @param topRight The top-right corner cut size in pixel.
      * @param bottomRight The bottom-right corner cut size in pixel.
      * @param bottomLeft The bottom-left corner cut size in pixel.
      */
-    fun setCutSize(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
+    fun setCutSizes(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
         this.topLeftCutSize = topLeft
         this.topRightCutSize = topRight
         this.bottomRightCutSize = bottomRight
@@ -160,14 +160,14 @@ class CutCornerImageView @JvmOverloads constructor(
     }
 
     /**
-     * Set the cut size of the imageview in dp unit.
+     * Set the all corner's cut size of the imageview in dp unit.
      *
      * @param topLeft The top-left corner cut size in dp.
      * @param topRight The top-right corner cut size in dp.
      * @param bottomRight The bottom-right corner cut size in dp.
      * @param bottomLeft The bottom-left corner cut size in dp.
      */
-    fun setCutSizeInDp(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
+    fun setCutSizesInDp(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
         setTopLeftCutSizeInDp(topLeft)
         setTopRightCutSizeInDp(topRight)
         setBottomRightCutSizeInDp(bottomRight)
