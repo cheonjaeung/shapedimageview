@@ -9,6 +9,28 @@ import io.woong.shapedimageview.util.drawFormula
 
 /**
  * The shaped image view that draw image in specified formula shape.
+ *
+ * To use this imageview, you should add this imageview in your xml.
+ *
+ * ```
+ *      <io.woong.shapedimageview.FormulableImageView
+ *          android:layout_width="200dp"
+ *          android:layout_height="200dp"
+ *          android:src="@drawable/sample" />
+ * ```
+ *
+ * And you should apply [Formula] to shape this imageview.
+ *
+ * ```
+ *      val iv = findViewById<FormulableImageView>(R.id.formulable)
+ *      iv.formula = MyCustomFormula()
+ * ```
+ *
+ * You can create your custom formula or use predefined formula likes
+ * [EllipseFormula][io.woong.shapedimageview.formula.EllipseFormula]
+ * or [SuperEllipseFormula][io.woong.shapedimageview.formula.SuperEllipseFormula].
+ *
+ * @see io.woong.shapedimageview.Formula
  */
 class FormulableImageView @JvmOverloads constructor(
     context: Context,

@@ -6,6 +6,15 @@ import android.util.AttributeSet
 
 /**
  * The shaped image view that draw image in oval (ellipse) shape.
+ *
+ * To use this imageview in xml, you can add this view simply like below code.
+ *
+ * ```
+ *      <io.woong.shapedimageview.OvalImageView
+ *          android:layout_width="200dp"
+ *          android:layout_height="200dp"
+ *          android:src="@drawable/sample" />
+ * ```
  */
 class OvalImageView @JvmOverloads constructor(
     context: Context,

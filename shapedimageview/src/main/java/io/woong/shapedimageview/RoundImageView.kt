@@ -10,6 +10,37 @@ import io.woong.shapedimageview.util.drawRoundRect
 
 /**
  * The shaped image view that draw image in round rectangle shape.
+ *
+ * To use this imageview in xml, you can add this view simply like below code.
+ *
+ * ```
+ *      <io.woong.shapedimageview.RoundImageView
+ *          android:layout_width="200dp"
+ *          android:layout_height="200dp"
+ *          android:src="@drawable/sample" />
+ * ```
+ *
+ * In [RoundImageView], there are some attributes to configure this imageview.
+ * The most important attribute is `radius`.
+ *
+ * ```
+ *      <!-- To apply all corner radius in one line. -->
+ *      <io.woong.shapedimageview.RoundImageView
+ *          android:layout_width="200dp"
+ *          android:layout_height="200dp"
+ *          android:src="@drawable/sample"
+ *          app:radius="32dp" />
+ *
+ *      <!-- To apply each corner radius. -->
+ *      <io.woong.shapedimageview.RoundImageView
+ *          android:layout_width="200dp"
+ *          android:layout_height="200dp"
+ *          android:src="@drawable/sample"
+ *          app:top_left_radius="8dp"
+ *          app:top_right_radius="12dp"
+ *          app:bottom_right_radius="16dp"
+ *          app:bottom_left_radius="24dp" />
+ * ```
  */
 class RoundImageView @JvmOverloads constructor(
     context: Context,

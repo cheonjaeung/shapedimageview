@@ -10,6 +10,37 @@ import io.woong.shapedimageview.util.drawCutCornerRect
 
 /**
  * The shaped image view that draw image in corner-cut rectangle shape.
+ *
+ * To use this imageview in xml, you can add this view simply like below code.
+ *
+ * ```
+ *      <io.woong.shapedimageview.CutCornerImageView
+ *          android:layout_width="200dp"
+ *          android:layout_height="200dp"
+ *          android:src="@drawable/sample" />
+ * ```
+ *
+ * In [CutCornerImageView], there are some attributes to configure this imageview.
+ * The most important attribute is `cut size`.
+ *
+ * ```
+ *      <!-- To apply all corner cut-size in one line. -->
+ *      <io.woong.shapedimageview.CutCornerImageView
+ *          android:layout_width="200dp"
+ *          android:layout_height="200dp"
+ *          android:src="@drawable/sample"
+ *          app:cut_size="32dp" />
+ *
+ *      <!-- To apply each corner cut-size. -->
+ *      <io.woong.shapedimageview.CutCornerImageView
+ *          android:layout_width="200dp"
+ *          android:layout_height="200dp"
+ *          android:src="@drawable/sample"
+ *          app:top_left_cut_size="8dp"
+ *          app:top_right_cut_size="12dp"
+ *          app:bottom_right_cut_size="16dp"
+ *          app:bottom_left_cut_size="24dp" />
+ * ```
  */
 class CutCornerImageView @JvmOverloads constructor(
     context: Context,
