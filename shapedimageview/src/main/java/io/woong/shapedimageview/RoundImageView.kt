@@ -88,6 +88,22 @@ class RoundImageView @JvmOverloads constructor(
         this.bottomLeftRadius = bottomLeft
     }
 
+    /**
+     * Set the all corner's radius size of the imageview in pixel unit.
+     *
+     * @param radii The array of the 4 corner's radius.
+     * The order is left, top, right and bottom.
+     */
+    fun setRadii(radii: FloatArray) {
+        if (radii.size != 4) {
+            throw IllegalArgumentException("setRadii's parameter should be an array or list that has 4 items.")
+        }
+        this.topLeftRadius = radii[0]
+        this.topRightRadius = radii[1]
+        this.bottomRightRadius = radii[2]
+        this.bottomLeftRadius = radii[3]
+    }
+
     /** The radius of the border's top-left in pixel unit. */
     private var borderTopLeftRadius: Float = defaultRadius
 

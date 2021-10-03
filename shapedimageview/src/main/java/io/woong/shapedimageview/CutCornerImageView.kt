@@ -88,6 +88,22 @@ class CutCornerImageView @JvmOverloads constructor(
         this.bottomLeftCutSize = bottomLeft
     }
 
+    /**
+     * Set the all corner's cut size of the imageview in pixel unit.
+     *
+     * @param sizes The array of the 4 corner's cut size.
+     * The order is left, top, right and bottom.
+     */
+    fun setCutSizes(sizes: FloatArray) {
+        if (sizes.size != 4) {
+            throw IllegalArgumentException("setCutSizes' parameter should be an array or list that has 4 items.")
+        }
+        this.topLeftCutSize = sizes[0]
+        this.topRightCutSize = sizes[1]
+        this.bottomRightCutSize = sizes[2]
+        this.bottomLeftCutSize = sizes[3]
+    }
+
     /** The cut size of the border's top-left in pixel unit. */
     private var borderTopLeftCutSize: Float = defaultCutSize
 
