@@ -3,7 +3,7 @@ package io.woong.shapedimageview
 import android.graphics.RectF
 
 /**
- * The shape formula interface to draw custom shape using [FormulableImageView][io.woong.shapedimageview.widget.FormulableImageView].
+ * The shape formula interface to draw custom shape using [FormulableImageView][io.woong.shapedimageview.FormulableImageView].
  *
  * In the imageview, the view creates shape using this formula object in 3 steps.
  *
@@ -19,7 +19,8 @@ import android.graphics.RectF
  * You can inherit from this interface to create your custom formula.
  * Or you can use a predefined formula.
  *
- * @see io.woong.shapedimageview.widget.FormulableImageView
+ * @see io.woong.shapedimageview.FormulableImageView
+ * @see io.woong.shapedimageview.formula.EllipseFormula
  * @see io.woong.shapedimageview.formula.SuperEllipseFormula
  */
 interface Formula {
