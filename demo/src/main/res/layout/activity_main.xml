@@ -20,7 +20,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintTop_toTopOf="parent">
 
-            <io.woong.shapedimageview.widget.OvalImageView
+            <io.woong.shapedimageview.OvalImageView
                 android:id="@+id/oval"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
@@ -28,7 +28,7 @@
                 android:layout_gravity="center"
                 android:visibility="visible" />
 
-            <io.woong.shapedimageview.widget.RoundImageView
+            <io.woong.shapedimageview.RoundImageView
                 android:id="@+id/round"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
@@ -37,7 +37,7 @@
                 android:visibility="gone"
                 app:radius="32dp" />
 
-            <io.woong.shapedimageview.widget.CutCornerImageView
+            <io.woong.shapedimageview.CutCornerImageView
                 android:id="@+id/cut_corner"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
@@ -46,7 +46,7 @@
                 android:visibility="gone"
                 app:cut_size="32dp" />
 
-            <io.woong.shapedimageview.widget.FormulableImageView
+            <io.woong.shapedimageview.FormulableImageView
                 android:id="@+id/formulable"
                 android:layout_width="200dp"
                 android:layout_height="200dp"

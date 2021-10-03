@@ -9,10 +9,10 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import io.woong.shapedimageview.ShapedImageView
 import io.woong.shapedimageview.formula.SuperEllipseFormula
-import io.woong.shapedimageview.widget.CutCornerImageView
-import io.woong.shapedimageview.widget.FormulableImageView
-import io.woong.shapedimageview.widget.OvalImageView
-import io.woong.shapedimageview.widget.RoundImageView
+import io.woong.shapedimageview.CutCornerImageView
+import io.woong.shapedimageview.FormulableImageView
+import io.woong.shapedimageview.OvalImageView
+import io.woong.shapedimageview.RoundImageView
 
 class MainActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
 
