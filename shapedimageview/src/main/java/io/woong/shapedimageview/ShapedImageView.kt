@@ -6,7 +6,6 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.TypedValue
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
@@ -146,21 +145,6 @@ abstract class ShapedImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * Set [borderSize] of this imageview in dp unit.
-     *
-     * @param size The dp size of the border.
-     */
-    fun setBorderSizeInDp(size: Float) {
-        this.borderSize = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            size,
-            this.resources.displayMetrics
-        )
-        measureBounds()
-        invalidate()
-    }
-
     /** The border color of this imageview. */
     @ColorInt
     var borderColor: Int = DEFAULT_BORDER_COLOR
@@ -192,21 +176,6 @@ abstract class ShapedImageView @JvmOverloads constructor(
             measureBounds()
             invalidate()
         }
-
-    /**
-     * Set shadow size of this imageview in dp unit.
-     *
-     * @param size The dp size of the shadow.
-     */
-    fun setShadowSizeInDp(size: Float) {
-        this.shadowSize = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            size,
-            this.resources.displayMetrics
-        )
-        measureBounds()
-        invalidate()
-    }
 
     /** The shadow color of this imageview. */
     @ColorInt

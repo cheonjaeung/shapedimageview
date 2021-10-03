@@ -39,19 +39,6 @@ class CutCornerImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * Set the cut size of the imageview's top-left in dp unit.
-     *
-     * @param size The dp size of the imageview's top-left corner.
-     */
-    fun setTopLeftCutSizeInDp(size: Float) {
-        this.topLeftCutSize = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            size,
-            resources.displayMetrics
-        )
-    }
-
     /** The cut size of the imageview's top-right in pixel unit. */
     var topRightCutSize: Float = defaultCutSize
         set(value) {
@@ -59,19 +46,6 @@ class CutCornerImageView @JvmOverloads constructor(
             measureBounds()
             invalidate()
         }
-
-    /**
-     * Set the cut size of the imageview's top-right in dp unit.
-     *
-     * @param size The dp size of the imageview's top-right corner.
-     */
-    fun setTopRightCutSizeInDp(size: Float) {
-        this.topRightCutSize = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            size,
-            resources.displayMetrics
-        )
-    }
 
     /** The cut size of the imageview's bottom-right in pixel unit. */
     var bottomRightCutSize: Float = defaultCutSize
@@ -81,19 +55,6 @@ class CutCornerImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    /**
-     * Set the cut size of the imageview's bottom-right in dp unit.
-     *
-     * @param size The dp size of the imageview's bottom-right corner.
-     */
-    fun setBottomRightCutSizeInDp(size: Float) {
-        this.bottomRightCutSize = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            size,
-            resources.displayMetrics
-        )
-    }
-
     /** The cut size of the imageview's bottom-left in pixel unit. */
     var bottomLeftCutSize: Float = defaultCutSize
         set(value) {
@@ -101,19 +62,6 @@ class CutCornerImageView @JvmOverloads constructor(
             measureBounds()
             invalidate()
         }
-
-    /**
-     * Set the cut size of the imageview's bottom-left in dp unit.
-     *
-     * @param size The dp size of the imageview's bottom-left corner.
-     */
-    fun setBottomLeftCutSizeInDp(size: Float) {
-        this.bottomLeftCutSize = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            size,
-            resources.displayMetrics
-        )
-    }
 
     /**
      * Set the all corner's cut size of the imageview in pixel unit.
@@ -125,23 +73,6 @@ class CutCornerImageView @JvmOverloads constructor(
         this.topRightCutSize = size
         this.bottomRightCutSize = size
         this.bottomLeftCutSize = size
-    }
-
-    /**
-     * Set the all corner's cut size of the imageview in dp unit.
-     *
-     * @param size The dp size of the imageview's corners.
-     */
-    fun setCutSizesInDp(size: Float) {
-        val dpSize = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            size,
-            resources.displayMetrics
-        )
-        this.topLeftCutSize = dpSize
-        this.topRightCutSize = dpSize
-        this.bottomRightCutSize = dpSize
-        this.bottomLeftCutSize = dpSize
     }
 
     /**
@@ -157,21 +88,6 @@ class CutCornerImageView @JvmOverloads constructor(
         this.topRightCutSize = topRight
         this.bottomRightCutSize = bottomRight
         this.bottomLeftCutSize = bottomLeft
-    }
-
-    /**
-     * Set the all corner's cut size of the imageview in dp unit.
-     *
-     * @param topLeft The top-left corner cut size in dp.
-     * @param topRight The top-right corner cut size in dp.
-     * @param bottomRight The bottom-right corner cut size in dp.
-     * @param bottomLeft The bottom-left corner cut size in dp.
-     */
-    fun setCutSizesInDp(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
-        setTopLeftCutSizeInDp(topLeft)
-        setTopRightCutSizeInDp(topRight)
-        setBottomRightCutSizeInDp(bottomRight)
-        setBottomLeftCutSizeInDp(bottomLeft)
     }
 
     /** The cut size of the border's top-left in pixel unit. */
