@@ -1,13 +1,11 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-package io.woong.shapedimageview.widget
+package io.woong.shapedimageview
 
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.TypedValue
-import io.woong.shapedimageview.R
-import io.woong.shapedimageview.ShapedImageView
 import io.woong.shapedimageview.util.drawRoundRect
 
 /**

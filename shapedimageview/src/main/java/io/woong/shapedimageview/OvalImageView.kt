@@ -1,9 +1,8 @@
-package io.woong.shapedimageview.widget
+package io.woong.shapedimageview
 
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import io.woong.shapedimageview.ShapedImageView
 
 /**
  * The shaped image view that draw image in oval (ellipse) shape.

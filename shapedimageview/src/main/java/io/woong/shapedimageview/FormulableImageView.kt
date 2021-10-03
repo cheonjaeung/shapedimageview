@@ -1,12 +1,10 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package io.woong.shapedimageview.widget
+package io.woong.shapedimageview
 
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import io.woong.shapedimageview.ShapedImageView
-import io.woong.shapedimageview.Formula
 import io.woong.shapedimageview.util.drawFormula
 
 /**
