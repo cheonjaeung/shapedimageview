@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package io.woong.shapedimageview.formula
 
 import android.graphics.RectF
