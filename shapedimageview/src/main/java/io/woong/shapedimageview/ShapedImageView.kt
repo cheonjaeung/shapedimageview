@@ -78,10 +78,10 @@ import io.woong.shapedimageview.util.toBitmap
  *      }
  * ```
  *
- * @see io.woong.shapedimageview.widget.CutCornerImageView
- * @see io.woong.shapedimageview.widget.FormulableImageView
- * @see io.woong.shapedimageview.widget.OvalImageView
- * @see io.woong.shapedimageview.widget.RoundImageView
+ * @see io.woong.shapedimageview.CutCornerImageView
+ * @see io.woong.shapedimageview.FormulableImageView
+ * @see io.woong.shapedimageview.OvalImageView
+ * @see io.woong.shapedimageview.RoundImageView
  */
 abstract class ShapedImageView @JvmOverloads constructor(
     context: Context,
