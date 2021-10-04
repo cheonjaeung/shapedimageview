@@ -156,7 +156,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
         }
 
     /** The enabled status of border. */
-    var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
+    open var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
         set(value) {
             field = value
             measureBounds()
@@ -187,7 +187,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
         }
 
     /** The enabled status of shadow. */
-    var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
+    open var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
         set(value) {
             field = value
             measureBounds()

@@ -53,6 +53,22 @@ class RoundImageView @JvmOverloads constructor(
         const val DEFAULT_RADIUS: Float = -1f
     }
 
+    override var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
+        set(value) {
+            field = value
+            measureBounds()
+            setBorderAndShadowRadii()
+            invalidate()
+        }
+
+    override var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
+        set(value) {
+            field = value
+            measureBounds()
+            setBorderAndShadowRadii()
+            invalidate()
+        }
+
     /** The value for using when radius is [DEFAULT_RADIUS]. */
     private val defaultRadius: Float = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,

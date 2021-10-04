@@ -53,6 +53,22 @@ class CutCornerImageView @JvmOverloads constructor(
         const val DEFAULT_CUT_SIZE: Float = -1f
     }
 
+    override var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
+        set(value) {
+            field = value
+            measureBounds()
+            setBorderAndShadowCutSizes()
+            invalidate()
+        }
+
+    override var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
+        set(value) {
+            field = value
+            measureBounds()
+            setBorderAndShadowCutSizes()
+            invalidate()
+        }
+
     /** The value for using when cut size is [DEFAULT_CUT_SIZE]. */
     private val defaultCutSize: Float = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
