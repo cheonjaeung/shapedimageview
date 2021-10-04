@@ -65,6 +65,7 @@ class RoundImageView @JvmOverloads constructor(
         set(value) {
             field = value
             measureBounds()
+            setBorderAndShadowRadii()
             invalidate()
         }
 
@@ -73,6 +74,7 @@ class RoundImageView @JvmOverloads constructor(
         set(value) {
             field = value
             measureBounds()
+            setBorderAndShadowRadii()
             invalidate()
         }
 
@@ -81,6 +83,7 @@ class RoundImageView @JvmOverloads constructor(
         set(value) {
             field = value
             measureBounds()
+            setBorderAndShadowRadii()
             invalidate()
         }
 
@@ -89,6 +92,7 @@ class RoundImageView @JvmOverloads constructor(
         set(value) {
             field = value
             measureBounds()
+            setBorderAndShadowRadii()
             invalidate()
         }
 
@@ -102,6 +106,7 @@ class RoundImageView @JvmOverloads constructor(
         this.topRightRadius = radius
         this.bottomRightRadius = radius
         this.bottomLeftRadius = radius
+        setBorderAndShadowRadii()
     }
 
     /**
@@ -117,6 +122,7 @@ class RoundImageView @JvmOverloads constructor(
         this.topRightRadius = topRight
         this.bottomRightRadius = bottomRight
         this.bottomLeftRadius = bottomLeft
+        setBorderAndShadowRadii()
     }
 
     /**
@@ -133,31 +139,76 @@ class RoundImageView @JvmOverloads constructor(
         this.topRightRadius = radii[1]
         this.bottomRightRadius = radii[2]
         this.bottomLeftRadius = radii[3]
+        setBorderAndShadowRadii()
     }
 
     /** The radius of the border's top-left in pixel unit. */
-    private var borderTopLeftRadius: Float = defaultRadius
+    private var borderTopLeftRadius: Float = topLeftRadius + borderSize
 
     /** The radius of the border's top-right in pixel unit. */
-    private var borderTopRightRadius: Float = defaultRadius
+    private var borderTopRightRadius: Float = topRightRadius + borderSize
 
     /** The radius of the border's bottom-right in pixel unit. */
-    private var borderBottomRightRadius: Float = defaultRadius
+    private var borderBottomRightRadius: Float = bottomRightRadius + borderSize
 
     /** The radius of the border's bottom-left in pixel unit. */
-    private var borderBottomLeftRadius: Float = defaultRadius
+    private var borderBottomLeftRadius: Float = bottomLeftRadius + borderSize
 
     /** The radius of the shadow's top-left in pixel unit. */
-    private var shadowTopLeftRadius: Float = defaultRadius
+    private var shadowTopLeftRadius: Float = if (borderEnabled) {
+        borderTopLeftRadius
+    } else {
+        topLeftRadius
+    }
 
     /** The radius of the shadow's top-right in pixel unit. */
-    private var shadowTopRightRadius: Float = defaultRadius
+    private var shadowTopRightRadius: Float = if (borderEnabled) {
+        borderTopRightRadius
+    } else {
+        topRightRadius
+    }
 
     /** The radius of the shadow's bottom-right in pixel unit. */
-    private var shadowBottomRightRadius: Float = defaultRadius
+    private var shadowBottomRightRadius: Float = if (borderEnabled) {
+        borderBottomRightRadius
+    } else {
+        bottomRightRadius
+    }
 
     /** The radius of the shadow's bottom-left in pixel unit. */
-    private var shadowBottomLeftRadius: Float = defaultRadius
+    private var shadowBottomLeftRadius: Float = if (borderEnabled) {
+        borderBottomLeftRadius
+    } else {
+        bottomLeftRadius
+    }
+
+    /**
+     * Change border radii and shadow radii.
+     */
+    private fun setBorderAndShadowRadii() {
+        if (borderEnabled) {
+            val topLeft = topLeftRadius + borderSize
+            borderTopLeftRadius = topLeft
+            shadowTopLeftRadius = topLeft
+
+            val topRight = topRightRadius + borderSize
+            borderTopRightRadius = topRight
+            shadowTopRightRadius = topRight
+
+            val bottomRight = bottomRightRadius + borderSize
+            borderBottomRightRadius = bottomRight
+            shadowBottomRightRadius = bottomRight
+
+            val bottomLeft = bottomLeftRadius + borderSize
+            borderBottomLeftRadius = bottomLeft
+            shadowBottomLeftRadius = bottomLeft
+        } else {
+            shadowTopLeftRadius = topLeftRadius
+            shadowTopRightRadius = topRightRadius
+            shadowBottomRightRadius = bottomRightRadius
+            shadowBottomLeftRadius = bottomLeftRadius
+        }
+    }
 
     init {
         applyAttributes(attrs, defStyle)
@@ -169,94 +220,25 @@ class RoundImageView @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView, defStyle, 0)
 
         try {
-            val r = a.getDimension(R.styleable.RoundImageView_radius, DEFAULT_RADIUS)
-            if (r != DEFAULT_RADIUS) {
-                this.topLeftRadius = r
-                this.topRightRadius = r
-                this.bottomRightRadius = r
-                this.bottomLeftRadius = r
+            if (a.hasValue(R.styleable.RoundImageView_radius)) {
+                val r = a.getDimension(R.styleable.RoundImageView_radius, defaultRadius)
+                setRadii(r)
             }
 
-            val bs = if (borderEnabled) {
-                this.borderSize
-            } else {
-                0f
-            }
-            this.borderTopLeftRadius = this.topLeftRadius + bs
-            this.borderTopRightRadius = this.topRightRadius + bs
-            this.borderBottomRightRadius = this.bottomRightRadius + bs
-            this.borderBottomLeftRadius = this.bottomLeftRadius + bs
-
-            if (shadowEnabled) {
-                this.shadowTopLeftRadius = this.borderTopLeftRadius
-                this.shadowTopRightRadius = this.borderTopRightRadius
-                this.shadowBottomRightRadius = this.borderBottomRightRadius
-                this.shadowBottomLeftRadius = this.borderBottomLeftRadius
-            } else {
-                this.shadowTopLeftRadius = this.topLeftRadius
-                this.shadowTopRightRadius = this.topRightRadius
-                this.shadowBottomRightRadius = this.bottomRightRadius
-                this.shadowBottomLeftRadius = this.bottomLeftRadius
+            if (a.hasValue(R.styleable.RoundImageView_top_left_radius)) {
+                topLeftRadius = a.getDimension(R.styleable.RoundImageView_top_left_radius, defaultRadius)
             }
 
-            val rtl = a.getDimension(R.styleable.RoundImageView_top_left_radius, DEFAULT_RADIUS)
-            if (rtl != DEFAULT_RADIUS) {
-                this.topLeftRadius = rtl
-                this.borderTopLeftRadius = if (borderEnabled) {
-                    rtl + this.borderSize
-                } else {
-                    rtl
-                }
-                this.shadowTopLeftRadius = if (shadowEnabled) {
-                    this.borderTopLeftRadius
-                } else {
-                    rtl
-                }
+            if (a.hasValue(R.styleable.RoundImageView_top_right_radius)) {
+                topRightRadius = a.getDimension(R.styleable.RoundImageView_top_right_radius, defaultRadius)
             }
 
-            val rtr = a.getDimension(R.styleable.RoundImageView_top_right_radius, DEFAULT_RADIUS)
-            if (rtr != DEFAULT_RADIUS) {
-                this.topRightRadius = rtr
-                this.borderTopRightRadius = if (borderEnabled) {
-                    rtr + this.borderSize
-                } else {
-                    rtr
-                }
-                this.shadowTopRightRadius = if (shadowEnabled) {
-                    this.borderTopRightRadius
-                } else {
-                    rtr
-                }
+            if (a.hasValue(R.styleable.RoundImageView_bottom_right_radius)) {
+                bottomRightRadius = a.getDimension(R.styleable.RoundImageView_bottom_right_radius, defaultRadius)
             }
 
-            val rbr = a.getDimension(R.styleable.RoundImageView_bottom_right_radius, DEFAULT_RADIUS)
-            if (rbr != DEFAULT_RADIUS) {
-                this.bottomRightRadius = rbr
-                this.borderBottomRightRadius = if (borderEnabled) {
-                    rbr + this.borderSize
-                } else {
-                    rbr
-                }
-                this.shadowBottomRightRadius = if (shadowEnabled) {
-                    this.borderBottomRightRadius
-                } else {
-                    rbr
-                }
-            }
-
-            val rbl = a.getDimension(R.styleable.RoundImageView_bottom_left_radius, DEFAULT_RADIUS)
-            if (rbl != DEFAULT_RADIUS) {
-                this.bottomLeftRadius = rbl
-                this.borderBottomLeftRadius = if (borderEnabled) {
-                    rbl + this.borderSize
-                } else {
-                    rbl
-                }
-                this.shadowBottomLeftRadius = if (shadowEnabled) {
-                    this.borderBottomLeftRadius
-                } else {
-                    rbl
-                }
+            if (a.hasValue(R.styleable.RoundImageView_bottom_left_radius)) {
+                bottomLeftRadius = a.getDimension(R.styleable.RoundImageView_bottom_left_radius, defaultRadius)
             }
         } finally {
             a.recycle()

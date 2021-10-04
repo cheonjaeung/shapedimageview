@@ -65,6 +65,7 @@ class CutCornerImageView @JvmOverloads constructor(
         set(value) {
             field = value
             measureBounds()
+            setBorderAndShadowCutSizes()
             invalidate()
         }
 
@@ -73,6 +74,7 @@ class CutCornerImageView @JvmOverloads constructor(
         set(value) {
             field = value
             measureBounds()
+            setBorderAndShadowCutSizes()
             invalidate()
         }
 
@@ -81,6 +83,7 @@ class CutCornerImageView @JvmOverloads constructor(
         set(value) {
             field = value
             measureBounds()
+            setBorderAndShadowCutSizes()
             invalidate()
         }
 
@@ -89,6 +92,7 @@ class CutCornerImageView @JvmOverloads constructor(
         set(value) {
             field = value
             measureBounds()
+            setBorderAndShadowCutSizes()
             invalidate()
         }
 
@@ -102,6 +106,7 @@ class CutCornerImageView @JvmOverloads constructor(
         this.topRightCutSize = size
         this.bottomRightCutSize = size
         this.bottomLeftCutSize = size
+        setBorderAndShadowCutSizes()
     }
 
     /**
@@ -117,6 +122,7 @@ class CutCornerImageView @JvmOverloads constructor(
         this.topRightCutSize = topRight
         this.bottomRightCutSize = bottomRight
         this.bottomLeftCutSize = bottomLeft
+        setBorderAndShadowCutSizes()
     }
 
     /**
@@ -133,31 +139,76 @@ class CutCornerImageView @JvmOverloads constructor(
         this.topRightCutSize = sizes[1]
         this.bottomRightCutSize = sizes[2]
         this.bottomLeftCutSize = sizes[3]
+        setBorderAndShadowCutSizes()
     }
 
     /** The cut size of the border's top-left in pixel unit. */
-    private var borderTopLeftCutSize: Float = defaultCutSize
+    private var borderTopLeftCutSize: Float = topLeftCutSize + borderSize
 
     /** The cut size of the border's top-right in pixel unit. */
-    private var borderTopRightCutSize: Float = defaultCutSize
+    private var borderTopRightCutSize: Float = topRightCutSize + borderSize
 
     /** The cut size of the border's bottom-right in pixel unit. */
-    private var borderBottomRightCutSize: Float = defaultCutSize
+    private var borderBottomRightCutSize: Float = bottomRightCutSize + borderSize
 
     /** The cut size of the border's bottom-left in pixel unit. */
-    private var borderBottomLeftCutSize: Float = defaultCutSize
+    private var borderBottomLeftCutSize: Float = bottomLeftCutSize + borderSize
 
     /** The cut size of the shadow's top-left in pixel unit. */
-    private var shadowTopLeftCutSize: Float = defaultCutSize
+    private var shadowTopLeftCutSize: Float = if (borderEnabled) {
+        borderTopLeftCutSize
+    } else {
+        topLeftCutSize
+    }
 
     /** The cut size of the shadow's top-right in pixel unit. */
-    private var shadowTopRightCutSize: Float = defaultCutSize
+    private var shadowTopRightCutSize: Float = if (borderEnabled) {
+        borderTopRightCutSize
+    } else {
+        topRightCutSize
+    }
 
     /** The cut size of the shadow's bottom-right in pixel unit. */
-    private var shadowBottomRightCutSize: Float = defaultCutSize
+    private var shadowBottomRightCutSize: Float = if (borderEnabled) {
+        borderBottomRightCutSize
+    } else {
+        bottomRightCutSize
+    }
 
     /** The cut size of the shadow's bottom-left in pixel unit. */
-    private var shadowBottomLeftCutSize: Float = defaultCutSize
+    private var shadowBottomLeftCutSize: Float = if (borderEnabled) {
+        borderBottomLeftCutSize
+    } else {
+        bottomLeftCutSize
+    }
+
+    /**
+     * Change border and shadow's cut sizes.
+     */
+    private fun setBorderAndShadowCutSizes() {
+        if (borderEnabled) {
+            val topLeft = topLeftCutSize + borderSize
+            borderTopLeftCutSize = topLeft
+            shadowTopLeftCutSize = topLeft
+
+            val topRight = topRightCutSize + borderSize
+            borderTopRightCutSize = topRight
+            shadowTopRightCutSize = topRight
+
+            val bottomRight = bottomRightCutSize + borderSize
+            borderBottomRightCutSize = bottomRight
+            shadowBottomRightCutSize = bottomRight
+
+            val bottomLeft = bottomLeftCutSize + borderSize
+            borderBottomLeftCutSize = bottomLeft
+            shadowBottomLeftCutSize = bottomLeft
+        } else {
+            shadowTopLeftCutSize = topLeftCutSize
+            shadowTopRightCutSize = topRightCutSize
+            shadowBottomRightCutSize = bottomRightCutSize
+            shadowBottomLeftCutSize = bottomLeftCutSize
+        }
+    }
 
     init {
         applyAttributes(attrs, defStyle)
@@ -169,94 +220,25 @@ class CutCornerImageView @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(attrs, R.styleable.CutCornerImageView, defStyle, 0)
 
         try {
-            val c = a.getDimension(R.styleable.CutCornerImageView_cut_size, DEFAULT_CUT_SIZE)
-            if (c != DEFAULT_CUT_SIZE) {
-                this.topLeftCutSize = c
-                this.topRightCutSize = c
-                this.bottomRightCutSize = c
-                this.bottomLeftCutSize = c
+            if (a.hasValue(R.styleable.CutCornerImageView_cut_size)) {
+                val c = a.getDimension(R.styleable.CutCornerImageView_cut_size, defaultCutSize)
+                setCutSizes(c)
             }
 
-            val bs = if (borderEnabled) {
-                this.borderSize / 2
-            } else {
-                0f
-            }
-            this.borderTopLeftCutSize = this.topLeftCutSize + bs
-            this.borderTopRightCutSize = this.topRightCutSize + bs
-            this.borderBottomRightCutSize = this.bottomRightCutSize + bs
-            this.borderBottomLeftCutSize = this.bottomLeftCutSize + bs
-
-            if (shadowEnabled) {
-                this.shadowTopLeftCutSize = this.borderTopLeftCutSize
-                this.shadowTopRightCutSize = this.borderTopRightCutSize
-                this.shadowBottomRightCutSize = this.borderBottomRightCutSize
-                this.shadowBottomLeftCutSize = this.borderBottomLeftCutSize
-            } else {
-                this.shadowTopLeftCutSize = this.topLeftCutSize
-                this.shadowTopRightCutSize = this.topRightCutSize
-                this.shadowBottomRightCutSize = this.bottomRightCutSize
-                this.shadowBottomLeftCutSize = this.bottomLeftCutSize
+            if (a.hasValue(R.styleable.CutCornerImageView_top_left_cut_size)) {
+                topLeftCutSize = a.getDimension(R.styleable.CutCornerImageView_top_left_cut_size, defaultCutSize)
             }
 
-            val ctl = a.getDimension(R.styleable.CutCornerImageView_top_left_cut_size, DEFAULT_CUT_SIZE)
-            if (ctl != DEFAULT_CUT_SIZE) {
-                this.topLeftCutSize = ctl
-                this.borderTopLeftCutSize = if (borderEnabled) {
-                    ctl + (this.borderSize / 2)
-                } else {
-                    ctl
-                }
-                this.shadowTopLeftCutSize = if (shadowEnabled) {
-                    this.borderTopLeftCutSize
-                } else {
-                    ctl
-                }
+            if (a.hasValue(R.styleable.CutCornerImageView_top_right_cut_size)) {
+                topRightCutSize = a.getDimension(R.styleable.CutCornerImageView_top_left_cut_size, defaultCutSize)
             }
 
-            val ctr = a.getDimension(R.styleable.CutCornerImageView_top_right_cut_size, DEFAULT_CUT_SIZE)
-            if (ctr != DEFAULT_CUT_SIZE) {
-                this.topRightCutSize = ctr
-                this.borderTopRightCutSize = if (borderEnabled) {
-                    ctr + (this.borderSize / 2)
-                } else {
-                    ctr
-                }
-                this.shadowTopRightCutSize = if (shadowEnabled) {
-                    this.borderTopRightCutSize
-                } else {
-                    ctr
-                }
+            if (a.hasValue(R.styleable.CutCornerImageView_bottom_right_cut_size)) {
+                bottomRightCutSize = a.getDimension(R.styleable.CutCornerImageView_bottom_right_cut_size, defaultCutSize)
             }
 
-            val cbr = a.getDimension(R.styleable.CutCornerImageView_bottom_right_cut_size, DEFAULT_CUT_SIZE)
-            if (cbr != DEFAULT_CUT_SIZE) {
-                this.bottomRightCutSize = cbr
-                this.borderBottomRightCutSize = if (borderEnabled) {
-                    cbr + (this.borderSize / 2)
-                } else {
-                    cbr
-                }
-                this.shadowBottomRightCutSize = if (shadowEnabled) {
-                    this.borderBottomRightCutSize
-                } else {
-                    cbr
-                }
-            }
-
-            val cbl = a.getDimension(R.styleable.CutCornerImageView_bottom_left_cut_size, DEFAULT_CUT_SIZE)
-            if (cbl != DEFAULT_CUT_SIZE) {
-                this.bottomLeftCutSize = cbl
-                this.borderBottomLeftCutSize = if (borderEnabled) {
-                    cbl + (this.borderSize / 2)
-                } else {
-                    cbl
-                }
-                this.shadowBottomLeftCutSize = if (shadowEnabled) {
-                    this.borderBottomLeftCutSize
-                } else {
-                    cbl
-                }
+            if (a.hasValue(R.styleable.CutCornerImageView_bottom_left_cut_size)) {
+                bottomLeftCutSize = a.getDimension(R.styleable.CutCornerImageView_bottom_left_cut_size, defaultCutSize)
             }
         } finally {
             a.recycle()
