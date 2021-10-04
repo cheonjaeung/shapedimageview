@@ -213,12 +213,29 @@ abstract class ShapedImageView @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(attrs, R.styleable.ShapedImageView, defStyle, 0)
 
         try {
-            this.borderSize = a.getDimension(R.styleable.ShapedImageView_border_size, DEFAULT_BORDER_SIZE)
-            this.borderColor = a.getColor(R.styleable.ShapedImageView_border_color, DEFAULT_BORDER_COLOR)
-            this.borderEnabled = a.getBoolean(R.styleable.ShapedImageView_border_enabled, DEFAULT_BORDER_ENABLED)
-            this.shadowSize = a.getDimension(R.styleable.ShapedImageView_shadow_size, DEFAULT_SHADOW_SIZE)
-            this.shadowColor = a.getColor(R.styleable.ShapedImageView_shadow_color, DEFAULT_SHADOW_COLOR)
-            this.shadowEnabled = a.getBoolean(R.styleable.ShapedImageView_shadow_enabled, DEFAULT_SHADOW_ENABLED)
+            if (a.hasValue(R.styleable.ShapedImageView_border_size)) {
+                this.borderSize = a.getDimension(R.styleable.ShapedImageView_border_size, DEFAULT_BORDER_SIZE)
+            }
+
+            if (a.hasValue(R.styleable.ShapedImageView_border_color)) {
+                this.borderColor = a.getColor(R.styleable.ShapedImageView_border_color, DEFAULT_BORDER_COLOR)
+            }
+
+            if (a.hasValue(R.styleable.ShapedImageView_border_enabled)) {
+                this.borderEnabled = a.getBoolean(R.styleable.ShapedImageView_border_enabled, DEFAULT_BORDER_ENABLED)
+            }
+
+            if (a.hasValue(R.styleable.ShapedImageView_shadow_size)) {
+                this.shadowSize = a.getDimension(R.styleable.ShapedImageView_shadow_size, DEFAULT_SHADOW_SIZE)
+            }
+
+            if (a.hasValue(R.styleable.ShapedImageView_shadow_color)) {
+                this.shadowColor = a.getColor(R.styleable.ShapedImageView_shadow_color, DEFAULT_SHADOW_COLOR)
+            }
+
+            if (a.hasValue(R.styleable.ShapedImageView_shadow_enabled)) {
+                this.shadowEnabled = a.getBoolean(R.styleable.ShapedImageView_shadow_enabled, DEFAULT_SHADOW_ENABLED)
+            }
         } finally {
             a.recycle()
         }
