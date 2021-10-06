@@ -338,16 +338,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
          */
         fun needToUpdateBitmap(): Boolean = this.drawable != null && this.drawable != this.imageCache
 
-        val bounds = Bounds(
-            usableWidth = this.usableWidth,
-            usableHeight = this.usableHeight,
-            paddingLeft = this.paddingLeft,
-            paddingTop = this.paddingTop,
-            paddingRight = this.paddingRight,
-            paddingBottom = this.paddingBottom,
-            borderAdjustment = if (borderEnabled) borderSize else 0f,
-            shadowAdjustment = if (shadowEnabled) shadowSize else 0f
-        )
+        val bounds = Bounds.from(this)
 
         if (needToUpdateBitmap()) {
             this.imageCache = this.drawable
@@ -365,7 +356,7 @@ abstract class ShapedImageView @JvmOverloads constructor(
                 if (Build.VERSION.SDK_INT >= 31) {
                     when (this.scaleType) {
                         ScaleType.MATRIX -> this.imageMatrix
-                        ScaleType.FIT_XY -> Matrix()
+                        ScaleType.FIT_XY -> createFitXYMatrix(it, bounds)
                         ScaleType.FIT_START -> Matrix()
                         ScaleType.FIT_CENTER -> Matrix()
                         ScaleType.FIT_END -> Matrix()

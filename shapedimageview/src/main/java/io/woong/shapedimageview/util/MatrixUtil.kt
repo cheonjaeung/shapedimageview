@@ -2,49 +2,118 @@ package io.woong.shapedimageview.util
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import io.woong.shapedimageview.ShapedImageView
 
 /**
  * A data class for containing position related values of imageview.
  * The values are used for calculating scale and delta of bitmap shader matrix.
  *
- * @param usableWidth The width size that image should be drawn.
- * @param usableHeight The height size that image should be drawn.
- * @param paddingLeft Left padding size of imageview.
- * @param paddingTop Top padding size of imageview.
- * @param paddingRight Right padding size of imageview.
- * @param paddingBottom Bottom padding size of imageview.
- * @param borderAdjustment Adjustment size for border of imageview.
- * @param shadowAdjustment Adjustment size for shadow of imageview.
+ * @param width The view's width size.
+ * @param height The view's height size.
+ * @param paddings The array of the view's padding.
+ * @param borderSize The view's border size. If border is disabled, set it 0.
+ * @param shadowSize The view's shadow size. If shadow is disabled, set it 0.
  */
 internal data class Bounds(
-    val usableWidth: Float,
-    val usableHeight: Float,
-    val paddingLeft: Int = 0,
-    val paddingTop: Int = 0,
-    val paddingRight: Int = 0,
-    val paddingBottom: Int = 0,
-    val borderAdjustment: Float = 0f,
-    val shadowAdjustment: Float = 0f
-)
+    val width: Float,
+    val height: Float,
+    val paddings: FloatArray,
+    val borderSize: Float,
+    val shadowSize: Float
+) {
+    companion object {
+        /**
+         * Create a new [Bounds] from given [ShapedImageView].
+         */
+        fun from(view: ShapedImageView): Bounds = Bounds(
+            view.width.toFloat(),
+            view.height.toFloat(),
+            floatArrayOf(
+                view.paddingLeft.toFloat(),
+                view.paddingTop.toFloat(),
+                view.paddingRight.toFloat(),
+                view.paddingBottom.toFloat()
+            ),
+            if (view.borderEnabled) view.borderSize else 0f,
+            if (view.shadowEnabled) view.shadowSize else 0f
+        )
+    }
+
+    val paddingLeft: Float
+        get() = paddings[0]
+
+    val paddingTop: Float
+        get() = paddings[1]
+
+    val paddingRight: Float
+        get() = paddings[2]
+
+    val paddingBottom: Float
+        get() = paddings[3]
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Bounds
+
+        if (width != other.width) return false
+        if (height != other.height) return false
+        if (!paddings.contentEquals(other.paddings)) return false
+        if (borderSize != other.borderSize) return false
+        if (shadowSize != other.shadowSize) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = width.hashCode()
+        result = 31 * result + height.hashCode()
+        result = 31 * result + paddings.contentHashCode()
+        result = 31 * result + borderSize.hashCode()
+        result = 31 * result + shadowSize.hashCode()
+        return result
+    }
+}
 
 /**
- * Create a bitmap shader matrix for center crop scale type.
+ * Create a bitmap shader matrix for fit-xy scale type.
  *
- * @param bitmap The bitmap object to be drawn.
- * @param bounds The [Bounds] object that containing bounds of imageview.
+ * @param img The bitmap object to be drawn.
+ * @param b The [Bounds] object that containing bounds of imageview.
  *
- * @return A matrix object for center crop.
+ * @return A matrix object for fit-xy scale type.
  */
-internal fun createCenterCropMatrix(
-    bitmap: Bitmap,
-    bounds: Bounds
-): Matrix = Matrix().apply {
-    val width = bounds.usableWidth
-    val height = bounds.usableHeight
+internal fun createFitXYMatrix(img: Bitmap, b: Bounds): Matrix = Matrix().apply {
+    val width = b.usableWidth - (b.borderAdjustment * 2) - (b.shadowAdjustment * 2)
+    val height = b.usableHeight - (b.borderAdjustment * 2) - (b.shadowAdjustment * 2)
+    val bitmapWidth = img.width.toFloat()
+    val bitmapHeight = img.height.toFloat()
+
+    val scaleX = width / bitmapWidth
+    val scaleY = height / bitmapHeight
+    setScale(scaleX, scaleY)
+
+    val dx = (b.paddingLeft + (b.borderAdjustment * 2) + (b.shadowAdjustment * 2)) * scaleX
+    val dy = (b.paddingTop + (b.borderAdjustment * 2) + (b.shadowAdjustment * 2)) * scaleY
+    postTranslate(dx, dy)
+}
+
+/**
+ * Create a bitmap shader matrix for center-crop scale type.
+ *
+ * @param img The bitmap object to be drawn.
+ * @param b The [Bounds] object that containing bounds of imageview.
+ *
+ * @return A matrix object for center-crop scale type.
+ */
+internal fun createCenterCropMatrix(img: Bitmap, b: Bounds): Matrix = Matrix().apply {
+    val width = b.usableWidth
+    val height = b.usableHeight
     val ratio = width / height
 
-    val bitmapWidth = bitmap.width.toFloat()
-    val bitmapHeight = bitmap.height.toFloat()
+    val bitmapWidth = img.width.toFloat()
+    val bitmapHeight = img.height.toFloat()
     val bitmapRatio = bitmapWidth / bitmapHeight
 
     val scale: Float
@@ -95,7 +164,7 @@ internal fun createCenterCropMatrix(
 
     setScale(scale, scale)
 
-    val dxAdjustment = bounds.paddingLeft + bounds.borderAdjustment + bounds.shadowAdjustment
-    val dyAdjustment = bounds.paddingTop + bounds.borderAdjustment + bounds.shadowAdjustment
+    val dxAdjustment = b.paddingLeft + b.borderAdjustment + b.shadowAdjustment
+    val dyAdjustment = b.paddingTop + b.borderAdjustment + b.shadowAdjustment
     postTranslate(dx + dxAdjustment, dy + dyAdjustment)
 }
