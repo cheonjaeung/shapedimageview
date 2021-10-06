@@ -2,6 +2,8 @@ package io.woong.shapedimageview.util
 
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import androidx.annotation.RequiresApi
+import kotlin.math.abs
 
 /**
  * Create a bitmap shader matrix for fit-xy scale type.
@@ -23,6 +25,34 @@ internal fun createFitXYMatrix(img: Bitmap, b: Bounds): Matrix = Matrix().apply 
     val dy = b.paddingTop + b.borderSize + b.shadowSize
     postTranslate(dx, dy)
 }
+
+/**
+ * Create a bitmap shader matrix for fit-start scale type.
+ *
+ * @param img The bitmap object to be drawn.
+ * @param b The [Bounds] object that containing bounds of imageview.
+ *
+ * @return A matrix object for fit-start scale type.
+ */
+@RequiresApi(api = 31)
+internal fun createFitStartMatrix(img: Bitmap, b: Bounds): Matrix = Matrix().apply {
+    val w = b.width - b.paddingHorizontal - (b.borderSize * 2) - (b.shadowSize * 2)
+    val h = b.height - b.paddingVertical - (b.borderSize * 2) - (b.shadowSize * 2)
+    val ratio = w / h
+    val imgRatio = img.width.toFloat() / img.height.toFloat()
+
+    val scale = if (ratio > imgRatio) {
+        h / img.height
+    } else {
+        w / img.width
+    }
+    setScale(scale, scale)
+
+    val dx = b.paddingLeft + b.borderSize + b.shadowSize
+    val dy = b.paddingTop + b.borderSize + b.shadowSize
+    postTranslate(dx, dy)
+}
+
 
 /**
  * Create a bitmap shader matrix for center-crop scale type.
