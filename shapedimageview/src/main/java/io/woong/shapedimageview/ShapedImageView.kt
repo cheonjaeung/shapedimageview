@@ -12,7 +12,6 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
 import io.woong.shapedimageview.util.Bounds
 import io.woong.shapedimageview.util.createCenterCropMatrix
-import io.woong.shapedimageview.util.createCenterMatrix
 import io.woong.shapedimageview.util.createFitXYMatrix
 import io.woong.shapedimageview.util.toBitmap
 
@@ -365,18 +364,20 @@ abstract class ShapedImageView @JvmOverloads constructor(
             shader.setLocalMatrix(
                 if (Build.VERSION.SDK_INT >= 31) {
                     when (this.scaleType) {
-                        ScaleType.MATRIX -> Matrix()
-                        ScaleType.FIT_XY -> createFitXYMatrix(it, bounds)
+                        ScaleType.MATRIX -> this.imageMatrix
+                        ScaleType.FIT_XY -> Matrix()
                         ScaleType.FIT_START -> Matrix()
                         ScaleType.FIT_CENTER -> Matrix()
                         ScaleType.FIT_END -> Matrix()
-                        ScaleType.CENTER -> createCenterMatrix(it, bounds)
+                        ScaleType.CENTER -> Matrix()
                         ScaleType.CENTER_CROP -> createCenterCropMatrix(it, bounds)
                         ScaleType.CENTER_INSIDE -> Matrix()
                         null -> throw IllegalArgumentException("Cannot apply null matrix to BitmapShader.")
                     }
                 } else {
                     when (this.scaleType) {
+                        ScaleType.MATRIX -> this.imageMatrix
+                        ScaleType.FIT_XY -> createFitXYMatrix(it, bounds)
                         ScaleType.CENTER_CROP -> createCenterCropMatrix(it, bounds)
                         else -> Matrix()
                     }
@@ -397,24 +398,25 @@ abstract class ShapedImageView @JvmOverloads constructor(
     /**
      * Controls how the image should be resized or moved to match the size of this ImageView.
      *
-     * Android 31 or later versions support all scale types.
-     * But previous versions only support [center crop][android.widget.ImageView.ScaleType.CENTER_CROP] type.
-     *
-     * [scaleType] should be [center crop][android.widget.ImageView.ScaleType.CENTER_CROP].
-     * If otherwise, it will be throw [IllegalArgumentException].
+     * Android 31 and later versions support all scale types.
+     * But previous versions support
+     * [matrix][android.widget.ImageView.ScaleType.MATRIX],
+     * [fit-xy][android.widget.ImageView.ScaleType.FIT_XY] and
+     * [center-crop][android.widget.ImageView.ScaleType.CENTER_CROP],
      *
      * @param scaleType [android.widget.ImageView.ScaleType.CENTER_CROP]
      *
-     * @throws IllegalArgumentException When given scale type is not center crop.
+     * @throws IllegalArgumentException When given scale type is not supported.
      */
     override fun setScaleType(scaleType: ScaleType) {
         if (Build.VERSION.SDK_INT >= 31) {
             super.setScaleType(scaleType)
         } else {
-            if (scaleType == ScaleType.CENTER_CROP) {
-                super.setScaleType(scaleType)
-            } else {
-                throw IllegalArgumentException("Only ${ScaleType.CENTER_CROP.name} type support.")
+            when (scaleType) {
+                ScaleType.MATRIX,
+                ScaleType.FIT_XY,
+                ScaleType.CENTER_CROP -> super.setScaleType(scaleType)
+                else -> throw IllegalArgumentException("ShapedImageView does not support ${scaleType.name}.")
             }
         }
     }
