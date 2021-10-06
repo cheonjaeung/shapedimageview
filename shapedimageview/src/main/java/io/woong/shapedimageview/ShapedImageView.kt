@@ -5,12 +5,15 @@ package io.woong.shapedimageview
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.AttributeSet
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
 import io.woong.shapedimageview.util.Bounds
 import io.woong.shapedimageview.util.createCenterCropMatrix
+import io.woong.shapedimageview.util.createCenterMatrix
+import io.woong.shapedimageview.util.createFitXYMatrix
 import io.woong.shapedimageview.util.toBitmap
 
 /**
@@ -213,6 +216,21 @@ abstract class ShapedImageView @JvmOverloads constructor(
         val a = context.obtainStyledAttributes(attrs, R.styleable.ShapedImageView, defStyle, 0)
 
         try {
+            if (a.hasValue(R.styleable.ShapedImageView_android_scaleType)) {
+                val type = a.getInt(R.styleable.ShapedImageView_android_scaleType, ScaleType.CENTER_CROP.ordinal)
+                this.scaleType = when (type) {
+                    ScaleType.MATRIX.ordinal -> ScaleType.MATRIX
+                    ScaleType.FIT_XY.ordinal -> ScaleType.FIT_XY
+                    ScaleType.FIT_START.ordinal -> ScaleType.FIT_START
+                    ScaleType.FIT_CENTER.ordinal -> ScaleType.FIT_CENTER
+                    ScaleType.FIT_END.ordinal -> ScaleType.FIT_END
+                    ScaleType.CENTER.ordinal -> ScaleType.CENTER
+                    ScaleType.CENTER_CROP.ordinal -> ScaleType.CENTER_CROP
+                    ScaleType.CENTER_INSIDE.ordinal -> ScaleType.CENTER_INSIDE
+                    else -> throw IllegalArgumentException("$type is not a scale type.")
+                }
+            }
+
             if (a.hasValue(R.styleable.ShapedImageView_border_size)) {
                 this.borderSize = a.getDimension(R.styleable.ShapedImageView_border_size, DEFAULT_BORDER_SIZE)
             }
@@ -338,13 +356,33 @@ abstract class ShapedImageView @JvmOverloads constructor(
         }
 
         this.image?.let {
-            val shader = BitmapShader(it, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+            val shader = if (Build.VERSION.SDK_INT >= 31) {
+                BitmapShader(it, Shader.TileMode.DECAL, Shader.TileMode.DECAL)
+            } else {
+                BitmapShader(it, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
+            }
+
             shader.setLocalMatrix(
-                when (this.scaleType) {
-                    ScaleType.CENTER_CROP -> createCenterCropMatrix(it, bounds)
-                    else -> Matrix()
+                if (Build.VERSION.SDK_INT >= 31) {
+                    when (this.scaleType) {
+                        ScaleType.MATRIX -> Matrix()
+                        ScaleType.FIT_XY -> createFitXYMatrix(it, bounds)
+                        ScaleType.FIT_START -> Matrix()
+                        ScaleType.FIT_CENTER -> Matrix()
+                        ScaleType.FIT_END -> Matrix()
+                        ScaleType.CENTER -> createCenterMatrix(it, bounds)
+                        ScaleType.CENTER_CROP -> createCenterCropMatrix(it, bounds)
+                        ScaleType.CENTER_INSIDE -> Matrix()
+                        null -> throw IllegalArgumentException("Cannot apply null matrix to BitmapShader.")
+                    }
+                } else {
+                    when (this.scaleType) {
+                        ScaleType.CENTER_CROP -> createCenterCropMatrix(it, bounds)
+                        else -> Matrix()
+                    }
                 }
             )
+
             imagePaint.shader = shader
         }
     }
@@ -357,6 +395,11 @@ abstract class ShapedImageView @JvmOverloads constructor(
     }
 
     /**
+     * Controls how the image should be resized or moved to match the size of this ImageView.
+     *
+     * Android 31 or later versions support all scale types.
+     * But previous versions only support [center crop][android.widget.ImageView.ScaleType.CENTER_CROP] type.
+     *
      * [scaleType] should be [center crop][android.widget.ImageView.ScaleType.CENTER_CROP].
      * If otherwise, it will be throw [IllegalArgumentException].
      *
@@ -365,10 +408,14 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * @throws IllegalArgumentException When given scale type is not center crop.
      */
     override fun setScaleType(scaleType: ScaleType) {
-        if (scaleType == ScaleType.CENTER_CROP) {
+        if (Build.VERSION.SDK_INT >= 31) {
             super.setScaleType(scaleType)
         } else {
-            throw IllegalArgumentException("Scale type have to be center crop.")
+            if (scaleType == ScaleType.CENTER_CROP) {
+                super.setScaleType(scaleType)
+            } else {
+                throw IllegalArgumentException("Only ${ScaleType.CENTER_CROP.name} type support.")
+            }
         }
     }
 }
