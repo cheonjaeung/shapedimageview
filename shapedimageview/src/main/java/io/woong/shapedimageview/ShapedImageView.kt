@@ -10,10 +10,7 @@ import android.util.AttributeSet
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
-import io.woong.shapedimageview.util.Bounds
-import io.woong.shapedimageview.util.createCenterCropMatrix
-import io.woong.shapedimageview.util.createFitXYMatrix
-import io.woong.shapedimageview.util.toBitmap
+import io.woong.shapedimageview.util.*
 
 /**
  * The parent class of all shaped image view.
@@ -357,12 +354,12 @@ abstract class ShapedImageView @JvmOverloads constructor(
                     when (this.scaleType) {
                         ScaleType.MATRIX -> this.imageMatrix
                         ScaleType.FIT_XY -> createFitXYMatrix(it, bounds)
-                        ScaleType.FIT_START -> Matrix()
-                        ScaleType.FIT_CENTER -> Matrix()
-                        ScaleType.FIT_END -> Matrix()
-                        ScaleType.CENTER -> Matrix()
+                        ScaleType.FIT_START -> createFitStartMatrix(it, bounds)
+                        ScaleType.FIT_CENTER -> createFitCenterMatrix(it, bounds)
+                        ScaleType.FIT_END -> createFitEndMatrix(it, bounds)
+                        ScaleType.CENTER -> createCenterMatrix(it, bounds)
                         ScaleType.CENTER_CROP -> createCenterCropMatrix(it, bounds)
-                        ScaleType.CENTER_INSIDE -> Matrix()
+                        ScaleType.CENTER_INSIDE -> createCenterInsideMatrix(it, bounds)
                         null -> throw IllegalArgumentException("Cannot apply null matrix to BitmapShader.")
                     }
                 } else {
@@ -407,7 +404,10 @@ abstract class ShapedImageView @JvmOverloads constructor(
                 ScaleType.MATRIX,
                 ScaleType.FIT_XY,
                 ScaleType.CENTER_CROP -> super.setScaleType(scaleType)
-                else -> throw IllegalArgumentException("ShapedImageView does not support ${scaleType.name}.")
+                else -> throw IllegalArgumentException(
+                    "ShapedImageView does not support ${scaleType.name}.\u0020"
+                    + "You should use Android API 31 or later to use ${scaleType.name}."
+                )
             }
         }
     }
