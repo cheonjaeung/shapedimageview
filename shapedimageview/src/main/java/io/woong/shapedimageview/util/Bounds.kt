@@ -49,6 +49,12 @@ internal data class Bounds(
     val paddingBottom: Float
         get() = paddings[3]
 
+    val paddingHorizontal: Float
+        get() = paddingLeft + paddingRight
+
+    val paddingVertical: Float
+        get() = paddingTop + paddingBottom
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
