@@ -11,8 +11,8 @@ android {
         applicationId "io.woong.shapedimageviewdemo"
         minSdk min_sdk
         targetSdk compile_sdk
-        versionCode 6
-        versionName "1.1.0"
+        versionCode 7
+        versionName "1.2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
