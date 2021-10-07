@@ -323,6 +323,13 @@ abstract class ShapedImageView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         updateShader()
         updateShadowLayer()
+
+        if (background != null) {
+            background.apply {
+                setBounds(0, 0, width, height)
+                draw(canvas)
+            }
+        }
     }
 
     /**
