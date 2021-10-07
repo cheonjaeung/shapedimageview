@@ -16,8 +16,7 @@ For instance, OvalImageView or CutCornerImageView.
 It can accept formula to draw custom image shape.
 You can use predefined formula or you can create your custom formula by inherit interface.
 - **Border and Shadow:** All imageviews in this library have border and shadow related attributes.
-- **Scale Type Support (Android 31 and later)**: All scale types are supported in **Android 31 or later** API.
-If Android API version is **30 or lower**, `matrix`, `fit-xy` and `center-crop` is supported.
+- **Scale Type Support**: Scale type `Matrix`, `FitXY` and `CenterCrop` is supported for all imageviews. After Android SDK 31, all scale types are supported.
 
 ## Installation
 
