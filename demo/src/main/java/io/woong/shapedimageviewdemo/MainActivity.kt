@@ -8,7 +8,6 @@ import android.widget.RadioGroup
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import io.woong.shapedimageview.ShapedImageView
-import io.woong.shapedimageview.formula.SuperEllipseFormula
 import io.woong.shapedimageview.CutCornerImageView
 import io.woong.shapedimageview.FormulableImageView
 import io.woong.shapedimageview.OvalImageView
@@ -38,8 +37,6 @@ class MainActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, Se
         setContentView(R.layout.activity_main)
 
         shapeGroup.setOnCheckedChangeListener(this)
-
-        formulable.formula = SuperEllipseFormula(3f)
 
         widthSeekBar.apply {
             max = 200

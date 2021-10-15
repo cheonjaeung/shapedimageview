@@ -52,7 +52,8 @@
                 android:layout_height="200dp"
                 android:src="@drawable/sample"
                 android:layout_gravity="center"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:shape_formula="SuperEllipseFormula" />
         </FrameLayout>
 
         <LinearLayout
