@@ -87,19 +87,23 @@ class FormulableImageView @JvmOverloads constructor(
         } else {
             try {
                 val formulaPath = when {
+                    // Relative path
                     formulaString.startsWith(".") -> {
                         val packageName = context.packageName
                         packageName + formulaString
                     }
+                    // Absolute path
                     formulaString.indexOf('.') > 0 -> {
                         formulaString
                     }
+                    // Predefined formula name
                     else -> {
                         val libPackageName = ShapedImageView::class.java.`package`?.name
                         "$libPackageName.formula.$formulaString"
                     }
                 }
 
+                // Inflate Formula class using reflection.
                 val clazz = Class.forName(formulaPath, false, context.classLoader)
                 val f = clazz.newInstance()
                 return if (f is Formula) {
