@@ -15,7 +15,7 @@ import kotlin.math.sin
  * @param curvature The value determines how much curved this shape.
  */
 class SuperEllipseFormula(
-    private val curvature: Float
+    private val curvature: Float = 3f
 ) : Formula {
 
     override var degree: Float = 0f
