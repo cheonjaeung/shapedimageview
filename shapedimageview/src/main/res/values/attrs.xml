@@ -21,6 +21,7 @@
     </declare-styleable>
 
     <declare-styleable name="FormulableImageView">
+        <attr name="shape_formula" format="string" />
     </declare-styleable>
 
     <declare-styleable name="OvalImageView">
