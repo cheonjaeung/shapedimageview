@@ -61,7 +61,7 @@ class FormulableImageView @JvmOverloads constructor(
         try {
             if (a.hasValue(R.styleable.FormulableImageView_shape_formula)) {
                 val fstr = a.getString(R.styleable.FormulableImageView_shape_formula)
-                val f = parseFormulaString(fstr)
+                val f = inflateFormulaFromString(fstr)
                 f?.let {
                     this.formula = it
                 } ?: run {
@@ -81,7 +81,7 @@ class FormulableImageView @JvmOverloads constructor(
      * @return The matched [Formula] class or `null`.
      * @throws RuntimeException When something wrong while parsing formula string.
      */
-    private fun parseFormulaString(formulaString: String?): Formula? {
+    private fun inflateFormulaFromString(formulaString: String?): Formula? {
         if (formulaString.isNullOrBlank()) {
             return null
         } else {
