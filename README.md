@@ -4,6 +4,12 @@
 
 ![platform-android](https://img.shields.io/badge/Platform-Android-green?logo=android&logoColor=green) ![android-sdk](https://img.shields.io/badge/SDK-16%2B-green?logo=android&logoColor=green) [![build-status](https://github.com/woongdev/ShapedImageView/actions/workflows/build.yml/badge.svg)](https://github.com/woongdev/ShapedImageView/actions/workflows/build.yml) [![maven-central](https://img.shields.io/maven-central/v/io.woong.shapedimageview/shapedimageview?label=Maven%20Central&logo=apache%20maven&logoColor=orange)](https://search.maven.org/artifact/io.woong.shapedimageview/shapedimageview) [![license](https://img.shields.io/badge/License-MIT-blue?logo=apache&logoColor=blue)](./LICENSE) [![google-dev-library](https://img.shields.io/badge/Google%20Dev%20Library-4285F4?logo=google&logoColor=white)](https://devlibrary.withgoogle.com/products/android/repos/woongdev-ShapedImageView) [![maintainer](https://img.shields.io/badge/%3C%2F%3E%20by-Jaewoong%20Cheon-A97BFF.svg)](https://github.com/woongdev)
 
+<br>
+<p align="center">
+    <img alt="gif" src="./image/preview/demo.gif" width="300">
+</p>
+<br>
+
 ShapedImageView is an Android library which provides a simple way to use various shapes of imagview.
 It contains some predefined shapes like oval, round-rectangle or cut-corner-rectangle.
 And it support custom shape API.
@@ -41,69 +47,73 @@ You can get this shape in simple way using below code.
 ## Documentation
 
 - [Shapes](#shapes)
-- [Common attributes](#common-attributes)
-- [Attributes for specific view](#attributes-of-specific-view)
-- [Custom shape](#custom-shape)
-- [Predefined formula](#predefined-formula)
+- [Scale Types](#scale-types)
+- [Attributes](#attributes)
+- [Custom Shape using Formula](#custom-shape-using-formula)
+- [Predefined Formula](#predefined-formula)
 
 ### Shapes
 
+| View Class Name | Preview | Description |
+| ---- | --------| ----------- |
+| OvalImageView | <img src="./image/preview/preview_oval.jpeg" width="150"> | An oval shape imageview. |
+| RoundImageView | <img src="./image/preview/preview_round.jpeg" width="150"> | A rectangle imageview that has rounded corners. |
+| CutCornerImageView | <img src="./image/preview/preview_cut_corner.jpeg" width="150"> | A rectangle imageview that has cutted corners. |
+| FormulableImageView | <img src="./image/preview/preview_super_ellipse.jpeg" width="150"> | A special imageview that draw user-custom shape using `Formula` interface. |
+
 In this library, there are various predefined shaped imageviews.
 They are `OvalImageView`, `RoundImageView` and `CutCornerImageView`.
+And there is a special view, `FormulableImageView`.
+It can accept a `Formula` and draw shape according to `Formula`.
+To check how to use `Formula`, go to [Custom Shape](#custom-shape) section.
 
-- **OvalImageView:** oval (ellipse) shape.
-- **RoundImageView:** rounded rectangle shape.
-- **CutCornerImageView:** corner cut rectangle shape.
+### Scale Types
 
-All imageview's scale type is always `center-crop`.
-If you try to change it, the view will make exception.
+ShapedImageView library supports scale types.
 
-### Common attributes
+| Scale Type | Supported |
+| ---------- | :-------: |
+| Matrix | O |
+| FitXY | O |
+| FitStart | Only after Android 31 |
+| FitCenter | Only after Android 31 |
+| FitEnd | Only after Android 31 |
+| Center | Only after Android 31 |
+| CenterCrop | O |
+| CenterInsize | Only after Android 31 |
 
-All shaped imageviews have common attributes.
+`Matrix`, `FitXY` and `CenterCrop` is supported in all Android API.
+Other scale types are supported only after Android 31.
 
-| Attribute | Type | Default |
-| --- | --- | --- |
-| border_size | Dimension | 0 |
-| border_color | Color | #444444 |
-| border_enabled | Boolean | true |
-| shadow_size | Dimension | 0 |
-| shadow_color | Color | #888888 |
-| shadow_enabled | Boolean | true |
+### Attributes
 
-By using attributes, you can set border or shadow of imageview.
+| View | Attribute Name | Type | Default |
+| ---- | --------- | ---- | ------- |
+| All | border_size | Dimension | 0 |
+| All | border_color | Color | #444444 |
+| All | border_enabled | Boolean | true |
+| All | shadow_size | Dimension | 0 |
+| All | shadow_color | Color | #888888 |
+| All | shadow_enabled | Boolean | true |
+| CutCornerImageView | cut_size | Dimension | 16dp |
+| CutCornerImageView | top_left_cut_size | Dimension | 16dp |
+| CutCornerImageView | top_right_cut_size | Dimension | 16dp |
+| CutCornerImageView | bottom_right_cut_size| Dimension | 16dp |
+| CutCornerImageView | bottom_left_cut_size | Dimension | 16dp |
+| RoundImageView | radius | Dimension | 16dp |
+| RoundImageView | top_left_radius | Dimension | 16dp |
+| RoundImageView | top_right_radius | Dimension | 16dp |
+| RoundImageView | bottom_right_radius| Dimension | 16dp |
+| RoundImageView | bottom_left_radius | Dimension | 16dp |
+| FormulableImageView | shape_formula | String | |
 
-### Attributes of specific view
+`radius` and `cut_size` has the lowest priority.
+It means you can override radius value using specific corner attribute.
 
-Some imageviews have other attributes.
+`shape_formula` attribute can accept formated string.
+To check how to use it, go to [Custom Shape](#custom-shape) section.
 
-#### RoundImageView
-
-| Attribute | Type | Default |
-| --- | --- | --- |
-| radius | Dimension | 16dp |
-| top_left_radius | Dimension | 16dp |
-| top_right_radius | Dimension | 16dp |
-| bottom_right_radius| Dimension | 16dp |
-| bottom_left_radius | Dimension | 16dp |
-
-`radius` has the lowest priority.
-It means you can override radius value using specific corner radius attribute.
-
-#### CutCornerImageView
-
-| Attribute | Type | Default |
-| --- | --- | --- |
-| cut_size | Dimension | 16dp |
-| top_left_cut_size | Dimension | 16dp |
-| top_right_cut_size | Dimension | 16dp |
-| bottom_right_cut_size| Dimension | 16dp |
-| bottom_left_cut_size | Dimension | 16dp |
-
-`cut_size` has the lowest priority.
-It means you can override cut size value using specific corner cut size attribute.
-
-### Custom Shape
+### Custom Shape using Formula
 
 ShapedImageView support custom shape imageview.
 There is `FormulableImageView` and `Formula` to draw custom shape.
@@ -114,6 +124,8 @@ It can accept angle and it has a method that returns the x and y coordinate posi
 FormulableImageView draw a shape while changing the angle from 0 to 360 degrees in the given Formula.
 
 To use Formula, create a class that inherit from Formula interface and set it to FormulableImageView.
+
+1. Define your custom formula.
 
 ```kotlin
 class CustomFormula : Formula {
@@ -138,16 +150,70 @@ class CustomFormula : Formula {
 }
 ```
 
+2. Set custom formula to imageview.
+   There are 2 way to set formula to FormulableImageView,
+   code and XML.
+
 ```kotlin
-val iv = findViewById<FormulableImageView>(R.id.iv)
-iv.formula = CustomFormula()
+// Kotlin Code.
+val image = findViewById<FormulableImageView>(R.id.image)
+image.formula = CustomFormula()
 ```
 
-### Predefined formula
+```java
+// Java Code.
+FormulableImageView image = findViewById(R.id.image);
+image.setFormula(new CustomFormula());
+```
 
-This library provide `SuperEllipseFormula`.
-It is a formula for drawing [super ellipse](https://en.wikipedia.org/wiki/Superellipse) shape.
-You can apply it to `FormulableImageView`.
+```xml
+<!-- Absolute Path -->
+<io.woong.shapedimageview.FormulableImageView
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:src="@drawable/sample"
+    app:shape_formula="com.example.app.CustomFormula"/>
+
+<!-- Relative Path -->
+<io.woong.shapedimageview.FormulableImageView
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:src="@drawable/sample"
+    app:shape_formula=".CustomFormula"/>
+```
+
+### Predefined Formula
+
+There are 2 formula already in this library.
+One is `EllipseFormula` and another is `SuperEllipseFormula`.
+
+You can use these predefined formulas for drawing special shapes.
+Or you can check them as reference of inherit `Formula`.
+
+You can set predefined formula like custom formula.
+
+```kotlin
+// Kotlin Code.
+val image = findViewById<FormulableImageView>(R.id.image)
+image.formula = SuperEllipseFormula(4f)
+```
+
+```java
+// Java Code.
+FormulableImageView image = findViewById(R.id.image);
+image.setFormula(new SuperEllipseFormula(4f));
+```
+
+You can set predefined formula using absolute path.
+But, you can pass just a name when using predefined formula.
+
+```xml
+<io.woong.shapedimageview.FormulableImageView
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:src="@drawable/sample"
+    app:shape_formula="SuperEllipseFormula"/>
+```
 
 ## License
 
