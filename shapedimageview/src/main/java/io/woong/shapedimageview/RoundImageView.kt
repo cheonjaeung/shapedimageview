@@ -264,7 +264,7 @@ class RoundImageView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        if (shadowEnabled) {
+        if (shadowEnabled && shadowSize != 0f) {
             canvas.drawRoundRect(
                 shadowRect,
                 shadowTopLeftRadius,
@@ -275,7 +275,7 @@ class RoundImageView @JvmOverloads constructor(
             )
         }
 
-        if (borderEnabled) {
+        if (borderEnabled && borderSize != 0f) {
             canvas.drawRoundRect(
                 borderRect,
                 borderTopLeftRadius,
