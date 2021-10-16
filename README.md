@@ -65,7 +65,7 @@ In this library, there are various predefined shaped imageviews.
 They are `OvalImageView`, `RoundImageView` and `CutCornerImageView`.
 And there is a special view, `FormulableImageView`.
 It can accept a `Formula` and draw shape according to `Formula`.
-To check how to use `Formula`, go to [Custom Shape](#custom-shape) section.
+To check how to use `Formula`, go to [Custom Shape](#custom-shape-using-formula) section.
 
 ### Scale Types
 
@@ -111,7 +111,7 @@ Other scale types are supported only after Android 31.
 It means you can override radius value using specific corner attribute.
 
 `shape_formula` attribute can accept formated string.
-To check how to use it, go to [Custom Shape](#custom-shape) section.
+To check how to use it, go to [Custom Shape](#custom-shape-using-formula) section.
 
 ### Custom Shape using Formula
 
