@@ -264,7 +264,7 @@ class CutCornerImageView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        if (shadowEnabled && shadowSize != 0f) {
+        if (shadowEnabled && shadowSize > 0f) {
             canvas.drawCutCornerRect(
                 shadowRect,
                 shadowTopLeftCutSize,
@@ -275,7 +275,7 @@ class CutCornerImageView @JvmOverloads constructor(
             )
         }
 
-        if (borderEnabled && borderSize != 0f) {
+        if (borderEnabled && borderSize > 0f) {
             canvas.drawCutCornerRect(
                 borderRect,
                 borderTopLeftCutSize,

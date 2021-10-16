@@ -29,11 +29,11 @@ class OvalImageView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        if (shadowEnabled && shadowSize != 0f) {
+        if (shadowEnabled && shadowSize > 0f) {
             canvas.drawOval(shadowRect, shadowPaint)
         }
 
-        if (borderEnabled && borderSize != 0f) {
+        if (borderEnabled && borderSize > 0f) {
             canvas.drawOval(borderRect, borderPaint)
         }
 

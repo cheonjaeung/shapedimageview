@@ -121,12 +121,12 @@ class FormulableImageView @JvmOverloads constructor(
         super.onDraw(canvas)
 
         formula?.let {
-            if (shadowEnabled && shadowSize != 0f) {
+            if (shadowEnabled && shadowSize > 0f) {
                 it.rect = shadowRect
                 canvas.drawFormula(it, shadowPaint)
             }
 
-            if (borderEnabled && borderSize != 0f) {
+            if (borderEnabled && borderSize > 0f) {
                 it.rect = borderRect
                 canvas.drawFormula(it, borderPaint)
             }
