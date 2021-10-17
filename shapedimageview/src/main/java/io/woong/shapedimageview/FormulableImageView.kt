@@ -20,11 +20,26 @@ import io.woong.shapedimageview.util.drawFormula
  * ```
  *
  * And you should apply [Formula] to shape this imageview.
+ * There are 2 way to set [Formula] to this imageview.
+ * First is programmatic way and second is XML way.
  *
+ * 1. XML
+ * ```
+ *      <io.woong.shapedimageview.FormulableImageView
+ *          android:layout_width="200dp"
+ *          android:layout_height="200dp"
+ *          android:src="@drawable/sample"
+ *          app:shape_formula=".util.formula.SampleFormula" />
+ * ```
+ * You can pass relative path, absolute path or just predefined formula name to `shape_formula` attribute.
+ * If given path is illegal or not a kind of [Formula], this imageview will throw exception.
+ *
+ * 2. Code
  * ```
  *      val iv = findViewById<FormulableImageView>(R.id.formulable)
  *      iv.formula = MyCustomFormula()
  * ```
+ * In Java or Kotlin code, you can use `formula` property or `setFormula` method to replace formula.
  *
  * You can create your custom formula or use predefined formula likes
  * [EllipseFormula][io.woong.shapedimageview.formula.EllipseFormula]
