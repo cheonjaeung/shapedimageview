@@ -41,9 +41,17 @@ import io.woong.shapedimageview.util.drawFormula
  * ```
  * In Java or Kotlin code, you can use `formula` property or `setFormula` method to replace formula.
  *
- * You can create your custom formula or use predefined formula likes
- * [EllipseFormula][io.woong.shapedimageview.formula.EllipseFormula]
- * or [SuperEllipseFormula][io.woong.shapedimageview.formula.SuperEllipseFormula].
+ * You can define your custom [Formula], but you can also use predefined formulas.
+ * For instance, if you want to use [SuperEllipseFormula][io.woong.shapedimageview.formula.SuperEllipseFormula],
+ * you can set it in xml like below code.
+ *
+ * ```
+ *      <io.woong.shapedimageview.FormulableImageView
+ *          android:layout_width="200dp"
+ *          android:layout_height="200dp"
+ *          android:src="@drawable/sample"
+ *          app:shape_formula="@string/shapedimageview_superellipse_formula" />
+ * ```
  *
  * @see io.woong.shapedimageview.Formula
  */
