@@ -53,7 +53,7 @@
                 android:src="@drawable/sample"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                app:shape_formula="SuperEllipseFormula" />
+                app:shape_formula="@string/shapedimageview_superellipse_formula" />
         </FrameLayout>
 
         <LinearLayout
