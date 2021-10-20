@@ -215,6 +215,16 @@ But, you can pass just a name when using predefined formula.
     app:shape_formula="SuperEllipseFormula"/>
 ```
 
+Or you can use string resources.
+
+```xml
+<io.woong.shapedimageview.FormulableImageView
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:src="@drawable/sample"
+    app:shape_formula="@string/shapedimageview_superellipse_formula"/>
+```
+
 ## License
 
 ShapedImageView is licensed under the [MIT License](./LICENSE).
