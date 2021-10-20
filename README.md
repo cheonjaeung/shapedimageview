@@ -38,7 +38,7 @@ Let's create a imageview like sample image.
 You can get this shape in simple way using below code.
 
 ```xml
-<io.woong.shapedimageview.widget.OvalImageView
+<io.woong.shapedimageview.OvalImageView
     android:layout_width="300dp"
     android:layout_height="200dp"
     android:src="@drawable/sample" />
