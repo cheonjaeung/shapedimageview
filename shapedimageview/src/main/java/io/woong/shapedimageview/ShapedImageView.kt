@@ -11,6 +11,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageView
 import io.woong.shapedimageview.util.*
+import kotlin.math.min
 
 /**
  * The parent class of all shaped image view.
@@ -77,10 +78,13 @@ import io.woong.shapedimageview.util.*
  *      }
  * ```
  *
- * @see io.woong.shapedimageview.CutCornerImageView
- * @see io.woong.shapedimageview.FormulableImageView
  * @see io.woong.shapedimageview.OvalImageView
+ * @see io.woong.shapedimageview.CircleImageView
  * @see io.woong.shapedimageview.RoundImageView
+ * @see io.woong.shapedimageview.RoundSquareImageView
+ * @see io.woong.shapedimageview.CutCornerImageView
+ * @see io.woong.shapedimageview.CutCornerSquareImageView
+ * @see io.woong.shapedimageview.FormulableImageView
  */
 abstract class ShapedImageView @JvmOverloads constructor(
     context: Context,
@@ -123,6 +127,15 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * And also, it equals to height of image to drawn.
      */
     protected var usableHeight: Float = 0f
+
+    /**
+     * This property determines that this imageview should have same width and height size.
+     * If this view is regular shape, it's sizes will be set to same value in [onMeasure].
+     *
+     * If it is `true`, this view will have same width and height.
+     * If `false`, this view can have different width and height.
+     */
+    protected var isRegularShape: Boolean = false
 
     /** The bitmap image to draw in this imageview. */
     protected var image: Bitmap? = null
@@ -263,16 +276,29 @@ abstract class ShapedImageView @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val w = MeasureSpec.getSize(widthMeasureSpec)
         val h = MeasureSpec.getSize(heightMeasureSpec)
-        setMeasuredDimension(w, h)
 
         val borderAdjustment = if (borderEnabled) borderSize else 0f
         val shadowAdjustment = if (shadowEnabled) shadowSize else 0f
         val adjustmentSum = borderAdjustment + shadowAdjustment
 
-        this.usableWidth = w - this.paddingLeft - this.paddingRight - adjustmentSum
-        this.usableHeight = h - this.paddingTop - this.paddingBottom - adjustmentSum
+        if (isRegularShape) {
+            val s = min(w, h)
 
-        measureBounds(w.toFloat(), h.toFloat())
+            setMeasuredDimension(s, s)
+
+            this.usableWidth = s - this.paddingLeft - this.paddingRight - adjustmentSum
+            this.usableHeight = s - this.paddingTop - this.paddingBottom - adjustmentSum
+
+            val sf = s.toFloat()
+            measureBounds(sf, sf)
+        } else {
+            setMeasuredDimension(w, h)
+
+            this.usableWidth = w - this.paddingLeft - this.paddingRight - adjustmentSum
+            this.usableHeight = h - this.paddingTop - this.paddingBottom - adjustmentSum
+
+            measureBounds(w.toFloat(), h.toFloat())
+        }
     }
 
     /**
