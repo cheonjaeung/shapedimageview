@@ -16,14 +16,18 @@ import android.util.AttributeSet
  *          android:src="@drawable/sample" />
  * ```
  */
-class OvalImageView @JvmOverloads constructor(
+open class OvalImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyle: Int = 0
+    defStyle: Int = 0,
 ) : ShapedImageView(context, attrs, defStyle) {
 
     init {
         applyAttributes(attrs, defStyle)
+    }
+
+    final override fun applyAttributes(attrs: AttributeSet?, defStyle: Int) {
+        super.applyAttributes(attrs, defStyle)
     }
 
     override fun onDraw(canvas: Canvas) {

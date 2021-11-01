@@ -42,7 +42,7 @@ import io.woong.shapedimageview.util.drawRoundRect
  *          app:bottom_left_radius="24dp" />
  * ```
  */
-class RoundImageView @JvmOverloads constructor(
+open class RoundImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
@@ -53,7 +53,7 @@ class RoundImageView @JvmOverloads constructor(
         const val DEFAULT_RADIUS: Float = -1f
     }
 
-    override var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
+    final override var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
         set(value) {
             field = value
             measureBounds()
@@ -61,7 +61,7 @@ class RoundImageView @JvmOverloads constructor(
             invalidate()
         }
 
-    override var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
+    final override var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
         set(value) {
             field = value
             measureBounds()
@@ -230,7 +230,7 @@ class RoundImageView @JvmOverloads constructor(
         applyAttributes(attrs, defStyle)
     }
 
-    override fun applyAttributes(attrs: AttributeSet?, defStyle: Int) {
+    final override fun applyAttributes(attrs: AttributeSet?, defStyle: Int) {
         super.applyAttributes(attrs, defStyle)
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView, defStyle, 0)
