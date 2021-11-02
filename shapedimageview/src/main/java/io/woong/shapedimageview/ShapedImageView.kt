@@ -135,7 +135,49 @@ abstract class ShapedImageView @JvmOverloads constructor(
      * If it is `true`, this view will have same width and height.
      * If `false`, this view can have different width and height.
      */
-    protected var isRegularShape: Boolean = false
+    protected open var isRegularShape: Boolean = false
+
+    /**
+     * The width and height size ratio of this imageview.
+     * If pair's values are not 0, this imageview measures width or height by ratio.
+     * If one of values is 0, the ratio will be ignored.
+     */
+    private var aspectRatio: Double = 0.0
+
+    /**
+     * Sets aspect ratio of this imageview.
+     * This imageview will be resized by this ratio.
+     *
+     * The ratio should be width / height.
+     * For instance, if width is 1000px and height is 500px,
+     * its ratio is 2 (1000 / 500).
+     *
+     * @param ratio A calculated aspect ratio.
+     */
+    fun setAspectRatio(ratio: Double) {
+        this.aspectRatio = ratio
+    }
+
+    /**
+     * Sets aspect ratio of this imageview.
+     * This imageview will be resized by this ratio.
+     *
+     * The ratio will be width / height.
+     *
+     * @param width A width size to calculate ratio.
+     * @param height a Height size to calculate ratio.
+     */
+    fun setAspectRatio(width: Double, height: Double) {
+        this.aspectRatio = width / height
+    }
+
+    /**
+     * Sets aspect ratio to default and stops using it.
+     * This imageview will stop using aspect ratio.
+     */
+    fun setAspectRatioDefault() {
+        aspectRatio = 0.0
+    }
 
     /** The bitmap image to draw in this imageview. */
     protected var image: Bitmap? = null
@@ -240,6 +282,18 @@ abstract class ShapedImageView @JvmOverloads constructor(
                 }
             }
 
+            if (!isRegularShape) {
+                if (a.hasValue(R.styleable.ShapedImageView_aspect_ratio)) {
+                    val ratioString = a.getString(R.styleable.ShapedImageView_aspect_ratio)
+                    val ratioPair = parseRatioString(ratioString)
+                    this.aspectRatio = if (ratioPair.first == 0.0 || ratioPair.second == 0.0) {
+                        0.0
+                    } else {
+                        ratioPair.first / ratioPair.second
+                    }
+                }
+            }
+
             if (a.hasValue(R.styleable.ShapedImageView_border_size)) {
                 this.borderSize = a.getDimension(R.styleable.ShapedImageView_border_size, DEFAULT_BORDER_SIZE)
             }
@@ -269,6 +323,39 @@ abstract class ShapedImageView @JvmOverloads constructor(
     }
 
     /**
+     * Parses aspect ratio string to pair of number.
+     *
+     * @param ratioString A string to parse to 2 numbers.
+     *
+     * @return Pair of 2 numbers to calculate aspect ratio,
+     * Pair(0, 0) when [ratioString] is null or blank or illegal format.
+     *
+     * @throws IllegalArgumentException When given string is illegal format.
+     */
+    private fun parseRatioString(ratioString: String?): Pair<Double, Double> {
+        if (ratioString.isNullOrBlank()) {
+            return 0.0 to 0.0
+        } else {
+            val rstr = ratioString.trim()
+            if (!rstr.contains(":") || rstr.startsWith(":") || rstr.endsWith(":")) {
+                throw IllegalArgumentException("'$ratioString' is illegal format. aspect_ratio should be 'number:number' format.")
+            }
+
+            val split = rstr.split(":")
+            val num1 = split[0].toDoubleOrNull()
+            val num2 = split[1].toDoubleOrNull()
+
+            if (num1 == null) {
+                throw IllegalArgumentException("'${split[0]}' is not a number. aspect_ratio should consist of numbers.")
+            } else if (num2 == null) {
+                throw IllegalArgumentException("'${split[1]}' is not a number. aspect_ratio should consist of numbers.")
+            }
+
+            return num1 to num2
+        }
+    }
+
+    /**
      * A lifecycle method for measuring this view's size.
      *
      * In this method, it measures the views width and height and call [measureBounds].
@@ -283,7 +370,6 @@ abstract class ShapedImageView @JvmOverloads constructor(
 
         if (isRegularShape) {
             val s = min(w, h)
-
             setMeasuredDimension(s, s)
 
             this.usableWidth = s - this.paddingLeft - this.paddingRight - adjustmentSum
@@ -292,12 +378,50 @@ abstract class ShapedImageView @JvmOverloads constructor(
             val sf = s.toFloat()
             measureBounds(sf, sf)
         } else {
-            setMeasuredDimension(w, h)
+            val width: Int
+            val height: Int
 
-            this.usableWidth = w - this.paddingLeft - this.paddingRight - adjustmentSum
-            this.usableHeight = h - this.paddingTop - this.paddingBottom - adjustmentSum
+            if (aspectRatio == 0.0) {
+                width = w
+                height = h
+                setMeasuredDimension(w, h)
+            } else {
+                when {
+                    w == 0 -> {
+                        width = (h * aspectRatio).toInt()
+                        height = h
+                    }
+                    h == 0 -> {
+                        width = w
+                        height = (w / aspectRatio).toInt()
+                    }
+                    else -> {
+                        val wm = MeasureSpec.getMode(widthMeasureSpec)
+                        val hm = MeasureSpec.getMode(heightMeasureSpec)
 
-            measureBounds(w.toFloat(), h.toFloat())
+                        when {
+                            wm == MeasureSpec.EXACTLY -> {
+                                width = w
+                                height = (w / aspectRatio).toInt()
+                            }
+                            hm == MeasureSpec.EXACTLY -> {
+                                width = (h * aspectRatio).toInt()
+                                height = h
+                            }
+                            else -> {
+                                width = w
+                                height = (w / aspectRatio).toInt()
+                            }
+                        }
+                    }
+                }
+                setMeasuredDimension(width, height)
+            }
+
+            this.usableWidth = width - this.paddingLeft - this.paddingRight - adjustmentSum
+            this.usableHeight = height - this.paddingTop - this.paddingBottom - adjustmentSum
+
+            measureBounds(width.toFloat(), height.toFloat())
         }
     }
 

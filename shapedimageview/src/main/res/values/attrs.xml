@@ -10,6 +10,8 @@
         <attr name="shadow_size" format="dimension" />
         <attr name="shadow_color" format="color" />
         <attr name="shadow_enabled" format="boolean" />
+
+        <attr name="aspect_ratio" format="string" />
     </declare-styleable>
 
     <declare-styleable name="CutCornerImageView">
