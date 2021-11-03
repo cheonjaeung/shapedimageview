@@ -156,6 +156,8 @@ abstract class ShapedImageView @JvmOverloads constructor(
      */
     fun setAspectRatio(ratio: Double) {
         this.aspectRatio = ratio
+        invalidate()
+        requestLayout()
     }
 
     /**
@@ -169,6 +171,8 @@ abstract class ShapedImageView @JvmOverloads constructor(
      */
     fun setAspectRatio(width: Double, height: Double) {
         this.aspectRatio = width / height
+        invalidate()
+        requestLayout()
     }
 
     /**
@@ -177,6 +181,8 @@ abstract class ShapedImageView @JvmOverloads constructor(
      */
     fun setAspectRatioDefault() {
         aspectRatio = 0.0
+        invalidate()
+        requestLayout()
     }
 
     /** The bitmap image to draw in this imageview. */
