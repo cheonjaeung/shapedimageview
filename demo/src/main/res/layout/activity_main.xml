@@ -119,26 +119,6 @@
                 android:layout_height="wrap_content"
                 android:stretchColumns="1">
 
-                <TableRow>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:text="Width" />
-
-                    <androidx.appcompat.widget.AppCompatSeekBar
-                        android:id="@+id/width_seekbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </TableRow>
-
-                <TableRow android:layout_marginTop="16dp">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:text="Height" />
-
-                    <androidx.appcompat.widget.AppCompatSeekBar
-                        android:id="@+id/height_seekbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </TableRow>
-
                 <TableRow android:layout_marginTop="16dp">
                     <androidx.appcompat.widget.AppCompatTextView
                         android:text="Padding" />
@@ -165,6 +145,16 @@
 
                     <androidx.appcompat.widget.AppCompatSeekBar
                         android:id="@+id/shadow_size_seekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </TableRow>
+
+                <TableRow android:layout_marginTop="16dp">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:text="Aspect Ratio" />
+
+                    <androidx.appcompat.widget.AppCompatSeekBar
+                        android:id="@+id/ratio_seekbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </TableRow>

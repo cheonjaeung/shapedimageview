@@ -26,11 +26,10 @@ class MainActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, Se
     private val cutCornerShapeButton: RadioButton by lazy { findViewById(R.id.cut_corner_shape) }
     private val formulableShapeButton: RadioButton by lazy { findViewById(R.id.formulable_shape) }
 
-    private val widthSeekBar: SeekBar by lazy { findViewById(R.id.width_seekbar) }
-    private val heightSeekBar: SeekBar by lazy { findViewById(R.id.height_seekbar) }
     private val paddingSeekBar: SeekBar by lazy { findViewById(R.id.padding_seekbar) }
     private val borderSizeSeekBar: SeekBar by lazy { findViewById(R.id.border_size_seekbar) }
     private val shadowSizeSeekBar: SeekBar by lazy { findViewById(R.id.shadow_size_seekbar) }
+    private val ratioSeekBar: SeekBar by lazy { findViewById(R.id.ratio_seekbar) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,16 +37,6 @@ class MainActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, Se
 
         shapeGroup.setOnCheckedChangeListener(this)
 
-        widthSeekBar.apply {
-            max = 200
-            progress = 100
-            setOnSeekBarChangeListener(this@MainActivity)
-        }
-        heightSeekBar.apply {
-            max = 200
-            progress = 100
-            setOnSeekBarChangeListener(this@MainActivity)
-        }
         paddingSeekBar.apply {
             max = 16
             progress = 0
@@ -61,6 +50,11 @@ class MainActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, Se
         shadowSizeSeekBar.apply {
             max = 8
             progress = 0
+            setOnSeekBarChangeListener(this@MainActivity)
+        }
+        ratioSeekBar.apply {
+            max = 100
+            progress = 50
             setOnSeekBarChangeListener(this@MainActivity)
         }
     }
@@ -102,20 +96,6 @@ class MainActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, Se
     // Do Nothing
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
         when (seekBar?.id) {
-            widthSeekBar.id -> {
-                val newSize = (seekBar.progress + 100).dp
-                changeWidth(oval, newSize)
-                changeWidth(round, newSize)
-                changeWidth(cutCorner, newSize)
-                changeWidth(formulable, newSize)
-            }
-            heightSeekBar.id -> {
-                val newSize = (seekBar.progress + 100).dp
-                changeHeight(oval, newSize)
-                changeHeight(round, newSize)
-                changeHeight(cutCorner, newSize)
-                changeHeight(formulable, newSize)
-            }
             paddingSeekBar.id -> {
                 val newPadding = seekBar.progress.dp
                 changePadding(oval, newPadding)
@@ -136,6 +116,13 @@ class MainActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, Se
                 changeShadowSize(round, newSize)
                 changeShadowSize(cutCorner, newSize)
                 changeShadowSize(formulable, newSize)
+            }
+            ratioSeekBar.id -> {
+                val newRatio = seekBar.progress.toDouble() / 100 + 0.5
+                changeRatio(oval, newRatio)
+                changeRatio(round, newRatio)
+                changeRatio(cutCorner, newRatio)
+                changeRatio(formulable, newRatio)
             }
         }
     }
@@ -160,18 +147,6 @@ class MainActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, Se
             resources.displayMetrics
         )
 
-    private fun changeWidth(view: View, newSize: Int) {
-        val params = view.layoutParams
-        params.width = newSize
-        view.layoutParams = params
-    }
-
-    private fun changeHeight(view: View, newSize: Int) {
-        val params = view.layoutParams
-        params.height = newSize
-        view.layoutParams = params
-    }
-
     private fun changePadding(view: View, newSize: Int) {
         view.setPadding(newSize, newSize, newSize, newSize)
     }
@@ -182,5 +157,9 @@ class MainActivity : AppCompatActivity(), RadioGroup.OnCheckedChangeListener, Se
 
     private fun changeShadowSize(view: ShapedImageView, newSize: Float) {
         view.shadowSize = newSize
+    }
+
+    private fun changeRatio(view: ShapedImageView, newRatio: Double) {
+        view.setAspectRatio(newRatio)
     }
 }
