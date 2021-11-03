@@ -6,7 +6,7 @@
 
 <br>
 <p align="center">
-    <img alt="gif" src="./image/preview/demo.gif" width="300">
+    <img alt="preview-gif" src="./image/preview/demo.gif" width="300">
 </p>
 <br>
 
@@ -57,15 +57,12 @@ You can get this shape in simple way using below code.
 | View Class Name | Preview | Description |
 | ---- | --------| ----------- |
 | OvalImageView | <img src="./image/preview/preview_oval.jpeg" width="150"> | An oval shape imageview. |
+| CircleImageView | <img src="./image/preview/preview_oval.jpeg" width="150"> | A circle shape imageview. All features are same to OvalImageView but it has same width and height. |
 | RoundImageView | <img src="./image/preview/preview_round.jpeg" width="150"> | A rectangle imageview that has rounded corners. |
+| RoundSquareImageView | <img src="./image/preview/preview_round.jpeg" width="150"> | A square imageview that has rounded corners. All features are same to RoundImageView but it has same width and height. |
 | CutCornerImageView | <img src="./image/preview/preview_cut_corner.jpeg" width="150"> | A rectangle imageview that has cutted corners. |
+| CutCornerSquareImageView | <img src="./image/preview/preview_cut_corner.jpeg" width="150"> | A square imageview that has cutted corners. All features are same to CutCornerImageView but it has same width and height. |
 | FormulableImageView | <img src="./image/preview/preview_super_ellipse.jpeg" width="150"> | A special imageview that draw user-custom shape using `Formula` interface. |
-
-In this library, there are various predefined shaped imageviews.
-They are `OvalImageView`, `RoundImageView` and `CutCornerImageView`.
-And there is a special view, `FormulableImageView`.
-It can accept a `Formula` and draw shape according to `Formula`.
-To check how to use `Formula`, go to [Custom Shape](#custom-shape-using-formula) section.
 
 ### Scale Types
 
@@ -95,6 +92,7 @@ Other scale types are supported only after Android 31.
 | All | shadow_size | Dimension | 0 |
 | All | shadow_color | Color | #888888 |
 | All | shadow_enabled | Boolean | true |
+| All | aspect_ratio | String | |
 | CutCornerImageView | cut_size | Dimension | 16dp |
 | CutCornerImageView | top_left_cut_size | Dimension | 16dp |
 | CutCornerImageView | top_right_cut_size | Dimension | 16dp |
@@ -109,6 +107,11 @@ Other scale types are supported only after Android 31.
 
 `radius` and `cut_size` has the lowest priority.
 It means you can override radius value using specific corner attribute.
+
+`aspect_ratio` is an attribute to fix imageview's width and height ratio.
+It should be a `number:number` format.
+For instance, `1:1` means width and height always same.
+`16:9` means when width is 320px, height will be 180px.
 
 `shape_formula` attribute can accept formated string.
 To check how to use it, go to [Custom Shape](#custom-shape-using-formula) section.
