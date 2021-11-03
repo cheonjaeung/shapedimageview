@@ -83,13 +83,9 @@ class FormulableImageView @JvmOverloads constructor(
 
         try {
             if (a.hasValue(R.styleable.FormulableImageView_shape_formula)) {
-                val fstr = a.getString(R.styleable.FormulableImageView_shape_formula)
-                val f = inflateFormulaFromString(fstr)
-                f?.let {
-                    this.formula = it
-                } ?: run {
-                    throw IllegalArgumentException("$fstr is not a kind of Formula class.")
-                }
+                val attrString = a.getString(R.styleable.FormulableImageView_shape_formula)
+                this.formula = inflateFormulaFromString(attrString)
+                    ?: throw IllegalArgumentException("$attrString is not a kind of Formula class.")
             }
         } finally {
             a.recycle()
@@ -97,12 +93,12 @@ class FormulableImageView @JvmOverloads constructor(
     }
 
     /**
-     * Parse given formula class string and return matched formula class.
+     * Parses given formula class string and return matched formula class.
      * If given path is illegal or `null`, this method returns `null`.
      *
      * @param formulaString The path of formula.
+     *
      * @return The matched [Formula] class or `null`.
-     * @throws RuntimeException When something wrong while parsing formula string.
      */
     private fun inflateFormulaFromString(formulaString: String?): Formula? {
         if (formulaString.isNullOrBlank()) {
@@ -126,9 +122,9 @@ class FormulableImageView @JvmOverloads constructor(
                 }
 
                 val clazz = Class.forName(formulaPath, false, context.classLoader)
-                val f = clazz.newInstance()
-                return if (f is Formula) {
-                    f
+                val instance = clazz.newInstance()
+                return if (instance is Formula) {
+                    instance
                 } else {
                     null
                 }
