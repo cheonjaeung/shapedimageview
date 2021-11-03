@@ -83,15 +83,13 @@ class FormulableImageView @JvmOverloads constructor(
 
         try {
             if (a.hasValue(R.styleable.FormulableImageView_shape_formula)) {
-                val attrString = a.getString(R.styleable.FormulableImageView_shape_formula)
-                val parsedPair = parseFormulaString(attrString)
-                    ?: throw IllegalArgumentException("$attrString should be not null or blank")
-
-                val fstr = parsedPair.first
-                val params = parsedPair.second
-
-                this.formula = inflateFormulaFromString(fstr)
-                    ?: throw IllegalArgumentException("$fstr is not a kind of Formula class.")
+                val fstr = a.getString(R.styleable.FormulableImageView_shape_formula)
+                val f = inflateFormulaFromString(fstr)
+                f?.let {
+                    this.formula = it
+                } ?: run {
+                    throw IllegalArgumentException("$fstr is not a kind of Formula class.")
+                }
             }
         } finally {
             a.recycle()
@@ -99,62 +97,11 @@ class FormulableImageView @JvmOverloads constructor(
     }
 
     /**
-     * Parses given formula string to pair of values.
-     * First value of pair is formula class name.
-     * Second value of pair is list of formula's constructor parameters.
-     *
-     * @param formulaString A string to parse.
-     *
-     * @return A pair of string and string list.
-     * If given formula string is null or blank, it returns `null`.
-     *
-     * @throws IllegalArgumentException When failed to parse string.
-     */
-    private fun parseFormulaString(formulaString: String?): Pair<String, List<String>>? {
-        if (formulaString.isNullOrBlank()) {
-            return null
-        }
-
-        val fstr: String
-        val params: List<String>
-
-        if (formulaString.contains("(")) {
-            val split = formulaString.split("(")
-
-            if (split[0].isBlank()) {
-                throw IllegalArgumentException("$formulaString cannot start with '('")
-            }
-
-            fstr = split[0]
-
-            if (split[1].isBlank() || !split[1].endsWith(")")) {
-                throw IllegalArgumentException("${formulaString}'s bracket is not closed")
-            }
-
-            val paramString = split[1].dropLast(1)
-
-            params = if (paramString.isNotEmpty()) {
-                paramString.split(",")
-                    .map { it.trim() }
-            } else {
-                emptyList()
-            }
-        } else {
-            fstr = formulaString
-            params = emptyList()
-        }
-
-        return fstr to params
-    }
-
-    /**
-     * Parses given formula class string and return matched formula class.
+     * Parse given formula class string and return matched formula class.
      * If given path is illegal or `null`, this method returns `null`.
      *
      * @param formulaString The path of formula.
-     *
      * @return The matched [Formula] class or `null`.
-     *
      * @throws RuntimeException When something wrong while parsing formula string.
      */
     private fun inflateFormulaFromString(formulaString: String?): Formula? {
