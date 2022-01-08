@@ -39,12 +39,14 @@ import io.woong.shapedimageview.util.drawCutCornerRect
  *          app:bottom_left_radius="24dp" />
  * ```
  */
-open class CutCornerImageView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : CorneredImageView(context, attrs, defStyle) {
-    init {
+open class CutCornerImageView : CorneredImageView {
+    constructor(context: Context): super(context)
+
+    constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
+        applyAttributes(attrs, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle) {
         applyAttributes(attrs, defStyle)
     }
 

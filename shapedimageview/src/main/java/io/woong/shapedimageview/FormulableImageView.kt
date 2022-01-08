@@ -1,5 +1,3 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
-
 package io.woong.shapedimageview
 
 import android.content.Context
@@ -55,11 +53,16 @@ import io.woong.shapedimageview.util.drawFormula
  *
  * @see io.woong.shapedimageview.Formula
  */
-class FormulableImageView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : ShapedImageView(context, attrs, defStyle) {
+class FormulableImageView : ShapedImageView {
+    constructor(context: Context): super(context)
+
+    constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
+        applyAttributes(attrs, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle) {
+        applyAttributes(attrs, defStyle)
+    }
 
     /**
      * The [Formula] of this imageview's shape.
@@ -70,11 +73,8 @@ class FormulableImageView @JvmOverloads constructor(
      *
      * @see Formula
      */
+    @Suppress("MemberVisibilityCanBePrivate")
     var formula: Formula? = null
-
-    init {
-        applyAttributes(attrs, defStyle)
-    }
 
     override fun applyAttributes(attrs: AttributeSet?, defStyle: Int) {
         super.applyAttributes(attrs, defStyle)

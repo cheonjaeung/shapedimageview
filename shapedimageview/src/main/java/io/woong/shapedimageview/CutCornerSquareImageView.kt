@@ -46,14 +46,18 @@ import android.util.AttributeSet
  *          app:bottom_left_radius="24dp" />
  * ```
  */
-class CutCornerSquareImageView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : CutCornerImageView(context, attrs, defStyle) {
-
-    init {
-        applyAttributes(attrs, defStyle)
+class CutCornerSquareImageView : CutCornerImageView {
+    constructor(context: Context): super(context) {
         this.isRegularShape = true
+    }
+
+    constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
+        this.isRegularShape = true
+        applyAttributes(attrs, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle) {
+        this.isRegularShape = true
+        applyAttributes(attrs, defStyle)
     }
 }

@@ -86,11 +86,7 @@ import kotlin.math.min
  * @see io.woong.shapedimageview.CutCornerSquareImageView
  * @see io.woong.shapedimageview.FormulableImageView
  */
-abstract class ShapedImageView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : AppCompatImageView(context, attrs, defStyle) {
+abstract class ShapedImageView : AppCompatImageView {
 
     companion object {
         /** The default value of [ShapedImageView]'s border size. */
@@ -259,6 +255,12 @@ abstract class ShapedImageView @JvmOverloads constructor(
 
     /** The paint object to draw shadow. */
     protected val shadowPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    constructor(context: Context): super(context)
+
+    constructor(context: Context, attrs: AttributeSet?): super(context, attrs)
+
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle)
 
     init {
         this.scaleType = ScaleType.CENTER_CROP
