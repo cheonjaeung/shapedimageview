@@ -93,11 +93,11 @@ Other scale types are supported only after Android 31.
 | All | shadow_color | Color | #888888 |
 | All | shadow_enabled | Boolean | true |
 | All | aspect_ratio | String | |
-| CutCornerImageView | cut_size | Dimension | 16dp |
-| CutCornerImageView | top_left_cut_size | Dimension | 16dp |
-| CutCornerImageView | top_right_cut_size | Dimension | 16dp |
-| CutCornerImageView | bottom_right_cut_size| Dimension | 16dp |
-| CutCornerImageView | bottom_left_cut_size | Dimension | 16dp |
+| CutCornerImageView | radius | Dimension | 16dp |
+| CutCornerImageView | top_left_radius | Dimension | 16dp |
+| CutCornerImageView | top_right_radius | Dimension | 16dp |
+| CutCornerImageView | bottom_right_radius| Dimension | 16dp |
+| CutCornerImageView | bottom_left_radius | Dimension | 16dp |
 | RoundImageView | radius | Dimension | 16dp |
 | RoundImageView | top_left_radius | Dimension | 16dp |
 | RoundImageView | top_right_radius | Dimension | 16dp |
@@ -105,7 +105,7 @@ Other scale types are supported only after Android 31.
 | RoundImageView | bottom_left_radius | Dimension | 16dp |
 | FormulableImageView | shape_formula | String | |
 
-`radius` and `cut_size` has the lowest priority.
+`radius` has the lowest priority.
 It means you can override radius value using specific corner attribute.
 
 `aspect_ratio` is an attribute to fix imageview's width and height ratio.
