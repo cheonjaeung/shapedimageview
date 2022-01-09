@@ -90,14 +90,14 @@ abstract class ShapedImageView : AppCompatImageView {
      * This value is calculated according to the width of view, paddings, border and shadow.
      * And also, it equals to width of image to drawn.
      */
-    protected var usableWidth: Float = 0f
+    private var usableWidth: Float = 0f
 
     /**
      * The maximum drawable height pixel size of this imageview.
      * This value is calculated according to the width of view, paddings, border and shadow.
      * And also, it equals to height of image to drawn.
      */
-    protected var usableHeight: Float = 0f
+    private var usableHeight: Float = 0f
 
     /**
      * This property determines that this imageview should have same width and height size.
@@ -157,10 +157,10 @@ abstract class ShapedImageView : AppCompatImageView {
     }
 
     /** The bitmap image to draw in this imageview. */
-    protected var image: Bitmap? = null
+    private var image: Bitmap? = null
 
     /** The drawable image to check this imageview needs to update [image] property. */
-    protected var imageCache: Drawable? = null
+    private var imageCache: Drawable? = null
 
     /** Rectangle bounds of image to be drawn. */
     protected val imageRect: RectF = RectF()
