@@ -25,35 +25,39 @@ import android.util.AttributeSet
  * ```
  *
  * In [CutCornerSquareImageView], there are some attributes to configure this imageview.
- * The most important attribute is `cut size`.
+ * The most important attribute is `radius`.
  *
  * ```
- *      <!-- To apply all corner cut-size in one line. -->
+ *      <!-- To apply all corner radius in one line. -->
  *      <io.woong.shapedimageview.CutCornerSquareImageView
  *          android:layout_width="200dp"
  *          android:layout_height="200dp"
  *          android:src="@drawable/sample"
- *          app:cut_size="32dp" />
+ *          app:radius="32dp" />
  *
- *      <!-- To apply each corner cut-size. -->
+ *      <!-- To apply each corner radius. -->
  *      <io.woong.shapedimageview.CutCornerSquareImageView
  *          android:layout_width="200dp"
  *          android:layout_height="200dp"
  *          android:src="@drawable/sample"
- *          app:top_left_cut_size="8dp"
- *          app:top_right_cut_size="12dp"
- *          app:bottom_right_cut_size="16dp"
- *          app:bottom_left_cut_size="24dp" />
+ *          app:top_left_radius="8dp"
+ *          app:top_right_radius="12dp"
+ *          app:bottom_right_radius="16dp"
+ *          app:bottom_left_radius="24dp" />
  * ```
  */
-class CutCornerSquareImageView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : CutCornerImageView(context, attrs, defStyle) {
-
-    init {
-        applyAttributes(attrs, defStyle)
+class CutCornerSquareImageView : CutCornerImageView {
+    constructor(context: Context): super(context) {
         this.isRegularShape = true
+    }
+
+    constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
+        this.isRegularShape = true
+        applyAttributes(attrs, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle) {
+        this.isRegularShape = true
+        applyAttributes(attrs, defStyle)
     }
 }

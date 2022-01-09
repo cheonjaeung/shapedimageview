@@ -1,5 +1,3 @@
-@file:Suppress("unused", "MemberVisibilityCanBePrivate")
-
 package io.woong.shapedimageview
 
 import android.content.Context
@@ -86,47 +84,20 @@ import kotlin.math.min
  * @see io.woong.shapedimageview.CutCornerSquareImageView
  * @see io.woong.shapedimageview.FormulableImageView
  */
-abstract class ShapedImageView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0
-) : AppCompatImageView(context, attrs, defStyle) {
-
-    companion object {
-        /** The default value of [ShapedImageView]'s border size. */
-        const val DEFAULT_BORDER_SIZE: Float = 0f
-
-        /** The default value of [ShapedImageView]'s border color. */
-        @JvmStatic @ColorInt
-        val DEFAULT_BORDER_COLOR: Int = Color.parseColor("#444444")
-
-        /** The default value of [ShapedImageView]'s border enabled status. */
-        const val DEFAULT_BORDER_ENABLED: Boolean = true
-
-        /** The default value of [ShapedImageView]'s shadow size. */
-        const val DEFAULT_SHADOW_SIZE: Float = 0f
-
-        /** The default value of [ShapedImageView]'s shadow color. */
-        @JvmStatic @ColorInt
-        val DEFAULT_SHADOW_COLOR: Int = Color.parseColor("#888888")
-
-        /** The default value of [ShapedImageView]'s shadow enabled status. */
-        const val DEFAULT_SHADOW_ENABLED: Boolean = true
-    }
-
+abstract class ShapedImageView : AppCompatImageView {
     /**
      * The maximum drawable width pixel size of this imageview.
      * This value is calculated according to the width of view, paddings, border and shadow.
      * And also, it equals to width of image to drawn.
      */
-    protected var usableWidth: Float = 0f
+    private var usableWidth: Float = 0f
 
     /**
      * The maximum drawable height pixel size of this imageview.
      * This value is calculated according to the width of view, paddings, border and shadow.
      * And also, it equals to height of image to drawn.
      */
-    protected var usableHeight: Float = 0f
+    private var usableHeight: Float = 0f
 
     /**
      * This property determines that this imageview should have same width and height size.
@@ -186,10 +157,10 @@ abstract class ShapedImageView @JvmOverloads constructor(
     }
 
     /** The bitmap image to draw in this imageview. */
-    protected var image: Bitmap? = null
+    private var image: Bitmap? = null
 
     /** The drawable image to check this imageview needs to update [image] property. */
-    protected var imageCache: Drawable? = null
+    private var imageCache: Drawable? = null
 
     /** Rectangle bounds of image to be drawn. */
     protected val imageRect: RectF = RectF()
@@ -259,6 +230,12 @@ abstract class ShapedImageView @JvmOverloads constructor(
 
     /** The paint object to draw shadow. */
     protected val shadowPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    constructor(context: Context): super(context)
+
+    constructor(context: Context, attrs: AttributeSet?): super(context, attrs)
+
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle)
 
     init {
         this.scaleType = ScaleType.CENTER_CROP
@@ -573,5 +550,29 @@ abstract class ShapedImageView @JvmOverloads constructor(
                 )
             }
         }
+    }
+
+    companion object {
+        /** The default value of [ShapedImageView]'s border size. */
+        const val DEFAULT_BORDER_SIZE: Float = 0f
+
+        /** The default value of [ShapedImageView]'s border color. */
+        @JvmStatic
+        @ColorInt
+        val DEFAULT_BORDER_COLOR: Int = Color.parseColor("#444444")
+
+        /** The default value of [ShapedImageView]'s border enabled status. */
+        const val DEFAULT_BORDER_ENABLED: Boolean = true
+
+        /** The default value of [ShapedImageView]'s shadow size. */
+        const val DEFAULT_SHADOW_SIZE: Float = 0f
+
+        /** The default value of [ShapedImageView]'s shadow color. */
+        @JvmStatic
+        @ColorInt
+        val DEFAULT_SHADOW_COLOR: Int = Color.parseColor("#888888")
+
+        /** The default value of [ShapedImageView]'s shadow enabled status. */
+        const val DEFAULT_SHADOW_ENABLED: Boolean = true
     }
 }

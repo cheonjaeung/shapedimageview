@@ -14,26 +14,15 @@
         <attr name="aspect_ratio" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="CutCornerImageView">
-        <attr name="cut_size" format="dimension" />
-        <attr name="top_left_cut_size" format="dimension" />
-        <attr name="top_right_cut_size" format="dimension" />
-        <attr name="bottom_right_cut_size" format="dimension" />
-        <attr name="bottom_left_cut_size" format="dimension" />
-    </declare-styleable>
-
-    <declare-styleable name="FormulableImageView">
-        <attr name="shape_formula" format="string" />
-    </declare-styleable>
-
-    <declare-styleable name="OvalImageView">
-    </declare-styleable>
-
-    <declare-styleable name="RoundImageView">
+    <declare-styleable name="CorneredImageView">
         <attr name="radius" format="dimension" />
         <attr name="top_left_radius" format="dimension" />
         <attr name="top_right_radius" format="dimension" />
         <attr name="bottom_right_radius" format="dimension" />
-        <attr name="bottom_left_radius" format="dimension" />
+        <attr name="bottom_left_radius" format="dimension" />s
+    </declare-styleable>
+
+    <declare-styleable name="FormulableImageView">
+        <attr name="shape_formula" format="string" />
     </declare-styleable>
 </resources>

@@ -44,7 +44,7 @@
                 android:src="@drawable/sample"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                app:cut_size="32dp" />
+                app:radius="32dp" />
 
             <io.woong.shapedimageview.FormulableImageView
                 android:id="@+id/formulable"
