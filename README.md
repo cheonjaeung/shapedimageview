@@ -1,18 +1,22 @@
-<img alt="logo" src="./image/logo/shapedimageview_logo_squircle_dark.png" align="right" width="150">
-
 # ShapedImageView
 
-![platform-android](https://img.shields.io/badge/Platform-Android-green?logo=android&logoColor=green) ![android-sdk](https://img.shields.io/badge/SDK-16%2B-green?logo=android&logoColor=green) [![build-status](https://github.com/woongdev/ShapedImageView/actions/workflows/build.yml/badge.svg)](https://github.com/woongdev/ShapedImageView/actions/workflows/build.yml) [![maven-central](https://img.shields.io/maven-central/v/io.woong.shapedimageview/shapedimageview?label=Maven%20Central&logo=apache%20maven&logoColor=orange)](https://search.maven.org/artifact/io.woong.shapedimageview/shapedimageview) [![license](https://img.shields.io/badge/License-MIT-blue?logo=apache&logoColor=blue)](./LICENSE) [![google-dev-library](https://img.shields.io/badge/Google%20Dev%20Library-4285F4?logo=google&logoColor=white)](https://devlibrary.withgoogle.com/products/android/repos/woongdev-ShapedImageView) [![maintainer](https://img.shields.io/badge/%3C%2F%3E%20by-Jaewoong%20Cheon-A97BFF.svg)](https://github.com/woongdev)
+[![google-dev-library](https://img.shields.io/badge/google%20dev%20library-4285F4?logo=google&logoColor=white)](https://devlibrary.withgoogle.com/products/android/repos/woongdev-ShapedImageView)
+![android-platform](https://img.shields.io/badge/platform-android-lightgreen?logo=android&logoColor=green)
+![min-sdk-16](https://img.shields.io/badge/sdk-16%2B-lightgreen?logo=android&logoColor=green)
+[![mit-license](https://img.shields.io/badge/license-MIT-blue?logo=apache&logoColor=blue)](./LICENSE)
+[![maven-central](https://img.shields.io/maven-central/v/io.woong.shapedimageview/shapedimageview?label=maven%20central&logo=apache%20maven&logoColor=orange)](https://search.maven.org/artifact/io.woong.shapedimageview/shapedimageview)
+
+[![Build](https://github.com/woongdev/ShapedImageView/actions/workflows/build.yml/badge.svg)](https://github.com/woongdev/ShapedImageView/actions/workflows/build.yml)
+[![Publish](https://github.com/woongdev/ShapedImageView/actions/workflows/publish.yml/badge.svg?branch=1.4.1)](https://github.com/woongdev/ShapedImageView/actions/workflows/publish.yml)
+
+ShapedImageView is an Android library which provides a simple way to use various shapes of imagview.
+It contains some predefined shapes like oval, round rectangle or cut corner rectangle.
+And it support custom shape API.
 
 <br>
 <p align="center">
     <img alt="preview-gif" src="./image/preview/demo.gif" width="300">
 </p>
-<br>
-
-ShapedImageView is an Android library which provides a simple way to use various shapes of imagview.
-It contains some predefined shapes like oval, round-rectangle or cut-corner-rectangle.
-And it support custom shape API.
 
 ## Features
 
@@ -27,7 +31,7 @@ You can use predefined formula or you can create your custom formula by inherit 
 ## Installation
 
 ```groovy
-implementation "io.woong.shapedimageview:shapedimageview:$version"
+implementation "io.woong.shapedimageview:shapedimageview:1.4.1"
 ```
 
 ## Getting Started
