@@ -1,5 +1,3 @@
-@file:Suppress("unused", "MemberVisibilityCanBePrivate")
-
 package io.woong.shapedimageview
 
 import android.content.Context
@@ -87,29 +85,6 @@ import kotlin.math.min
  * @see io.woong.shapedimageview.FormulableImageView
  */
 abstract class ShapedImageView : AppCompatImageView {
-
-    companion object {
-        /** The default value of [ShapedImageView]'s border size. */
-        const val DEFAULT_BORDER_SIZE: Float = 0f
-
-        /** The default value of [ShapedImageView]'s border color. */
-        @JvmStatic @ColorInt
-        val DEFAULT_BORDER_COLOR: Int = Color.parseColor("#444444")
-
-        /** The default value of [ShapedImageView]'s border enabled status. */
-        const val DEFAULT_BORDER_ENABLED: Boolean = true
-
-        /** The default value of [ShapedImageView]'s shadow size. */
-        const val DEFAULT_SHADOW_SIZE: Float = 0f
-
-        /** The default value of [ShapedImageView]'s shadow color. */
-        @JvmStatic @ColorInt
-        val DEFAULT_SHADOW_COLOR: Int = Color.parseColor("#888888")
-
-        /** The default value of [ShapedImageView]'s shadow enabled status. */
-        const val DEFAULT_SHADOW_ENABLED: Boolean = true
-    }
-
     /**
      * The maximum drawable width pixel size of this imageview.
      * This value is calculated according to the width of view, paddings, border and shadow.
@@ -575,5 +550,29 @@ abstract class ShapedImageView : AppCompatImageView {
                 )
             }
         }
+    }
+
+    companion object {
+        /** The default value of [ShapedImageView]'s border size. */
+        const val DEFAULT_BORDER_SIZE: Float = 0f
+
+        /** The default value of [ShapedImageView]'s border color. */
+        @JvmStatic
+        @ColorInt
+        val DEFAULT_BORDER_COLOR: Int = Color.parseColor("#444444")
+
+        /** The default value of [ShapedImageView]'s border enabled status. */
+        const val DEFAULT_BORDER_ENABLED: Boolean = true
+
+        /** The default value of [ShapedImageView]'s shadow size. */
+        const val DEFAULT_SHADOW_SIZE: Float = 0f
+
+        /** The default value of [ShapedImageView]'s shadow color. */
+        @JvmStatic
+        @ColorInt
+        val DEFAULT_SHADOW_COLOR: Int = Color.parseColor("#888888")
+
+        /** The default value of [ShapedImageView]'s shadow enabled status. */
+        const val DEFAULT_SHADOW_ENABLED: Boolean = true
     }
 }

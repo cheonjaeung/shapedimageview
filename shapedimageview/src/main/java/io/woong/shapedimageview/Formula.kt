@@ -24,7 +24,6 @@ import android.graphics.RectF
  * @see io.woong.shapedimageview.formula.SuperEllipseFormula
  */
 interface Formula {
-
     /** The value stores current degree. */
     var degree: Float
 
