@@ -96,51 +96,9 @@ abstract class ShapedImageView : AppCompatImageView {
 
     /**
      * The width and height size ratio of this imageview.
-     * If pair's values are not 0, this imageview measures width or height by ratio.
-     * If one of values is 0, the ratio will be ignored.
+     * If it is [NOT_FIXED_ASPECT_RATIO], the view never set fixed with and height size.
      */
-    private var aspectRatio: Double = 0.0
-
-    /**
-     * Sets aspect ratio of this imageview.
-     * This imageview will be resized by this ratio.
-     *
-     * The ratio should be width / height.
-     * For instance, if width is 1000px and height is 500px,
-     * its ratio is 2 (1000 / 500).
-     *
-     * @param ratio A calculated aspect ratio.
-     */
-    fun setAspectRatio(ratio: Double) {
-        this.aspectRatio = ratio
-        invalidate()
-        requestLayout()
-    }
-
-    /**
-     * Sets aspect ratio of this imageview.
-     * This imageview will be resized by this ratio.
-     *
-     * The ratio will be width / height.
-     *
-     * @param width A width size to calculate ratio.
-     * @param height a Height size to calculate ratio.
-     */
-    fun setAspectRatio(width: Double, height: Double) {
-        this.aspectRatio = width / height
-        invalidate()
-        requestLayout()
-    }
-
-    /**
-     * Sets aspect ratio to default and stops using it.
-     * This imageview will stop using aspect ratio.
-     */
-    fun setAspectRatioDefault() {
-        aspectRatio = 0.0
-        invalidate()
-        requestLayout()
-    }
+    private var aspectRatio: Double = NOT_FIXED_ASPECT_RATIO
 
     /** The bitmap image to draw in this imageview. */
     private var image: Bitmap? = null
@@ -325,6 +283,45 @@ abstract class ShapedImageView : AppCompatImageView {
     }
 
     /**
+     * Sets aspect ratio of this imageview.
+     *
+     * The ratio should be width / height.
+     * For instance, if width is 1000px and height is 500px,
+     * its ratio is 2 (1000 / 500).
+     *
+     * To set this imageview to not use fixed aspect ratio,
+     * pass [NOT_FIXED_ASPECT_RATIO] or negative value.
+     *
+     * @param ratio A calculated aspect ratio.
+     */
+    fun setAspectRatio(ratio: Double) {
+        this.aspectRatio = if (ratio < 0) NOT_FIXED_ASPECT_RATIO else ratio
+        invalidate()
+        requestLayout()
+    }
+
+    /**
+     * Sets aspect ratio of this imageview.
+     *
+     * The ratio will be width / height.
+     * For instance, if width is 100 and height is 50,
+     * and real width size is 1000px, the real height size will be 500px.
+     *
+     * To set this imageview to not use fixed aspect ratio,
+     * pass [NOT_FIXED_ASPECT_RATIO] to [width] or [height].
+     *
+     * @param width A width size to calculate ratio.
+     * @param height a Height size to calculate ratio.
+     */
+    fun setAspectRatio(width: Double, height: Double) {
+        if (width <= 0 || height <= 0) {
+            setAspectRatio(NOT_FIXED_ASPECT_RATIO)
+        } else {
+            setAspectRatio(width / height)
+        }
+    }
+
+    /**
      * A lifecycle method for measuring this view's size.
      *
      * In this method, it measures the views width and height and call [measureBounds].
@@ -343,7 +340,7 @@ abstract class ShapedImageView : AppCompatImageView {
             val width: Int
             val height: Int
 
-            if (aspectRatio == 0.0) {
+            if (aspectRatio == NOT_FIXED_ASPECT_RATIO) {
                 width = w
                 height = h
                 setMeasuredDimension(w, h)
@@ -529,6 +526,9 @@ abstract class ShapedImageView : AppCompatImageView {
     }
 
     companion object {
+        /** The constants means this view doesn't use fixed aspect ratio. */
+        const val NOT_FIXED_ASPECT_RATIO: Double = 0.0
+
         /** The default value of [ShapedImageView]'s border size. */
         const val DEFAULT_BORDER_SIZE: Float = 0f
 
