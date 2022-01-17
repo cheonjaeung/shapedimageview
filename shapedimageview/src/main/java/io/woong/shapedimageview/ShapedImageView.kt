@@ -86,20 +86,6 @@ import kotlin.math.min
  */
 abstract class ShapedImageView : AppCompatImageView {
     /**
-     * The maximum drawable width pixel size of this imageview.
-     * This value is calculated according to the width of view, paddings, border and shadow.
-     * And also, it equals to width of image to drawn.
-     */
-    private var usableWidth: Float = 0f
-
-    /**
-     * The maximum drawable height pixel size of this imageview.
-     * This value is calculated according to the width of view, paddings, border and shadow.
-     * And also, it equals to height of image to drawn.
-     */
-    private var usableHeight: Float = 0f
-
-    /**
      * This property determines that this imageview should have same width and height size.
      * If this view is regular shape, it's sizes will be set to same value in [onMeasure].
      *
@@ -347,16 +333,9 @@ abstract class ShapedImageView : AppCompatImageView {
         val w = MeasureSpec.getSize(widthMeasureSpec)
         val h = MeasureSpec.getSize(heightMeasureSpec)
 
-        val borderAdjustment = if (borderEnabled) borderSize else 0f
-        val shadowAdjustment = if (shadowEnabled) shadowSize else 0f
-        val adjustmentSum = borderAdjustment + shadowAdjustment
-
         if (isRegularShape) {
             val s = min(w, h)
             setMeasuredDimension(s, s)
-
-            this.usableWidth = s - this.paddingLeft - this.paddingRight - adjustmentSum
-            this.usableHeight = s - this.paddingTop - this.paddingBottom - adjustmentSum
 
             val sf = s.toFloat()
             measureBounds(sf, sf)
@@ -400,9 +379,6 @@ abstract class ShapedImageView : AppCompatImageView {
                 }
                 setMeasuredDimension(width, height)
             }
-
-            this.usableWidth = width - this.paddingLeft - this.paddingRight - adjustmentSum
-            this.usableHeight = height - this.paddingTop - this.paddingBottom - adjustmentSum
 
             measureBounds(width.toFloat(), height.toFloat())
         }
