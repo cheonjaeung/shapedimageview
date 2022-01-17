@@ -171,7 +171,7 @@ abstract class CorneredImageView : ShapedImageView {
 
         try {
             if (a.hasValue(R.styleable.CorneredImageView_radius)) {
-                val r = a.getDimension(R.styleable.CorneredImageView_top_left_radius, defaultRadius)
+                val r = a.getDimension(R.styleable.CorneredImageView_radius, defaultRadius)
                 radius = r
             }
 
