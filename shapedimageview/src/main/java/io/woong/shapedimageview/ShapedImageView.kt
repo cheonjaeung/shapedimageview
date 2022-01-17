@@ -7,7 +7,9 @@ import android.os.Build
 import android.util.AttributeSet
 import androidx.annotation.CallSuper
 import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.res.ResourcesCompat
 import io.woong.shapedimageview.util.*
 import kotlin.math.min
 
@@ -85,6 +87,55 @@ import kotlin.math.min
  * @see io.woong.shapedimageview.FormulableImageView
  */
 abstract class ShapedImageView : AppCompatImageView {
+    protected val imagePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    protected val imageRect: RectF = RectF()
+    /** The bitmap image to draw in this imageview. */
+    private var image: Bitmap? = null
+    /** The drawable image to check this imageview needs to update [image] property. */
+    private var imageCache: Drawable? = null
+
+    protected val borderPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    protected val borderRect: RectF = RectF()
+    @ColorInt
+    private var borderColor: Int = DEFAULT_BORDER_COLOR
+    var borderSize: Float = DEFAULT_BORDER_SIZE
+        set(value) {
+            field = if (value > 0) value else DEFAULT_BORDER_SIZE
+            measureBounds()
+            invalidate()
+        }
+
+    open var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
+        set(value) {
+            field = value
+            measureBounds()
+            invalidate()
+        }
+
+    protected val shadowPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+    protected val shadowRect: RectF = RectF()
+    @ColorInt
+    private var shadowColor: Int = DEFAULT_SHADOW_COLOR
+    var shadowSize: Float = DEFAULT_SHADOW_SIZE
+        set(value) {
+            field = if (value > 0) value else DEFAULT_SHADOW_SIZE
+            measureBounds()
+            invalidate()
+        }
+
+    open var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
+        set(value) {
+            field = value
+            measureBounds()
+            invalidate()
+        }
+
+    /**
+     * The width and height size ratio of this imageview.
+     * If it is [NOT_FIXED_ASPECT_RATIO], the view never set fixed with and height size.
+     */
+    private var aspectRatio: Double = NOT_FIXED_ASPECT_RATIO
+
     /**
      * This property determines that this imageview should have same width and height size.
      * If this view is regular shape, it's sizes will be set to same value in [onMeasure].
@@ -94,87 +145,6 @@ abstract class ShapedImageView : AppCompatImageView {
      */
     protected open var isRegularShape: Boolean = false
 
-    /**
-     * The width and height size ratio of this imageview.
-     * If it is [NOT_FIXED_ASPECT_RATIO], the view never set fixed with and height size.
-     */
-    private var aspectRatio: Double = NOT_FIXED_ASPECT_RATIO
-
-    /** The bitmap image to draw in this imageview. */
-    private var image: Bitmap? = null
-
-    /** The drawable image to check this imageview needs to update [image] property. */
-    private var imageCache: Drawable? = null
-
-    /** Rectangle bounds of image to be drawn. */
-    protected val imageRect: RectF = RectF()
-
-    /** The paint object to draw [image]. */
-    protected val imagePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
-    /** The border size of this imageview in pixel unit. */
-    var borderSize: Float = DEFAULT_BORDER_SIZE
-        set(value) {
-            field = value
-            measureBounds()
-            invalidate()
-        }
-
-    /** The border color of this imageview. */
-    @ColorInt
-    var borderColor: Int = DEFAULT_BORDER_COLOR
-        set(value) {
-            field = value
-            this.borderPaint.color = field
-            measureBounds()
-            invalidate()
-        }
-
-    /** The enabled status of border. */
-    open var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
-        set(value) {
-            field = value
-            measureBounds()
-            invalidate()
-        }
-
-    /** Rectangle bounds of border to be drawn. */
-    protected val borderRect: RectF = RectF()
-
-    /** The paint object to draw border. */
-    protected val borderPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
-    /** The shadow size of this imageview in pixel unit. */
-    var shadowSize: Float = DEFAULT_SHADOW_SIZE
-        set(value) {
-            field = value
-            measureBounds()
-            invalidate()
-        }
-
-    /** The shadow color of this imageview. */
-    @ColorInt
-    var shadowColor: Int = DEFAULT_SHADOW_COLOR
-        set(value) {
-            field = value
-            measureBounds()
-            invalidate()
-        }
-
-    /** The enabled status of shadow. */
-    open var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
-        set(value) {
-            field = value
-            measureBounds()
-            invalidate()
-        }
-
-    /** Rectangle bounds of shadow to be drawn. */
-    protected val shadowRect: RectF = RectF()
-
-    /** The paint object to draw shadow. */
-    protected val shadowPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG)
-
     constructor(context: Context): super(context)
 
     constructor(context: Context, attrs: AttributeSet?): super(context, attrs)
@@ -182,6 +152,7 @@ abstract class ShapedImageView : AppCompatImageView {
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle)
 
     init {
+        // Set default scale type
         this.scaleType = ScaleType.CENTER_CROP
     }
 
@@ -280,6 +251,36 @@ abstract class ShapedImageView : AppCompatImageView {
 
             return num1 to num2
         }
+    }
+
+    @ColorInt
+    fun getBorderColor(): Int = borderColor
+
+    fun setBorderColorResource(@ColorRes resId: Int) {
+        val color = ResourcesCompat.getColor(resources, resId, context.theme)
+        setBorderColor(color)
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun setBorderColor(@ColorInt color: Int) {
+        borderColor = color
+        measureBounds()
+        invalidate()
+    }
+
+    @ColorInt
+    fun getShadowColor(): Int = shadowColor
+
+    fun setShadowColorResource(@ColorRes resId: Int) {
+        val color = ResourcesCompat.getColor(resources, resId, context.theme)
+        setShadowColor(color)
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun setShadowColor(@ColorInt color: Int) {
+        shadowColor = color
+        measureBounds()
+        invalidate()
     }
 
     /**
