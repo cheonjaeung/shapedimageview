@@ -54,16 +54,6 @@ import io.woong.shapedimageview.util.drawFormula
  * @see io.woong.shapedimageview.Formula
  */
 class FormulableImageView : ShapedImageView {
-    constructor(context: Context): super(context)
-
-    constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
-        applyAttributes(attrs, 0)
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle) {
-        applyAttributes(attrs, defStyle)
-    }
-
     /**
      * The [Formula] of this imageview's shape.
      * If it is `null`, this view doesn't draw image.
@@ -75,6 +65,16 @@ class FormulableImageView : ShapedImageView {
      */
     @Suppress("MemberVisibilityCanBePrivate")
     var formula: Formula? = null
+
+    constructor(context: Context): super(context)
+
+    constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
+        applyAttributes(attrs, 0)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle) {
+        applyAttributes(attrs, defStyle)
+    }
 
     override fun applyAttributes(attrs: AttributeSet?, defStyle: Int) {
         super.applyAttributes(attrs, defStyle)

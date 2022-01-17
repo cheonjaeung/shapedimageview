@@ -26,18 +26,18 @@ import android.util.AttributeSet
  * ```
  */
 class CircleImageView : OvalImageView {
-    constructor(context: Context): super(context) {
-        this.isRegularShape = true
-    }
+    constructor(context: Context): super(context)
 
     constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
-        this.isRegularShape = true
         applyAttributes(attrs, 0)
     }
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle) {
-        this.isRegularShape = true
         applyAttributes(attrs, defStyle)
+    }
+
+    init {
+        isRegularShape = true
     }
 
     override fun onDraw(canvas: Canvas) {
