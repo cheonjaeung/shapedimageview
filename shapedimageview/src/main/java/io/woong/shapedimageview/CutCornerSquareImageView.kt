@@ -47,17 +47,17 @@ import android.util.AttributeSet
  * ```
  */
 class CutCornerSquareImageView : CutCornerImageView {
-    constructor(context: Context): super(context) {
-        this.isRegularShape = true
-    }
+    constructor(context: Context): super(context)
 
     constructor(context: Context, attrs: AttributeSet?): super(context, attrs) {
-        this.isRegularShape = true
         applyAttributes(attrs, 0)
     }
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle) {
-        this.isRegularShape = true
         applyAttributes(attrs, defStyle)
+    }
+
+    init {
+        isRegularShape = true
     }
 }
