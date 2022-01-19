@@ -1,0 +1,30 @@
+name: Bug Report
+description: Report a bug for fix it.
+labels: [bug]
+body:
+  - type: input
+    id: lib-version
+    attributes:
+      label: Library Version
+      placeholder: e.g. 1.0.0
+    validations:
+      required: true
+  - type: input
+    id: android-version
+    attributes:
+      label: Android Version
+      placeholder: e.g. 31 or Android 12
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      placeholder: Samsung Galaxy Note 9
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Concise and clear description of the bug.

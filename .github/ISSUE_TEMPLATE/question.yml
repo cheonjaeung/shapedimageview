@@ -1,0 +1,10 @@
+name: Question
+description: Questions or other support
+labels: [question]
+body:
+  - type: input
+    id: description
+    attributes:
+      label: Question
+    validations:
+      required: true
