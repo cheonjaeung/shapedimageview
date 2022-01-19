@@ -29,23 +29,6 @@ abstract class CorneredImageView : ShapedImageView {
             resources.displayMetrics
         )
 
-    override var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
-        set(value) {
-            field = value
-            measureBounds()
-            invalidate()
-        }
-
-    override var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
-        set(value) {
-            field = value
-            measureBounds()
-            invalidate()
-        }
-
-    /**
-     * Top left radius of the imageview in pixel unit.
-     */
     var topLeftRadius: Float = defaultRadius
         set(value) {
             field = value
@@ -53,9 +36,6 @@ abstract class CorneredImageView : ShapedImageView {
             invalidate()
         }
 
-    /**
-     * Top right radius of the imageview in pixel unit,.
-     */
     var topRightRadius: Float = defaultRadius
         set(value) {
             field = value
@@ -63,9 +43,6 @@ abstract class CorneredImageView : ShapedImageView {
             invalidate()
         }
 
-    /**
-     * Bottom right radius of the imageview in pixel unit.
-     */
     var bottomRightRadius: Float = defaultRadius
         set(value) {
             field = value
@@ -73,9 +50,6 @@ abstract class CorneredImageView : ShapedImageView {
             invalidate()
         }
 
-    /**
-     * Bottom left radius of the imageview in pixel unit.
-     */
     var bottomLeftRadius: Float = defaultRadius
         set(value) {
             field = value
@@ -121,49 +95,13 @@ abstract class CorneredImageView : ShapedImageView {
     protected val shadowBottomRightRadius: Float get() = borderBottomRightRadius
     protected val shadowBottomLeftRadius: Float get() = borderBottomLeftRadius
 
-    /**
-     * Radius of the imageview in pixel unit.
-     *
-     * It returns top left corner radius when getting.
-     * And it sets all radius to given radius when setting.
-     */
-    var radius: Float
-        get() = topLeftRadius
-        set(value) {
-            topLeftRadius = value
-            topRightRadius = value
-            bottomRightRadius = value
-            bottomLeftRadius = value
-            measureBounds()
-            invalidate()
-        }
-
-    /**
-     * Radius array of the imageview in pixel unit.
-     *
-     * Each index means the following:
-     * - index 0: top left
-     * - index 1: top right
-     * - index 2: bottom right
-     * - index 3: bottom left
-     */
-    var radii: FloatArray
-        get() = floatArrayOf(topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius)
-        set(value) {
-            topLeftRadius = value[0]
-            topRightRadius = value[1]
-            bottomRightRadius = value[2]
-            bottomLeftRadius = value[3]
-            measureBounds()
-            invalidate()
-        }
-
     constructor(context: Context): super(context)
 
     constructor(context: Context, attrs: AttributeSet?): super(context, attrs)
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int): super(context, attrs, defStyle)
 
+    @Suppress("MemberVisibilityCanBePrivate")
     final override fun applyAttributes(attrs: AttributeSet?, defStyle: Int) {
         super.applyAttributes(attrs, defStyle)
 
@@ -172,7 +110,7 @@ abstract class CorneredImageView : ShapedImageView {
         try {
             if (a.hasValue(R.styleable.CorneredImageView_radius)) {
                 val r = a.getDimension(R.styleable.CorneredImageView_radius, defaultRadius)
-                radius = r
+                setRadius(r)
             }
 
             if (a.hasValue(R.styleable.CorneredImageView_top_left_radius)) {
@@ -197,5 +135,37 @@ abstract class CorneredImageView : ShapedImageView {
         } finally {
             a.recycle()
         }
+    }
+
+    /**
+     * Change corner radius of the imageview.
+     *
+     * @param radius Radius size in pixel unit.
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun setRadius(radius: Float) {
+        topLeftRadius = radius
+        topRightRadius = radius
+        bottomRightRadius = radius
+        bottomLeftRadius = radius
+        measureBounds()
+        invalidate()
+    }
+
+    /**
+     * Change corner radius of the imageview to different size.
+     *
+     * @param topLeft top left radius size in pixel unit.
+     * @param topRight Top right radius size in pixel unit.
+     * @param bottomRight Bottom right radius size in pixel unit.
+     * @param bottomLeft Bottom left radius size in pixel unit.
+     */
+    fun setRadius(topLeft: Float, topRight: Float, bottomRight: Float, bottomLeft: Float) {
+        topLeftRadius = topLeft
+        topRightRadius = topRight
+        bottomRightRadius = bottomRight
+        bottomLeftRadius = bottomLeft
+        measureBounds()
+        invalidate()
     }
 }

@@ -105,7 +105,7 @@ abstract class ShapedImageView : AppCompatImageView {
             invalidate()
         }
 
-    open var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
+    var borderEnabled: Boolean = DEFAULT_BORDER_ENABLED
         set(value) {
             field = value
             measureBounds()
@@ -123,7 +123,7 @@ abstract class ShapedImageView : AppCompatImageView {
             invalidate()
         }
 
-    open var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
+    var shadowEnabled: Boolean = DEFAULT_SHADOW_ENABLED
         set(value) {
             field = value
             measureBounds()
