@@ -429,6 +429,7 @@ abstract class ShapedImageView : AppCompatImageView {
     @CallSuper
     override fun onDraw(canvas: Canvas) {
         updateShader()
+        updateBorderColor()
         updateShadowLayer()
 
         if (background != null) {
@@ -439,19 +440,20 @@ abstract class ShapedImageView : AppCompatImageView {
         }
     }
 
-    /**
-     * Update shader and apply it to [imagePaint].
-     * If image bitmap need to update, update it before applying shader.
-     */
+    private fun updateShadowLayer() {
+        this.shadowPaint.setShadowLayer(shadowSize, 0f, shadowSize / 2, shadowColor)
+    }
+
+    private fun updateBorderColor() {
+        this.borderPaint.color = borderColor
+    }
+
     private fun updateShader() {
-        /**
-         * A local function for checking the necessity to update bitmap cache.
-         */
-        fun needToUpdateBitmap(): Boolean = this.drawable != null && this.drawable != this.imageCache
+        val needToUpdateBitmap = this.drawable != null && this.drawable != this.imageCache
 
         val bounds = Bounds.from(this)
 
-        if (needToUpdateBitmap()) {
+        if (needToUpdateBitmap) {
             this.imageCache = this.drawable
             this.image = this.drawable.toBitmap()
         }
@@ -488,13 +490,6 @@ abstract class ShapedImageView : AppCompatImageView {
 
             imagePaint.shader = shader
         }
-    }
-
-    /**
-     * Update [shadowPaint]'s shadow layer.
-     */
-    private fun updateShadowLayer() {
-        this.shadowPaint.setShadowLayer(shadowSize, 0f, shadowSize / 2, shadowColor)
     }
 
     /**
