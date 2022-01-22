@@ -6,7 +6,7 @@
 [![maven-central](https://img.shields.io/maven-central/v/io.woong.shapedimageview/shapedimageview?label=maven%20central&logo=apache%20maven&logoColor=orange)](https://search.maven.org/artifact/io.woong.shapedimageview/shapedimageview)
 
 [![Build](https://github.com/cheonjaewoong/ShapedImageView/actions/workflows/build.yml/badge.svg)](https://github.com/cheonjaewoong/ShapedImageView/actions/workflows/build.yml)
-[![Publish](https://github.com/cheonjaewoong/ShapedImageView/actions/workflows/publish.yml/badge.svg?branch=1.4.2)](https://github.com/cheonjaewoong/ShapedImageView/actions/workflows/publish.yml)
+[![Publish](https://github.com/cheonjaewoong/ShapedImageView/actions/workflows/publish.yml/badge.svg?branch=1.4.3)](https://github.com/cheonjaewoong/ShapedImageView/actions/workflows/publish.yml)
 
 ShapedImageView is an Android library which provides a simple way to use various shapes of imagview.
 It contains some predefined shapes like oval, round rectangle or cut corner rectangle.
@@ -30,7 +30,7 @@ You can use predefined formula or you can create your custom formula by inherit 
 ## Installation
 
 ```groovy
-implementation "io.woong.shapedimageview:shapedimageview:1.4.2"
+implementation "io.woong.shapedimageview:shapedimageview:1.4.3"
 ```
 
 ## Getting Started
