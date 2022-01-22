@@ -389,7 +389,7 @@ abstract class ShapedImageView : AppCompatImageView {
      * @param h The height size of this imageview. Default value is current height size.
      */
     protected fun measureBounds(w: Float = this.width.toFloat(), h: Float = this.height.toFloat()) {
-        val shadowAdjust = if (shadowEnabled) shadowSize else 0f
+        val shadowAdjust = if (shadowEnabled) shadowSize * 1.5f else 0f
         val borderAdjust = if (borderEnabled) borderSize else 0f
         val adjustSum = shadowAdjust + borderAdjust
 
