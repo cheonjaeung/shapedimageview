@@ -8,6 +8,8 @@
 [![Build](https://github.com/cheonjaewoong/ShapedImageView/actions/workflows/build.yml/badge.svg)](https://github.com/cheonjaewoong/ShapedImageView/actions/workflows/build.yml)
 [![Publish](https://github.com/cheonjaewoong/ShapedImageView/actions/workflows/publish.yml/badge.svg?branch=1.4.3)](https://github.com/cheonjaewoong/ShapedImageView/actions/workflows/publish.yml)
 
+**Deprecated!** This project is no more maintained.
+
 ShapedImageView is an Android library which provides a simple way to use various shapes of imagview.
 It contains some predefined shapes like oval, round rectangle or cut corner rectangle.
 And it support custom shape API.
